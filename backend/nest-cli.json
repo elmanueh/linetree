@@ -19,6 +19,15 @@
         "tsConfigPath": "apps/app/tsconfig.app.json"
       }
     },
+    "trees": {
+      "type": "application",
+      "root": "apps/trees",
+      "entryFile": "main",
+      "sourceRoot": "apps/trees/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/trees/tsconfig.app.json"
+      }
+    },
     "users": {
       "type": "application",
       "root": "apps/users",

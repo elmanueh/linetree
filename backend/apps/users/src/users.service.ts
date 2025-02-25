@@ -1,4 +1,3 @@
-import { HttpService } from '@nestjs/axios';
 import {
   BadRequestException,
   Injectable,
@@ -10,10 +9,7 @@ import { User } from './schema/user.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    private readonly httpService: HttpService,
-    @InjectModel(User.name) private userModel: Model<User>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<User>) {}
 
   async create(user: User) {
     const createdUser = new this.userModel(user);
@@ -35,11 +31,5 @@ export class UsersService {
     if (!objectId) throw new BadRequestException('The user ID is not valid');
 
     await this.userModel.findByIdAndDelete(id);
-  }
-
-  async createTree(id: string) {
-    //const url = 'http://localhost:3002/trees';
-    // await this.httpService.post(url);
-    return 'created tree';
   }
 }

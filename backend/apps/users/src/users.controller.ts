@@ -5,7 +5,6 @@ import {
   Get,
   Param,
   Post,
-  Put,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -31,10 +30,5 @@ export class UsersController {
   @Delete(':id')
   async remove(@Param('id') id: string) {
     await this.usersService.remove(id);
-  }
-
-  @Put(':id/tree')
-  async createTree(@Param('id') id: string) {
-    return await this.usersService.createTree(id);
   }
 }

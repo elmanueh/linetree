@@ -1,11 +1,20 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
 @Module({
-  //imports: [TreesModule],
-  imports: [HttpModule],
+  imports: [
+    ClientsModule.register([
+      {
+        name: 'USERS_CLIENT',
+        transport: Transport.TCP,
+        options: {
+          port: 3001,
+        },
+      },
+    ]),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

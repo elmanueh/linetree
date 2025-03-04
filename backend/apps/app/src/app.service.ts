@@ -1,39 +1,24 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class AppService {
-  readonly USER_SERVICE: string = 'http://localhost:3001';
+  constructor(@Inject('USERS_CLIENT') private usersClient: ClientProxy) {}
 
-  constructor(private readonly httpService: HttpService) {}
-
-  async register(body: any): Promise<any> {
-    const response = await this.httpService.axiosRef.post(
-      `${this.USER_SERVICE}/users`,
-      body,
-    );
-    return response.data;
+  register(body: any) {
+    return this.usersClient.send('users.create', body);
   }
 
-  async login(body: any): Promise<any> {
-    const response = await this.httpService.axiosRef.post(
-      `${this.USER_SERVICE}/users/${body.id}`,
-      body,
-    );
-    return response.data;
+  login(body: any) {
+    return this.usersClient.send('users.login', body);
   }
 
   async getUser(id: string): Promise<any> {
-    const response = await this.httpService.axiosRef.get(
-      `${this.USER_SERVICE}/users/${id}`,
-    );
-    return response.data;
+    return await firstValueFrom(this.usersClient.send('users.findOne', id));
   }
 
-  async deleteUser(id: string): Promise<any> {
-    const response = await this.httpService.axiosRef.delete(
-      `${this.USER_SERVICE}/users/${id}`,
-    );
-    return response.data;
+  deleteUser(id: string) {
+    return this.usersClient.send('users.remove', id);
   }
 }

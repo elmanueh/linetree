@@ -1,4 +1,3 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -17,7 +16,6 @@ import { UsersService } from './users.service';
         uri: configService.get('MONGODB_URI'),
       }),
     }),
-    HttpModule,
   ],
   controllers: [UsersController],
   providers: [UsersService],

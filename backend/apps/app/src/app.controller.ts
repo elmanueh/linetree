@@ -1,7 +1,17 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  UseFilters,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { JsonToHttpExceptionFilter } from './exceptions/json-http.filter';
 
 @Controller('api')
+@UseFilters(new JsonToHttpExceptionFilter())
 export class AppController {
   constructor(private readonly appService: AppService) {}
 

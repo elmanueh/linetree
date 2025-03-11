@@ -1,10 +1,5 @@
-type GetTreeDto = {
-  id: string;
-  name: string;
-};
-
 export class GetTreesDto {
-  trees: GetTreeDto[];
+  trees: object[];
 
   constructor() {
     this.trees = [];

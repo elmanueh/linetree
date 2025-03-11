@@ -1,12 +1,5 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  ValidationPipe,
-} from '@nestjs/common';
+import { Controller, ValidationPipe } from '@nestjs/common';
+import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateTreeDto } from './dto/create-tree.dto';
 import { GetTreeDto } from './dto/get-tree.dto';
 import { GetTreesDto } from './dto/get-trees.dto';
@@ -17,23 +10,27 @@ import { TreesService } from './trees.service';
 export class TreesController {
   constructor(private readonly treesService: TreesService) {}
 
-  @Post()
-  create(@Body(new ValidationPipe()) createTreeDto: CreateTreeDto) {
-    return this.treesService.create(TreeMapper.toDomain(createTreeDto));
+  @MessagePattern('trees.create')
+  async createTree(
+    @Payload(new ValidationPipe()) createTreeDto: CreateTreeDto,
+  ): Promise<string> {
+    return await this.treesService.createTree(createTreeDto.name);
   }
 
-  @Get()
-  async findAll(): Promise<GetTreesDto> {
-    return TreeMapper.toGetAllDto(await this.treesService.findAll());
+  @MessagePattern('trees.findOne')
+  async findOneTree(@Payload('id') id: string): Promise<GetTreeDto> {
+    const tree = await this.treesService.findOneTree(id);
+    return TreeMapper.toGetDto(tree);
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string): Promise<GetTreeDto> {
-    return TreeMapper.toGetDto(await this.treesService.findOne(id));
+  @MessagePattern('trees.findAll')
+  async findAllTrees(): Promise<GetTreesDto> {
+    const trees = await this.treesService.findAllTrees();
+    return TreeMapper.toGetAllDto(trees);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.treesService.remove(id);
+  @MessagePattern('trees.remove')
+  async removeTree(@Payload('id') id: string) {
+    return await this.treesService.removeTree(id);
   }
 }

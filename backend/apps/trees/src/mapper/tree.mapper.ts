@@ -13,8 +13,9 @@ export class TreeMapper {
 
   static toGetDto(tree: Tree): GetTreeDto {
     const dto = new GetTreeDto();
-    dto.id = tree.id;
+    dto.id = tree._id;
     dto.name = tree.name;
+    dto.nodes = tree.nodes;
 
     return dto;
   }

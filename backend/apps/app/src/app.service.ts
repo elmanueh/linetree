@@ -14,6 +14,7 @@ export class AppService {
     return this.usersClient.send('users.login', body);
   }
 
+  // ------------------ Users ------------------
   async getUser(id: string): Promise<any> {
     return await firstValueFrom(this.usersClient.send('users.findOne', id));
   }

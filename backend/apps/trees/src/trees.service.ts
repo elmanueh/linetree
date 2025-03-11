@@ -1,39 +1,56 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types } from 'mongoose';
-import { Tree } from './schema/tree.schema';
+import { isUUID } from 'class-validator';
+import { Model } from 'mongoose';
+import { BadRequestRpcException } from './exceptions/bad-request.exception';
+import { InternalServerErrorRpcException } from './exceptions/internal-server-error.exception';
+import { NotFoundRpcException } from './exceptions/not-found.exception';
+import { Tree, TreeDocument } from './schema/tree.schema';
 
 @Injectable()
 export class TreesService {
-  constructor(@InjectModel(Tree.name) private treeModel: Model<Tree>) {}
+  constructor(@InjectModel(Tree.name) private treeModel: Model<TreeDocument>) {}
 
-  async create(tree: Tree) {
-    const createdTree = new this.treeModel(tree);
-    await createdTree.save();
+  async createTree(treeName: string): Promise<string> {
+    try {
+      const tree = new this.treeModel({ name: treeName });
+      await tree.save();
+      return tree._id;
+    } catch {
+      throw new InternalServerErrorRpcException("The tree couldn't be created");
+    }
   }
 
-  async findAll() {
-    return await this.treeModel.find();
+  async findOneTree(treeId: string): Promise<Tree> {
+    if (!isUUID(treeId)) {
+      throw new BadRequestRpcException('The tree ID is not valid');
+    }
+
+    const tree = await this.treeModel.findById(treeId);
+    if (!tree) {
+      throw new NotFoundRpcException(
+        'The tree with the given ID was not found',
+      );
+    }
+
+    return tree.toObject();
   }
 
-  async findOne(id: string) {
-    const objectId = Types.ObjectId.isValid(id) ? new Types.ObjectId(id) : null;
-    if (!objectId) throw new BadRequestException('The tree ID is not valid');
-
-    const tree = await this.treeModel.findById(objectId);
-    if (!tree)
-      throw new NotFoundException('The tree with the given ID was not found');
-    return tree;
+  async findAllTrees(): Promise<Tree[]> {
+    const trees = await this.treeModel.find();
+    return trees.map((tree) => tree.toObject());
   }
 
-  async remove(id: string) {
-    const objectId = Types.ObjectId.isValid(id) ? new Types.ObjectId(id) : null;
-    if (!objectId) throw new BadRequestException('The tree ID is not valid');
+  async removeTree(treeId: string): Promise<string> {
+    if (!isUUID(treeId)) {
+      throw new BadRequestRpcException('The tree ID is not valid');
+    }
 
-    await this.treeModel.findByIdAndDelete(id);
+    try {
+      await this.treeModel.findByIdAndDelete(treeId);
+      return 'ok';
+    } catch {
+      throw new InternalServerErrorRpcException("The tree couldn't be deleted");
+    }
   }
 }

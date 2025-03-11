@@ -1,50 +1,27 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-
 import { TreesService } from './trees.service';
 
-@Controller('api/trees')
+@Controller('trees')
 export class TreesController {
   constructor(private readonly treesService: TreesService) {}
 
   @Post()
   createTree(@Body() body: any) {
-    return this.treesService.create(body);
-  }
-
-  @Get()
-  findAllTrees() {
-    return this.treesService.findAll();
+    return this.treesService.createTree(body);
   }
 
   @Get(':id')
-  findOneTree(@Param('id') id: string) {
-    return this.treesService.findOne(id);
+  getTree(@Param('id') id: string) {
+    return this.treesService.getTree(id);
+  }
+
+  @Get()
+  getTrees() {
+    return this.treesService.getTrees();
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.treesService.remove(id);
-  }
-
-  // NODES
-
-  @Post(':id/nodes')
-  createNode(@Param('id') id: string) {
-    return this.treesService.createNode(id);
-  }
-
-  @Get(':id/nodes')
-  findAllNodes(@Param('id') id: string) {
-    return this.treesService.findAllNodes(id);
-  }
-
-  @Get(':id/nodes/:id2')
-  findOneNode(@Param('id') id: string, @Param('id2') id2: string) {
-    return this.treesService.findOneNode(id, id2);
-  }
-
-  @Delete(':id/nodes/:id2')
-  findNode(@Param('id') id: string, @Param('id2') id2: string) {
-    return this.treesService.removeNode(id, id2);
+  deleteTree(@Param('id') id: string) {
+    return this.treesService.deleteTree(id);
   }
 }

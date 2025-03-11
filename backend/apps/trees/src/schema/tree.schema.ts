@@ -1,14 +1,19 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { randomUUID, UUID } from 'crypto';
+import { HydratedDocument } from 'mongoose';
+
+export type TreeDocument = HydratedDocument<Tree>;
 
 @Schema()
 export class Tree {
-  @Prop()
-  id: string;
+  @Prop({ type: String, default: randomUUID })
+  _id: UUID;
 
-  @Prop()
+  @Prop({ required: true })
   name: string;
 
-  constructor() {}
+  @Prop({ type: [String], default: [] })
+  nodes: string[];
 }
 
 export const TreeSchema = SchemaFactory.createForClass(Tree);

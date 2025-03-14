@@ -1,6 +1,6 @@
-import { CreateTreeDto } from '../dto/create-tree.dto';
-import { GetTreeDto } from '../dto/get-tree.dto';
-import { GetTreesDto } from '../dto/get-trees.dto';
+import { CreateTreeDto } from '@app/contracts/trees/create-tree.dto';
+import { GetTreeDto } from '@app/contracts/trees/get-tree.dto';
+import { GetTreesDto } from '@app/contracts/trees/get-trees.dto';
 import { Tree } from '../schema/tree.schema';
 
 export class TreeMapper {

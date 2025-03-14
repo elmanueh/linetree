@@ -1,4 +1,15 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { CreateTreeDto } from '@app/contracts/trees/create-tree.dto';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Param,
+  Post,
+} from '@nestjs/common';
+import { UUID } from 'crypto';
 import { TreesService } from './trees.service';
 
 @Controller('trees')
@@ -6,12 +17,12 @@ export class TreesController {
   constructor(private readonly treesService: TreesService) {}
 
   @Post()
-  createTree(@Body() body: any) {
-    return this.treesService.createTree(body);
+  createTree(@Body() createTreeDto: CreateTreeDto) {
+    return this.treesService.createTree(createTreeDto);
   }
 
   @Get(':id')
-  getTree(@Param('id') id: string) {
+  getTree(@Param('id') id: UUID) {
     return this.treesService.getTree(id);
   }
 
@@ -21,7 +32,8 @@ export class TreesController {
   }
 
   @Delete(':id')
-  deleteTree(@Param('id') id: string) {
+  @HttpCode(HttpStatus.NO_CONTENT)
+  deleteTree(@Param('id') id: UUID) {
     return this.treesService.deleteTree(id);
   }
 }

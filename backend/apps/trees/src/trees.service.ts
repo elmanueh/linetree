@@ -1,40 +1,36 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { UUID } from 'crypto';
-import { Model } from 'mongoose';
+import { TreeEntity } from './domain/tree.entity';
 import { InternalServerErrorRpcException } from './exceptions/internal-server-error.exception';
-import { NotFoundRpcException } from './exceptions/not-found.exception';
-import { Tree, TreeDocument } from './schema/tree.schema';
+import { TreeRepository } from './repository/trees.repository';
 
 @Injectable()
 export class TreesService {
-  constructor(@InjectModel(Tree.name) private treeModel: Model<TreeDocument>) {}
+  constructor(private treeRepository: TreeRepository) {}
 
-  async createTree(treeName: string) {
+  async createTree(name: string) {
     try {
-      const tree = new this.treeModel({ name: treeName });
-      await tree.save();
-      return tree._id;
+      const tree = TreeEntity.create({ name });
+      await this.treeRepository.save(tree);
+      return tree.id;
     } catch {
       throw new InternalServerErrorRpcException("The tree couldn't be created");
     }
   }
 
-  async findOneTree(treeId: UUID) {
-    const tree = await this.treeModel.findById(treeId);
-    if (!tree) {
-      throw new NotFoundRpcException(
-        'The tree with the given ID was not found',
-      );
+  async findOneTree(id: UUID) {
+    try {
+      const tree = await this.treeRepository.findById(id);
+      return tree;
+    } catch {
+      throw new InternalServerErrorRpcException("The tree couldn't be fetched");
     }
-
-    return tree.toObject();
   }
 
   async findAllTrees() {
     try {
-      const trees = await this.treeModel.find();
-      return trees.map((tree) => tree.toObject());
+      const trees = await this.treeRepository.findAll();
+      return trees;
     } catch {
       throw new InternalServerErrorRpcException(
         "The trees couldn't be fetched",
@@ -44,7 +40,7 @@ export class TreesService {
 
   async removeTree(treeId: UUID) {
     try {
-      await this.treeModel.findByIdAndDelete(treeId);
+      await this.treeRepository.delete(treeId);
     } catch {
       throw new InternalServerErrorRpcException("The tree couldn't be deleted");
     }

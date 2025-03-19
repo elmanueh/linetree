@@ -5,13 +5,11 @@ import { RepositoryException } from './exceptions/repository.exception';
 import { Mapper } from './mapper/mapper';
 import { Repository } from './repository';
 
-export class RepositoryMongoose<T, K> extends Repository<T> {
+export class RepositoryMongoose<T, K> implements Repository<T> {
   constructor(
     private readonly model: Model<HydratedDocument<K>>,
     private readonly mapper: Mapper<T, K>,
-  ) {
-    super();
-  }
+  ) {}
 
   async save(entity: T): Promise<void> {
     try {

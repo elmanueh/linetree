@@ -6,7 +6,7 @@ import { TreeRepository } from './repository/trees.repository';
 
 @Injectable()
 export class TreesService {
-  constructor(private treeRepository: TreeRepository) {}
+  constructor(private readonly treeRepository: TreeRepository) {}
 
   async createTree(name: string) {
     try {

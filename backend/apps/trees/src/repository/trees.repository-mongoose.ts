@@ -11,8 +11,8 @@ export class TreeRepositoryMongoose
   implements TreeRepository
 {
   constructor(
-    @InjectModel(Tree.name) private treeModel: Model<TreeDocument>,
-    private treeMapper: TreeMapper,
+    @InjectModel(Tree.name) private readonly treeModel: Model<TreeDocument>,
+    private readonly treeMapper: TreeMapper,
   ) {
     super(treeModel, treeMapper);
   }

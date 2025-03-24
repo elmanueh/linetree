@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { TreeMapper } from './mapper/tree.mapper';
+import { TreeMapper } from './repository/tree.mapper';
 import { Tree, TreeSchema } from './repository/tree.schema';
 import { TreeRepository } from './repository/trees.repository';
 import { TreeRepositoryMongoose } from './repository/trees.repository-mongoose';

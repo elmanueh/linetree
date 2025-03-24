@@ -1,6 +1,6 @@
-import { TreeEntity } from '../../domain/tree.entity';
-import { Tree } from '../persistance/tree.schema';
-import { Mapper } from './mapper';
+import { Mapper } from '@genealogy/shared';
+import { TreeEntity } from '../domain/tree.entity';
+import { Tree } from './tree.schema';
 
 export class TreeMapper extends Mapper<TreeEntity, Tree> {
   toPersistance(entity: TreeEntity): Tree {

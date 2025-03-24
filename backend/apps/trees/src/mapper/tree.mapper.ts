@@ -1,6 +1,4 @@
-import { CreateTreeDto } from '@app/contracts/trees/create-tree.dto';
-import { GetTreeDto } from '@app/contracts/trees/get-tree.dto';
-import { GetTreesDto } from '@app/contracts/trees/get-trees.dto';
+import { CreateTreeDto, GetTreeDto, GetTreesDto } from '@genealogy/contracts';
 import { TreeEntity } from '../domain/tree.entity';
 
 export class TreeMapper {

@@ -1,9 +1,9 @@
+import { RepositoryMongoose } from '@genealogy/shared';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { TreeEntity } from '../domain/tree.entity';
-import { TreeMapper } from './mapper/tree.mapper';
-import { Tree, TreeDocument } from './persistance/tree.schema';
-import { RepositoryMongoose } from './repository-mongoose';
+import { TreeMapper } from './tree.mapper';
+import { Tree, TreeDocument } from './tree.schema';
 import { TreeRepository } from './trees.repository';
 
 export class TreeRepositoryMongoose

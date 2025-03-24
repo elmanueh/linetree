@@ -1,7 +1,9 @@
-import { CreateTreeDto } from '@app/contracts/trees/create-tree.dto';
-import { GetTreeDto } from '@app/contracts/trees/get-tree.dto';
-import { GetTreesDto } from '@app/contracts/trees/get-trees.dto';
-import { TREES_PATTERNS } from '@app/contracts/trees/trees.patterns';
+import {
+  CreateTreeDto,
+  GetTreeDto,
+  GetTreesDto,
+  TREES_PATTERNS,
+} from '@genealogy/contracts';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UUID } from 'crypto';

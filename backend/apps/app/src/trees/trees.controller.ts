@@ -1,4 +1,4 @@
-import { CreateTreeDto } from '@app/contracts/trees/create-tree.dto';
+import { CreateTreeDto } from '@genealogy/contracts';
 import {
   Body,
   Controller,

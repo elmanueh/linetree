@@ -2,7 +2,7 @@ import { UUID } from 'crypto';
 import { HydratedDocument, Model } from 'mongoose';
 import { EntityNotFoundException } from './exceptions/entity-not-found.exception';
 import { RepositoryException } from './exceptions/repository.exception';
-import { Mapper } from './mapper/mapper';
+import { Mapper } from './mapper';
 import { Repository } from './repository';
 
 export class RepositoryMongoose<T, K> implements Repository<T> {

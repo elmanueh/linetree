@@ -1,7 +1,7 @@
+import { InternalServerErrorRpcException } from '@genealogy/shared';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { TreeEntity } from './domain/tree.entity';
-import { InternalServerErrorRpcException } from './exceptions/internal-server-error.exception';
 import { TreeRepository } from './repository/trees.repository';
 
 @Injectable()

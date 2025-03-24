@@ -1,5 +1,5 @@
+import { Entity } from '@genealogy/shared';
 import { UUID } from 'crypto';
-import { Entity } from './entity';
 
 export interface TreeProps {
   name: string;

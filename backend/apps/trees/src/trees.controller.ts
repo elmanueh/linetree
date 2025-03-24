@@ -1,11 +1,9 @@
-import { CreateTreeDto } from '@app/contracts/trees/create-tree.dto';
-import { TREES_PATTERNS } from '@app/contracts/trees/trees.patterns';
+import { CreateTreeDto, TREES_PATTERNS } from '@genealogy/contracts';
+import { RpcParseUUIDPipe, RpcValidationPipe } from '@genealogy/shared';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UUID } from 'crypto';
 import { TreeMapper } from './mapper/tree.mapper';
-import { RpcParseUUIDPipe } from './pipes/rpc-uuid.pipe';
-import { RpcValidationPipe } from './pipes/rpc-validation.pipe';
 import { TreesService } from './trees.service';
 
 @Controller('trees')

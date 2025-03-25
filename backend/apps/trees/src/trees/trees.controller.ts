@@ -3,7 +3,7 @@ import { RpcParseUUIDPipe, RpcValidationPipe } from '@genealogy/shared';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UUID } from 'crypto';
-import { TreeMapper } from './mapper/tree.mapper';
+import { TreeMapper } from '../core/mapper/tree.mapper';
 import { TreesService } from './trees.service';
 
 @Controller('trees')

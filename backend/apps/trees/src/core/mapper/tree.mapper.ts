@@ -1,5 +1,5 @@
 import { CreateTreeDto, GetTreeDto, GetTreesDto } from '@genealogy/contracts';
-import { TreeEntity } from '../domain/tree.entity';
+import { TreeEntity } from '../core/domain/tree.entity';
 
 export class TreeMapper {
   static toDomain(dto: CreateTreeDto): TreeEntity {

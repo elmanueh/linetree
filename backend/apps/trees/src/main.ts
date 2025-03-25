@@ -1,10 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { TreesModule } from './trees.module';
+import { GenealogyModule } from './genealogy.module';
 
 async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    TreesModule,
+    GenealogyModule,
     {
       transport: Transport.TCP,
       options: {

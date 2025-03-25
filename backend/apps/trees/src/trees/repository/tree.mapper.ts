@@ -1,7 +1,9 @@
 import { Mapper } from '@genealogy/shared';
-import { TreeEntity } from '../domain/tree.entity';
-import { Tree } from './tree.schema';
+import { Injectable } from '@nestjs/common';
+import { TreeEntity } from '../../core/domain/tree.entity';
+import { Tree } from '../../trees/repository/tree.schema';
 
+@Injectable()
 export class TreeMapper extends Mapper<TreeEntity, Tree> {
   toPersistance(entity: TreeEntity): Tree {
     return {

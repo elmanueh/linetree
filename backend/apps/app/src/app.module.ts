@@ -3,6 +3,7 @@ import { ClientsModule, Transport } from '@nestjs/microservices';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TreesModule } from './trees/trees.module';
+import { NodesModule } from './nodes/nodes.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TreesModule } from './trees/trees.module';
       },
     ]),
     TreesModule,
+    NodesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -1,11 +1,11 @@
+import { NodeEntity } from '@genealogy/core/domain/node.entity';
+import { NodeRepository } from '@genealogy/core/persistance/nodes.repository';
+import { NodePersistanceMapper } from '@genealogy/nodes/repository/node.mapper';
+import { Node, NodeDocument } from '@genealogy/nodes/repository/node.schema';
 import { RepositoryMongoose } from '@genealogy/shared';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { NodeEntity } from '../core/domain/node.entity';
-import { Node, NodeDocument } from '../schema/node.schema';
-import { NodeMapper } from './mapper/node.mapper';
-import { NodeRepository } from './nodes.repository';
 
 @Injectable()
 export class NodeRepositoryMongoose
@@ -14,7 +14,7 @@ export class NodeRepositoryMongoose
 {
   constructor(
     @InjectModel(Node.name) private readonly nodeModel: Model<NodeDocument>,
-    private readonly nodeMapper: NodeMapper,
+    private readonly nodeMapper: NodePersistanceMapper,
   ) {
     super(nodeModel, nodeMapper);
   }

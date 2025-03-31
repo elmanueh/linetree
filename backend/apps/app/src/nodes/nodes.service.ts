@@ -13,12 +13,12 @@ import { firstValueFrom } from 'rxjs';
 export class NodesService {
   constructor(@Inject('TREES_CLIENT') private treesClient: ClientProxy) {}
 
-  async createNode(treeId: UUID, createNodeDto: CreateNodeDto) {
+  async createNode(treeId: UUID, dto: CreateNodeDto) {
     return await firstValueFrom(
-      this.treesClient.send<
-        void,
-        { treeId: UUID; createNodeDto: CreateNodeDto }
-      >(NODES_PATTERNS.CREATE, { treeId, createNodeDto }),
+      this.treesClient.send<void, { treeId: UUID; dto: CreateNodeDto }>(
+        NODES_PATTERNS.CREATE,
+        { treeId, dto },
+      ),
     );
   }
 

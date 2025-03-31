@@ -28,6 +28,15 @@
         "tsConfigPath": "libs/contracts/tsconfig.lib.json"
       }
     },
+    "genealogy": {
+      "type": "application",
+      "root": "apps/genealogy",
+      "entryFile": "main",
+      "sourceRoot": "apps/genealogy/src",
+      "compilerOptions": {
+        "tsConfigPath": "apps/genealogy/tsconfig.app.json"
+      }
+    },
     "shared": {
       "type": "library",
       "root": "libs/shared",
@@ -35,15 +44,6 @@
       "sourceRoot": "libs/shared/src",
       "compilerOptions": {
         "tsConfigPath": "libs/shared/tsconfig.lib.json"
-      }
-    },
-    "trees": {
-      "type": "application",
-      "root": "apps/trees",
-      "entryFile": "main",
-      "sourceRoot": "apps/trees/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/trees/tsconfig.app.json"
       }
     },
     "users": {

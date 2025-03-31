@@ -1,8 +1,8 @@
+import { TreeEntity } from '@genealogy/core/domain/tree.entity';
+import { TreeRepository } from '@genealogy/core/persistance/trees.repository';
 import { InternalServerErrorRpcException } from '@genealogy/shared';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
-import { TreeEntity } from '../core/domain/tree.entity';
-import { TreeRepository } from '../core/persistance/trees.repository';
 
 @Injectable()
 export class TreesService {

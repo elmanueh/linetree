@@ -1,9 +1,9 @@
+import { NodeEntity } from '@genealogy/core/domain/node.entity';
+import { NodeRepository } from '@genealogy/core/persistance/nodes.repository';
+import { TreeRepository } from '@genealogy/core/persistance/trees.repository';
 import { InternalServerErrorRpcException } from '@genealogy/shared';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
-import { NodeEntity } from '../core/domain/node.entity';
-import { TreeRepository } from '../core/persistance/trees.repository';
-import { NodeRepository } from '../repository/nodes.repository';
 
 @Injectable()
 export class NodesService {
@@ -13,20 +13,16 @@ export class NodesService {
   ) {}
 
   async createNode(treeId: UUID, name: string): Promise<UUID> {
-    try {
-      const tree = await this.treeRepository.findById(treeId);
-      if (!tree)
-        throw new InternalServerErrorRpcException("The tree doesn't exist");
+    const tree = await this.treeRepository.findById(treeId);
+    if (!tree)
+      throw new InternalServerErrorRpcException("The tree doesn't exist");
 
-      const node = NodeEntity.create({ name });
-      tree.addNode(node);
-      await this.treeRepository.save(tree);
-      await this.nodeRepository.save(node);
+    const node = NodeEntity.create({ name });
+    tree.addNode(node);
+    await this.nodeRepository.save(node);
+    await this.treeRepository.save(tree);
 
-      return node.id;
-    } catch {
-      throw new InternalServerErrorRpcException("The node couldn't be created");
-    }
+    return node.id;
   }
 
   async findOneNode(treeId: UUID, nodeId: UUID): Promise<NodeEntity> {

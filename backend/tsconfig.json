@@ -19,7 +19,8 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@genealogy/contracts": ["libs/contracts/src"],
-      "@genealogy/shared": ["libs/shared/src"]
+      "@genealogy/shared": ["libs/shared/src"],
+      "@genealogy/*": ["apps/genealogy/src/*"]
     }
   }
 }

@@ -1,9 +1,11 @@
+import {
+  EntityNotFoundException,
+  Mapper,
+  Repository,
+  RepositoryException,
+} from '@genealogy/shared';
 import { UUID } from 'crypto';
 import { HydratedDocument, Model } from 'mongoose';
-import { EntityNotFoundException } from './exceptions/entity-not-found.exception';
-import { RepositoryException } from './exceptions/repository.exception';
-import { Mapper } from './mapper';
-import { Repository } from './repository';
 
 export class RepositoryMongoose<T, K> implements Repository<T> {
   constructor(
@@ -13,7 +15,7 @@ export class RepositoryMongoose<T, K> implements Repository<T> {
 
   async save(entity: T): Promise<void> {
     try {
-      const document = new this.model(this.mapper.toPersistance(entity));
+      const document = new this.model(this.mapper.domain2Persistance(entity));
       await document.save();
     } catch {
       throw new RepositoryException('The entity could not be created');
@@ -39,7 +41,7 @@ export class RepositoryMongoose<T, K> implements Repository<T> {
       if (!document) {
         throw new EntityNotFoundException(`Entity with id "${id}" not found`);
       }
-      return this.mapper.toDomain(document);
+      return this.mapper.persistance2Domain(document);
     } catch (error) {
       if (error instanceof EntityNotFoundException) throw error;
       throw new RepositoryException('The entity could not be found');
@@ -49,7 +51,9 @@ export class RepositoryMongoose<T, K> implements Repository<T> {
   async findAll(): Promise<T[]> {
     try {
       const documents = await this.model.find();
-      return documents.map((document) => this.mapper.toDomain(document));
+      return documents.map((document) =>
+        this.mapper.persistance2Domain(document),
+      );
     } catch {
       throw new RepositoryException('The entities could not be found');
     }

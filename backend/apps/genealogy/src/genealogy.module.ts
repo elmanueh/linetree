@@ -1,8 +1,8 @@
+import { NodesModule } from '@genealogy/nodes/nodes.module';
+import { TreesModule } from '@genealogy/trees/trees.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { NodesModule } from './nodes/nodes.module';
-import { TreesModule } from './trees/trees.module';
 
 @Module({
   imports: [
@@ -14,7 +14,6 @@ import { TreesModule } from './trees/trees.module';
         uri: configService.get('MONGODB_URI'),
       }),
     }),
-
     TreesModule,
     NodesModule,
   ],

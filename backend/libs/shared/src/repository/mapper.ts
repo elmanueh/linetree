@@ -4,12 +4,12 @@ export abstract class Mapper<T, K> {
    * @param entity - The domain entity to be converted.
    * @returns The corresponding persistence document.
    */
-  abstract toPersistance(entity: T): K;
+  abstract domain2Persistance(entity: T): K;
 
   /**
    * Converts a persistence document to a domain entity.
    * @param document - The persistence document to be converted.
    * @returns The corresponding domain entity.
    */
-  abstract toDomain(document: K): T;
+  abstract persistance2Domain(document: K): T;
 }

@@ -5,8 +5,9 @@ export * from './domain/entity';
 
 /* EXCEPTIONS */
 export * from './exceptions/bad-request.exception';
-export * from './exceptions/internal-server-error.exception';
+export * from './exceptions/internal-error.exception';
 export * from './exceptions/not-found.exception';
+export * from './exceptions/rpc-error-code.enum';
 
 /* PIPES */
 export * from './pipes/rpc-uuid.pipe';

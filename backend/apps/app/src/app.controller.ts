@@ -5,8 +5,7 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  // ------------------ Users ------------------
-
+  // ------------------ Authentication ------------------
   @Post('register')
   register(@Body() body: any) {
     return this.appService.register(body);
@@ -17,6 +16,7 @@ export class AppController {
     return this.appService.login(body);
   }
 
+  // ------------------ Users ------------------
   @Get('users/:id')
   getUser(@Param('id') id: string) {
     return this.appService.getUser(id);

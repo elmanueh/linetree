@@ -1,8 +1,13 @@
 import { NodeEntity } from '@genealogy/core/domain/node.entity';
 import { NodeRepository } from '@genealogy/core/persistance/nodes.repository';
 import { TreeRepository } from '@genealogy/core/persistance/trees.repository';
-import { InternalServerErrorRpcException } from '@genealogy/shared';
+import {
+  EntityNotFoundException,
+  InternalErrorRpcException,
+  NotFoundRpcException,
+} from '@genealogy/shared';
 import { Injectable } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 import { UUID } from 'crypto';
 
 @Injectable()
@@ -13,59 +18,63 @@ export class NodesService {
   ) {}
 
   async createNode(treeId: UUID, name: string): Promise<UUID> {
-    const tree = await this.treeRepository.findById(treeId);
-    if (!tree)
-      throw new InternalServerErrorRpcException("The tree doesn't exist");
+    try {
+      const tree = await this.treeRepository.findById(treeId);
+      const node = NodeEntity.create({ name });
+      tree.addNode(node);
 
-    const node = NodeEntity.create({ name });
-    tree.addNode(node);
-    await this.nodeRepository.save(node);
-    await this.treeRepository.save(tree);
-
-    return node.id;
+      await this.nodeRepository.save(node);
+      await this.treeRepository.save(tree);
+      return node.id;
+    } catch (error) {
+      if (error instanceof EntityNotFoundException) {
+        throw new NotFoundRpcException("The tree couldn't be found");
+      }
+      throw new InternalErrorRpcException("The node couldn't be created");
+    }
   }
 
   async findOneNode(treeId: UUID, nodeId: UUID): Promise<NodeEntity> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      if (!tree)
-        throw new InternalServerErrorRpcException("The tree doesn't exist");
-
       const node = tree.getNode(nodeId);
-      if (!node)
-        throw new InternalServerErrorRpcException("The node doesn't exist");
-
+      if (!node) {
+        throw new NotFoundRpcException("The node couldn't be found");
+      }
       return node;
-    } catch {
-      throw new InternalServerErrorRpcException("The node couldn't be fetched");
+    } catch (error) {
+      if (error instanceof RpcException) {
+        throw error;
+      }
+      if (error instanceof EntityNotFoundException) {
+        throw new NotFoundRpcException("The tree couldn't be found");
+      }
+      throw new InternalErrorRpcException("The node couldn't be fetched");
     }
   }
 
   async findAllNodes(treeId: UUID): Promise<NodeEntity[]> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      if (!tree)
-        throw new InternalServerErrorRpcException("The tree doesn't exist");
-
       const nodes = tree.getNodes();
       return nodes;
-    } catch {
-      throw new InternalServerErrorRpcException(
-        "The trees couldn't be fetched",
-      );
+    } catch (error) {
+      if (error instanceof EntityNotFoundException) {
+        throw new NotFoundRpcException("The tree couldn't be found");
+      }
+      throw new InternalErrorRpcException("The nodes couldn't be fetched");
     }
   }
 
   async removeNode(treeId: UUID, nodeId: UUID): Promise<void> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      if (!tree)
-        throw new InternalServerErrorRpcException("The tree doesn't exist");
-
       tree.removeNode(nodeId);
-      return;
-    } catch {
-      throw new InternalServerErrorRpcException("The node couldn't be deleted");
+    } catch (error) {
+      if (error instanceof EntityNotFoundException) {
+        throw new NotFoundRpcException("The tree couldn't be found");
+      }
+      throw new InternalErrorRpcException("The node couldn't be deleted");
     }
   }
 }

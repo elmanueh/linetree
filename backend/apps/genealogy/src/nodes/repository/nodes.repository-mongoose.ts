@@ -1,8 +1,11 @@
-import { NodeEntity } from '@genealogy/core/domain/node.entity';
-import { NodeRepository } from '@genealogy/core/persistance/nodes.repository';
-import { NodePersistanceMapper } from '@genealogy/nodes/repository/node.mapper';
-import { Node, NodeDocument } from '@genealogy/nodes/repository/node.schema';
-import { RepositoryMongoose } from '@genealogy/shared';
+import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
+import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
+import { NodePersistanceMapper } from '@app/genealogy/nodes/repository/node.mapper';
+import {
+  Node,
+  NodeDocument,
+} from '@app/genealogy/nodes/repository/node.schema';
+import { RepositoryMongoose } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';

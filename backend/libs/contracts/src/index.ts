@@ -1,11 +1,12 @@
-/* NODES */
-export * from './nodes/create-node.dto';
-export * from './nodes/get-node.dto';
-export * from './nodes/get-nodes.dto';
-export * from './nodes/nodes.pattern';
+// ---------------- GENEALOGY -----------------
+export const GENEALOGY_CLIENT = 'GENEALOGY_CLIENT';
 
-/* TREES */
-export * from './trees/create-tree.dto';
-export * from './trees/get-tree.dto';
-export * from './trees/get-trees.dto';
-export * from './trees/trees.patterns';
+export * from './genealogy/trees/create-tree.dto';
+export * from './genealogy/trees/get-tree.dto';
+export * from './genealogy/trees/get-trees.dto';
+export * from './genealogy/trees/trees.patterns';
+
+export * from './genealogy/nodes/create-node.dto';
+export * from './genealogy/nodes/get-node.dto';
+export * from './genealogy/nodes/get-nodes.dto';
+export * from './genealogy/nodes/nodes.pattern';

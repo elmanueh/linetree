@@ -3,7 +3,7 @@ import {
   Mapper,
   Repository,
   RepositoryException,
-} from '@genealogy/shared';
+} from '@app/shared';
 import { UUID } from 'crypto';
 import { HydratedDocument, Model } from 'mongoose';
 

@@ -1,5 +1,5 @@
+import { AppService } from '@app/gateway/app.service';
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { AppService } from './app.service';
 
 @Controller()
 export class AppController {

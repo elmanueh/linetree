@@ -1,7 +1,7 @@
-import { CreateNodeDto, NODES_PATTERNS } from '@genealogy/contracts';
-import { NodeDomainMapper } from '@genealogy/core/mapper/node.mapper';
-import { NodesService } from '@genealogy/nodes/nodes.service';
-import { RpcParseUUIDPipe, RpcValidationPipe } from '@genealogy/shared';
+import { CreateNodeDto, NODES_PATTERNS } from '@app/contracts';
+import { NodeDomainMapper } from '@app/genealogy/core/mapper/node.mapper';
+import { NodesService } from '@app/genealogy/nodes/nodes.service';
+import { RpcParseUUIDPipe, RpcValidationPipe } from '@app/shared';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UUID } from 'crypto';
@@ -15,7 +15,6 @@ export class NodesController {
     @Payload(RpcValidationPipe)
     { treeId, dto }: { treeId: UUID; dto: CreateNodeDto },
   ) {
-    console.log('createNode', treeId, dto);
     return await this.nodesService.createNode(treeId, dto.name);
   }
 

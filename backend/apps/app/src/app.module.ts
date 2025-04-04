@@ -1,9 +1,8 @@
+import { AppController } from '@app/gateway/app.controller';
+import { AppService } from '@app/gateway/app.service';
+import { GenealogyModule } from '@app/gateway/genealogy-service/genealogy.module';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { TreesModule } from './trees/trees.module';
-import { NodesModule } from './nodes/nodes.module';
 
 @Module({
   imports: [
@@ -16,8 +15,7 @@ import { NodesModule } from './nodes/nodes.module';
         },
       },
     ]),
-    TreesModule,
-    NodesModule,
+    GenealogyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

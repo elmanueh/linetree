@@ -1,4 +1,4 @@
-import { Entity } from '@genealogy/shared';
+import { Entity } from '@app/shared';
 import { UUID } from 'crypto';
 
 export interface NodeProps {

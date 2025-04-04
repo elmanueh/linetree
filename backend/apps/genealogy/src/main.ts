@@ -1,4 +1,4 @@
-import { GenealogyModule } from '@genealogy/genealogy.module';
+import { GenealogyModule } from '@app/genealogy/genealogy.module';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 

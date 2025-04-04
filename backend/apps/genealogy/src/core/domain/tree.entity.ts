@@ -1,5 +1,5 @@
-import { NodeEntity } from '@genealogy/core/domain/node.entity';
-import { Entity } from '@genealogy/shared';
+import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
+import { Entity } from '@app/shared';
 import { UUID } from 'crypto';
 
 export interface TreeProps {

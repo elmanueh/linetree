@@ -18,9 +18,11 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@genealogy/contracts": ["libs/contracts/src"],
-      "@genealogy/shared": ["libs/shared/src"],
-      "@genealogy/*": ["apps/genealogy/src/*"]
+      "@app/contracts": ["libs/contracts/src"],
+      "@app/shared": ["libs/shared/src"],
+
+      "@app/gateway/*": ["apps/app/src/*"],
+      "@app/genealogy/*": ["apps/genealogy/src/*"]
     }
   }
 }

@@ -1,5 +1,5 @@
-import { NodesModule } from '@genealogy/nodes/nodes.module';
-import { TreesModule } from '@genealogy/trees/trees.module';
+import { NodesModule } from '@app/genealogy/nodes/nodes.module';
+import { TreesModule } from '@app/genealogy/trees/trees.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';

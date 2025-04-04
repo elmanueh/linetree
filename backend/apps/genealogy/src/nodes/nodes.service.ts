@@ -1,11 +1,11 @@
-import { NodeEntity } from '@genealogy/core/domain/node.entity';
-import { NodeRepository } from '@genealogy/core/persistance/nodes.repository';
-import { TreeRepository } from '@genealogy/core/persistance/trees.repository';
+import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
+import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
+import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
 import {
   EntityNotFoundException,
   InternalErrorRpcException,
   NotFoundRpcException,
-} from '@genealogy/shared';
+} from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UUID } from 'crypto';

@@ -1,6 +1,6 @@
+import { AppModule } from '@app/gateway/app.module';
+import { JsonToHttpExceptionFilter } from '@app/gateway/exceptions/json-http.filter';
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
-import { JsonToHttpExceptionFilter } from './exceptions/json-http.filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);

@@ -1,6 +1,6 @@
-import { NodeEntity } from '@genealogy/core/domain/node.entity';
-import { Node } from '@genealogy/nodes/repository/node.schema';
-import { Mapper } from '@genealogy/shared';
+import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
+import { Node } from '@app/genealogy/nodes/repository/node.schema';
+import { Mapper } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

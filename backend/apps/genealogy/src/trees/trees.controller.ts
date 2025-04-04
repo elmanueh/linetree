@@ -1,7 +1,7 @@
-import { CreateTreeDto, TREES_PATTERNS } from '@genealogy/contracts';
-import { TreeDomainMapper } from '@genealogy/core/mapper/tree.mapper';
-import { RpcParseUUIDPipe, RpcValidationPipe } from '@genealogy/shared';
-import { TreesService } from '@genealogy/trees/trees.service';
+import { CreateTreeDto, TREES_PATTERNS } from '@app/contracts';
+import { TreeDomainMapper } from '@app/genealogy/core/mapper/tree.mapper';
+import { TreesService } from '@app/genealogy/trees/trees.service';
+import { RpcParseUUIDPipe, RpcValidationPipe } from '@app/shared';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UUID } from 'crypto';

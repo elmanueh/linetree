@@ -1,5 +1,5 @@
-import { CreateNodeDto, GetNodeDto, GetNodesDto } from '@genealogy/contracts';
-import { NodeEntity } from '@genealogy/core/domain/node.entity';
+import { CreateNodeDto, GetNodeDto, GetNodesDto } from '@app/contracts';
+import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 
 export class NodeDomainMapper {
   static createDto2Domain(dto: CreateNodeDto): NodeEntity {

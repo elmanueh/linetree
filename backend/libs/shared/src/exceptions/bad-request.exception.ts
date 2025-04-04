@@ -1,4 +1,4 @@
-import { RpcErrorCode } from '@genealogy/shared';
+import { RpcErrorCode } from '@app/shared';
 import { RpcException } from '@nestjs/microservices';
 
 export class BadRequestRpcException extends RpcException {

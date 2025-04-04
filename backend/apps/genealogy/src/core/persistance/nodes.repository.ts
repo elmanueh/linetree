@@ -1,4 +1,4 @@
-import { NodeEntity } from '@genealogy/core/domain/node.entity';
-import { Repository } from '@genealogy/shared';
+import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
+import { Repository } from '@app/shared';
 
 export abstract class NodeRepository extends Repository<NodeEntity> {}

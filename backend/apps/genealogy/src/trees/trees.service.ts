@@ -1,10 +1,10 @@
-import { TreeEntity } from '@genealogy/core/domain/tree.entity';
-import { TreeRepository } from '@genealogy/core/persistance/trees.repository';
+import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
+import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
 import {
   EntityNotFoundException,
   InternalErrorRpcException,
   NotFoundRpcException,
-} from '@genealogy/shared';
+} from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 

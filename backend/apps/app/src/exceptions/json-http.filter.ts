@@ -15,7 +15,7 @@ export class JsonToHttpExceptionFilter implements ExceptionFilter {
     const message = exception.message;
     const error = exception.status;
     const status =
-      HttpStatus[error as keyof typeof HttpStatus] |
+      HttpStatus[error as keyof typeof HttpStatus] ??
       HttpStatus.INTERNAL_SERVER_ERROR;
 
     response.status(status).json({ status, error, message });

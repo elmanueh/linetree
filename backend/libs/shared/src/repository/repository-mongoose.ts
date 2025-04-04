@@ -16,6 +16,9 @@ export class RepositoryMongoose<T, K> implements Repository<T> {
   async save(entity: T): Promise<void> {
     try {
       const document = new this.model(this.mapper.domain2Persistance(entity));
+      if (await this.model.findById(document._id)) {
+        document.isNew = false;
+      }
       await document.save();
     } catch {
       throw new RepositoryException('The entity could not be created');

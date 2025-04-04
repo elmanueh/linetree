@@ -38,10 +38,7 @@ export class TreesService {
     try {
       const trees = await this.treeRepository.findAll();
       return trees;
-    } catch (error) {
-      if (error instanceof EntityNotFoundException) {
-        throw new NotFoundRpcException("The trees couldn't be found");
-      }
+    } catch {
       throw new InternalErrorRpcException("The trees couldn't be fetched");
     }
   }
@@ -49,7 +46,10 @@ export class TreesService {
   async removeTree(treeId: UUID): Promise<void> {
     try {
       await this.treeRepository.delete(treeId);
-    } catch {
+    } catch (error) {
+      if (error instanceof EntityNotFoundException) {
+        throw new NotFoundRpcException("The tree couldn't be found");
+      }
       throw new InternalErrorRpcException("The tree couldn't be deleted");
     }
   }

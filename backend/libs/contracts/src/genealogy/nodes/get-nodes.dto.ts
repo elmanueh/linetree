@@ -1,1 +1,5 @@
-export class GetNodesDto {}
+import { GetNodeDto } from '@app/contracts';
+
+export class GetNodesDto {
+  nodes: GetNodeDto[];
+}

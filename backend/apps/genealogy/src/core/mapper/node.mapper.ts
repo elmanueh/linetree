@@ -9,11 +9,15 @@ export class NodeDomainMapper {
 
   static domain2GetDto(node: NodeEntity): GetNodeDto {
     const dto = new GetNodeDto();
+    dto.id = node.id;
+    dto.name = node.name;
     return dto;
   }
 
   static domain2GetAllDto(nodes: NodeEntity[]): GetNodesDto {
     const dto = new GetNodesDto();
+    dto.nodes = [];
+    dto.nodes.push(...nodes.map((node) => this.domain2GetDto(node)));
     return dto;
   }
 }

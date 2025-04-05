@@ -70,6 +70,9 @@ export class NodesService {
     try {
       const tree = await this.treeRepository.findById(treeId);
       tree.removeNode(nodeId);
+
+      await this.nodeRepository.delete(nodeId);
+      await this.treeRepository.save(tree);
     } catch (error) {
       if (error instanceof EntityNotFoundException) {
         throw new NotFoundRpcException("The tree couldn't be found");

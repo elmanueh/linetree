@@ -1,7 +1,5 @@
-export class GetTreesDto {
-  trees: object[];
+import { GetTreeDto } from '@app/contracts';
 
-  constructor() {
-    this.trees = [];
-  }
+export class GetTreesDto {
+  trees: GetTreeDto[];
 }

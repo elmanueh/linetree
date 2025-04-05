@@ -11,15 +11,13 @@ export class TreesController {
   constructor(private readonly treesService: TreesService) {}
 
   @MessagePattern(TREES_PATTERNS.CREATE)
-  async createTree(
-    @Payload(new RpcValidationPipe()) createTreeDto: CreateTreeDto,
-  ) {
-    return await this.treesService.createTree(createTreeDto.name);
+  async createTree(@Payload(RpcValidationPipe) dto: CreateTreeDto) {
+    return await this.treesService.createTree(dto.name);
   }
 
   @MessagePattern(TREES_PATTERNS.FIND_ONE)
-  async findOneTree(@Payload('id', RpcParseUUIDPipe) id: UUID) {
-    const tree = await this.treesService.findOneTree(id);
+  async findOneTree(@Payload('id', RpcParseUUIDPipe) treeId: UUID) {
+    const tree = await this.treesService.findOneTree(treeId);
     return TreeDomainMapper.domain2GetDto(tree);
   }
 
@@ -30,8 +28,8 @@ export class TreesController {
   }
 
   @MessagePattern(TREES_PATTERNS.REMOVE)
-  async removeTree(@Payload('id', RpcParseUUIDPipe) id: UUID) {
-    await this.treesService.removeTree(id);
+  async removeTree(@Payload('id', RpcParseUUIDPipe) treeId: UUID) {
+    await this.treesService.removeTree(treeId);
     return {};
   }
 }

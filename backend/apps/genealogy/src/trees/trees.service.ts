@@ -22,9 +22,9 @@ export class TreesService {
     }
   }
 
-  async findOneTree(id: UUID): Promise<TreeEntity> {
+  async findOneTree(treeId: UUID): Promise<TreeEntity> {
     try {
-      const tree = await this.treeRepository.findById(id);
+      const tree = await this.treeRepository.findById(treeId);
       return tree;
     } catch (error) {
       if (error instanceof EntityNotFoundException) {

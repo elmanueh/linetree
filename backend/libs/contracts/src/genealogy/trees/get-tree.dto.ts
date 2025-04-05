@@ -1,5 +1,7 @@
+import { UUID } from 'crypto';
+
 export class GetTreeDto {
-  id: string;
+  id: UUID;
   name: string;
   nodes: string[];
 }

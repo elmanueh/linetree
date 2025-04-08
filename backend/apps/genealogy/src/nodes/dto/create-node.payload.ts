@@ -1,10 +1,13 @@
-import { CreateNodeDto } from '@app/contracts';
-import { IsUUID } from 'class-validator';
+import { Type } from 'class-transformer';
+import { IsUUID, ValidateNested } from 'class-validator';
 import { UUID } from 'crypto';
+import { CreateRelatedNodeDto } from 'libs/contracts/src/genealogy/nodes/create-related-node.dto';
 
 export class CreateNodePayload {
   @IsUUID()
   treeId: UUID;
 
-  dto: CreateNodeDto;
+  @ValidateNested()
+  @Type(() => CreateRelatedNodeDto)
+  dto: CreateRelatedNodeDto;
 }

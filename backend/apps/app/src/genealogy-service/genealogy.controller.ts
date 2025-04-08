@@ -1,4 +1,4 @@
-import { CreateNodeDto, CreateTreeDto } from '@app/contracts';
+import { CreateTreeDto } from '@app/contracts';
 import { GenealogyService } from '@app/gateway/genealogy-service/genealogy.service';
 import {
   Body,
@@ -11,6 +11,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { UUID } from 'crypto';
+import { CreateRelatedNodeDto } from 'libs/contracts/src/genealogy/nodes/create-related-node.dto';
 
 @Controller('trees')
 export class GenealogyController {
@@ -40,7 +41,7 @@ export class GenealogyController {
 
   // -------------------- NODES --------------------
   @Post(':id/nodes')
-  createNode(@Param('id') treeId: UUID, @Body() dto: CreateNodeDto) {
+  createNode(@Param('id') treeId: UUID, @Body() dto: CreateRelatedNodeDto) {
     return this.genealogyService.createNode(treeId, dto);
   }
 

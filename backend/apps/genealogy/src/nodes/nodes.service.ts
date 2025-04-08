@@ -1,5 +1,7 @@
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
+import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
+import { RelationsReposity } from '@app/genealogy/core/persistance/relations.repository';
 import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
 import {
   EntityNotFoundException,
@@ -15,9 +17,15 @@ export class NodesService {
   constructor(
     private readonly nodeRepository: NodeRepository,
     private readonly treeRepository: TreeRepository,
+    private readonly relationRepository: RelationsReposity,
   ) {}
 
-  async createNode(treeId: UUID, name: string): Promise<UUID> {
+  async createNode(
+    treeId: UUID,
+    nodeRefId: UUID,
+    type: string,
+    name: string,
+  ): Promise<UUID> {
     try {
       const tree = await this.treeRepository.findById(treeId);
       const node = NodeEntity.create({ name });
@@ -25,6 +33,15 @@ export class NodesService {
 
       await this.nodeRepository.save(node);
       await this.treeRepository.save(tree);
+
+      const relation = RelationEntity.create({
+        souceNodeId: nodeRefId,
+        targetNodeId: node.id,
+        relationType: type,
+      });
+
+      await this.relationRepository.save(relation);
+
       return node.id;
     } catch (error) {
       if (error instanceof EntityNotFoundException) {

@@ -9,7 +9,7 @@ export class Node {
   @Prop({ type: String, default: randomUUID })
   _id: UUID;
 
-  @Prop({ required: true })
+  @Prop()
   name: string;
 }
 

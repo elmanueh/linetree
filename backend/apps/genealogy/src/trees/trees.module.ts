@@ -1,15 +1,17 @@
 import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
+import { NodesModule } from '@app/genealogy/nodes/nodes.module';
 import { TreePersistanceMapper } from '@app/genealogy/trees/repository/tree.mapper';
 import { Tree, TreeSchema } from '@app/genealogy/trees/repository/tree.schema';
 import { TreeRepositoryMongoose } from '@app/genealogy/trees/repository/trees.repository-mongoose';
 import { TreesController } from '@app/genealogy/trees/trees.controller';
 import { TreesService } from '@app/genealogy/trees/trees.service';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Tree.name, schema: TreeSchema }]),
+    forwardRef(() => NodesModule),
   ],
   controllers: [TreesController],
   providers: [

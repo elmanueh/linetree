@@ -7,13 +7,13 @@ import { Node, NodeSchema } from '@app/genealogy/nodes/repository/node.schema';
 import { NodeRepositoryMongoose } from '@app/genealogy/nodes/repository/nodes.repository-mongoose';
 import { RelationRepositoryRDF } from '@app/genealogy/nodes/repository/relation.repository-rdf';
 import { TreesModule } from '@app/genealogy/trees/trees.module';
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: Node.name, schema: NodeSchema }]),
-    TreesModule,
+    forwardRef(() => TreesModule),
   ],
   controllers: [NodesController],
   providers: [
@@ -28,5 +28,6 @@ import { MongooseModule } from '@nestjs/mongoose';
       useClass: RelationRepositoryRDF,
     },
   ],
+  exports: [NodeRepository],
 })
 export class NodesModule {}

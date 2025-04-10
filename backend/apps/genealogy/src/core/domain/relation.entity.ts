@@ -5,6 +5,7 @@ export interface RelationProps {
   souceNodeId: UUID;
   targetNodeId: UUID;
   relationType: string;
+  treeId: UUID;
 }
 
 export class RelationEntity extends Entity<RelationProps> {
@@ -26,5 +27,9 @@ export class RelationEntity extends Entity<RelationProps> {
 
   get relationType(): string {
     return this.props.relationType;
+  }
+
+  get treeId(): UUID {
+    return this.props.treeId;
   }
 }

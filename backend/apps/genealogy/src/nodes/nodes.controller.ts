@@ -15,7 +15,12 @@ export class NodesController {
 
   @MessagePattern(NODES_PATTERNS.CREATE)
   async createNode(@Payload(RpcValidationPipe) payload: CreateNodePayload) {
-    return await this.nodesService.createNode(payload.treeId, payload.dto.name);
+    return await this.nodesService.createNode(
+      payload.treeId,
+      payload.nodeRefId,
+      payload.type,
+      payload.dto.name,
+    );
   }
 
   @MessagePattern(NODES_PATTERNS.FIND_ONE)

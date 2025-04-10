@@ -1,12 +1,18 @@
 import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
-import { RelationsReposity } from '@app/genealogy/core/persistance/relations.repository';
-import { RepositoryRDF } from 'libs/shared/src/repository/repository-rdf';
+import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
+import { RelationPersistanceMapper } from '@app/genealogy/nodes/repository/relation.mapper';
+import { RepositoryRDF, SparqlService } from '@app/shared';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 export class RelationRepositoryRDF
-  extends RepositoryRDF<RelationEntity, void>
-  implements RelationsReposity
+  extends RepositoryRDF<RelationEntity>
+  implements RelationsRepository
 {
-  constructor(private readonly relationMapper: RelationPersistanceMapper) {
-    super(void, relationMapper);  // TODO: Implement the void type for RDF relations
+  constructor(
+    private readonly relationMapper: RelationPersistanceMapper,
+    sparqlService: SparqlService,
+  ) {
+    super(relationMapper, sparqlService);
   }
 }

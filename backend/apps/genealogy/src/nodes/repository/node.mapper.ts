@@ -4,7 +4,7 @@ import { Mapper } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class NodePersistanceMapper extends Mapper<NodeEntity, Node> {
+export class NodePersistanceMapper implements Mapper<NodeEntity, Node> {
   domain2Persistance(entity: NodeEntity): Node {
     return {
       _id: entity.id,

@@ -19,3 +19,6 @@ export * from './repository/exceptions/repository.exception';
 export * from './repository/mapper';
 export * from './repository/repository';
 export * from './repository/repository-mongoose';
+export * from './repository/repository-rdf';
+export * from './repository/sparql.service';
+export * from './repository/triple-rdf';

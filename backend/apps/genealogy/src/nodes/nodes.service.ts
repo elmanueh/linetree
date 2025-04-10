@@ -1,7 +1,7 @@
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
-import { RelationsReposity } from '@app/genealogy/core/persistance/relations.repository';
+import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
 import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
 import {
   EntityNotFoundException,
@@ -17,7 +17,7 @@ export class NodesService {
   constructor(
     private readonly nodeRepository: NodeRepository,
     private readonly treeRepository: TreeRepository,
-    private readonly relationRepository: RelationsReposity,
+    private readonly relationRepository: RelationsRepository,
   ) {}
 
   async createNode(
@@ -38,6 +38,7 @@ export class NodesService {
         souceNodeId: nodeRefId,
         targetNodeId: node.id,
         relationType: type,
+        treeId: treeId,
       });
 
       await this.relationRepository.save(relation);

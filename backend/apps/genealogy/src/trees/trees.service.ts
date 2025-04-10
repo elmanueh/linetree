@@ -1,6 +1,7 @@
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
+import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
 import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
 import {
   EntityNotFoundException,
@@ -15,6 +16,7 @@ export class TreesService {
   constructor(
     private readonly treeRepository: TreeRepository,
     private readonly nodeRepository: NodeRepository,
+    private readonly relationRepository: RelationsRepository,
   ) {}
 
   async createTree(name: string): Promise<UUID> {
@@ -60,6 +62,8 @@ export class TreesService {
       await Promise.all(
         nodes.map((node) => this.nodeRepository.delete(node.id)),
       );
+
+      await this.relationRepository.deleteRelationsByTreeId(treeId);
     } catch (error) {
       if (error instanceof EntityNotFoundException) {
         throw new NotFoundRpcException("The tree couldn't be found");

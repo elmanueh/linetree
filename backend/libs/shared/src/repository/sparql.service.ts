@@ -1,6 +1,6 @@
+import { TripleRdf } from '@app/shared';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { TripleRdf } from 'libs/shared/src/repository/triple-rdf';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -27,17 +27,24 @@ export class SparqlService {
   }
 
   async delete(triple: TripleRdf): Promise<void> {
-    const query = `
-    PREFIX gr: <http://example.org/genealogy#>  
-    DELETE {
-      ?s ?p gr:${triple.subject} .
-      gr:${triple.subject} ?p ?o .
+    let query = '';
+    if (triple.context) {
+      query = `
+        DROP GRAPH <http://example.org/tree/${triple.context}>
+      `;
+    } else {
+      query = `
+        PREFIX gr: <http://example.org/genealogy#>  
+        DELETE {
+          ?s ?p gr:${triple.object} .
+          gr:${triple.subject} ?p ?o .
+        }
+        WHERE {
+          { ?s ?p gr:${triple.object} }
+          UNION
+          { gr:${triple.subject} ?p ?o }
+        }`;
     }
-    WHERE {
-      { ?s ?p gr:${triple.subject} }
-      UNION
-      { gr:${triple.subject} ?p ?o }
-    }`;
 
     await firstValueFrom(
       this.httpService.post(`${this.endpoint}/statements`, query, {

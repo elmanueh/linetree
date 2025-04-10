@@ -10,7 +10,7 @@ import { UUID } from 'crypto';
 export class RepositoryRDF<T> implements Repository<T> {
   constructor(
     private readonly mapper: Mapper<T, TripleRdf>,
-    private readonly sparqlService: SparqlService,
+    protected readonly sparqlService: SparqlService,
   ) {}
 
   async save(entity: T): Promise<void> {

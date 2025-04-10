@@ -91,6 +91,7 @@ export class NodesService {
 
       await this.nodeRepository.delete(nodeId);
       await this.treeRepository.save(tree);
+      await this.relationRepository.deleteRelationsByNodeId(nodeId);
     } catch (error) {
       if (error instanceof EntityNotFoundException) {
         throw new NotFoundRpcException("The tree couldn't be found");

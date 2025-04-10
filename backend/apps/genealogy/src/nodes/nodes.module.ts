@@ -34,6 +34,6 @@ import { MongooseModule } from '@nestjs/mongoose';
       useClass: RelationRepositoryRDF,
     },
   ],
-  exports: [NodeRepository],
+  exports: [NodeRepository, RelationsRepository],
 })
 export class NodesModule {}

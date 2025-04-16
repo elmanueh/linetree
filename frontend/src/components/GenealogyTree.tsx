@@ -1,7 +1,7 @@
 // GenealogyTree.tsx
 import * as d3 from 'd3'
 import { useEffect, useRef } from 'react'
-import { createCustomLayout } from '../data/layout'
+import createCustomLayout from '../data/layout'
 import {
   links,
   Node,

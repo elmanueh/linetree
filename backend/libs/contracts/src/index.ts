@@ -7,6 +7,7 @@ export * from './genealogy/trees/get-trees.dto';
 export * from './genealogy/trees/trees.patterns';
 
 export * from './genealogy/nodes/create-node.dto';
+export * from './genealogy/nodes/create-related-node.dto';
 export * from './genealogy/nodes/get-node.dto';
 export * from './genealogy/nodes/get-nodes.dto';
 export * from './genealogy/nodes/nodes.pattern';

@@ -1,6 +1,6 @@
 import { CreateNodeDto } from '@app/contracts';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsUUID, ValidateNested } from 'class-validator';
+import { IsIn, IsNotEmpty, IsUUID, ValidateNested } from 'class-validator';
 import { UUID } from 'crypto';
 
 export class CreateNodePayload {
@@ -10,7 +10,10 @@ export class CreateNodePayload {
   @IsUUID()
   nodeRefId: UUID;
 
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'Type is required' })
+  @IsIn(['children', 'spouse'], {
+    message: "relation must be one of the following: 'children', 'spouse'",
+  })
   type: string;
 
   @ValidateNested()

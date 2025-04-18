@@ -1,4 +1,5 @@
 import {
+  CreateRelatedNodeDto,
   CreateTreeDto,
   GENEALOGY_CLIENT,
   GetNodeDto,
@@ -11,7 +12,6 @@ import {
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UUID } from 'crypto';
-import { CreateRelatedNodeDto } from 'libs/contracts/src/genealogy/nodes/create-related-node.dto';
 import { lastValueFrom } from 'rxjs';
 
 @Injectable()
@@ -28,6 +28,14 @@ export class GenealogyService {
   async getTree(id: UUID): Promise<GetTreeDto> {
     return lastValueFrom(
       this.genealogyClient.send<GetTreeDto>(TREES_PATTERNS.FIND_ONE, { id }),
+    );
+  }
+
+  async getTreeGenealogy(id: UUID): Promise<object> {
+    return lastValueFrom(
+      this.genealogyClient.send<object>(TREES_PATTERNS.GENEALOGY, {
+        id,
+      }),
     );
   }
 

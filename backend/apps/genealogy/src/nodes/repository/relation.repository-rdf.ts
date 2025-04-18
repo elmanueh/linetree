@@ -17,7 +17,7 @@ export class RelationRepositoryRDF
     super(relationMapper, sparqlService);
   }
 
-  async deleteRelationsByTreeId(treeId: UUID): Promise<void> {
+  async deleteByTreeId(treeId: UUID): Promise<void> {
     try {
       const triple = this.relationMapper.domain2Persistance({
         treeId: treeId,
@@ -28,7 +28,7 @@ export class RelationRepositoryRDF
     }
   }
 
-  async deleteRelationsByNodeId(nodeId: UUID): Promise<void> {
+  async deleteByNodeId(nodeId: UUID): Promise<void> {
     try {
       const triple = this.relationMapper.domain2Persistance({
         souceNodeId: nodeId,
@@ -37,6 +37,35 @@ export class RelationRepositoryRDF
       await this.sparqlService.delete(triple);
     } catch {
       throw new RepositoryException("The relations couldn't be deleted");
+    }
+  }
+
+  async findByTreeId(treeId: UUID): Promise<RelationEntity[]> {
+    try {
+      const triple = this.relationMapper.domain2Persistance({
+        treeId: treeId,
+      } as RelationEntity);
+
+      const triples = await this.sparqlService.query(triple);
+      return triples.map((triple) => {
+        return this.relationMapper.persistance2Domain(triple);
+      });
+    } catch {
+      throw new RepositoryException("The relations couldn't be fetched");
+    }
+  }
+
+  async findGenealogy(treeId: UUID): Promise<object> {
+    try {
+      const triple = this.relationMapper.domain2Persistance({
+        treeId: treeId,
+      } as RelationEntity);
+
+      const jsonld = await this.sparqlService.construct(triple);
+      return jsonld;
+    } catch (error) {
+      console.error(error);
+      throw new RepositoryException("The relations couldn't be fetched");
     }
   }
 }

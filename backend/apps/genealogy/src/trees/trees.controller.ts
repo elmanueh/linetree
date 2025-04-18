@@ -32,4 +32,10 @@ export class TreesController {
     await this.treesService.removeTree(treeId);
     return {};
   }
+
+  @MessagePattern(TREES_PATTERNS.GENEALOGY)
+  async genealogy(@Payload('id', RpcParseUUIDPipe) treeId: UUID) {
+    const genealogy = await this.treesService.getGenealogy(treeId);
+    return genealogy;
+  }
 }

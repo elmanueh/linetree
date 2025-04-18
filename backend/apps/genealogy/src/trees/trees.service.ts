@@ -21,7 +21,7 @@ export class TreesService {
 
   async createTree(name: string): Promise<UUID> {
     try {
-      const node = NodeEntity.create({ name: '' });
+      const node = NodeEntity.create({ name: 'test' });
       const tree = TreeEntity.create({ name, nodes: [node] });
 
       await this.treeRepository.save(tree);
@@ -63,12 +63,25 @@ export class TreesService {
         nodes.map((node) => this.nodeRepository.delete(node.id)),
       );
 
-      await this.relationRepository.deleteRelationsByTreeId(treeId);
+      await this.relationRepository.deleteByTreeId(treeId);
     } catch (error) {
       if (error instanceof EntityNotFoundException) {
         throw new NotFoundRpcException("The tree couldn't be found");
       }
       throw new InternalErrorRpcException("The tree couldn't be deleted");
+    }
+  }
+
+  async getGenealogy(treeId: UUID): Promise<object> {
+    try {
+      await this.treeRepository.findById(treeId);
+      const jsonld = await this.relationRepository.findGenealogy(treeId);
+      return jsonld;
+    } catch (error) {
+      if (error instanceof EntityNotFoundException) {
+        throw new NotFoundRpcException("The tree couldn't be found");
+      }
+      throw new InternalErrorRpcException("The tree couldn't be fetched");
     }
   }
 }

@@ -17,8 +17,7 @@ export class RepositoryRDF<T> implements Repository<T> {
     try {
       const triple = this.mapper.domain2Persistance(entity);
       await this.sparqlService.insert(triple);
-    } catch (error) {
-      console.error('Error al guardar la entidad:', error);
+    } catch {
       throw new RepositoryException('The entity could not be created');
     }
   }

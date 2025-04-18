@@ -27,6 +27,11 @@ export class GenealogyController {
     return this.genealogyService.getTree(id);
   }
 
+  @Get(':id/genealogy')
+  getTreeGenealogy(@Param('id') id: UUID) {
+    return this.genealogyService.getTreeGenealogy(id);
+  }
+
   @Get()
   getTrees() {
     return this.genealogyService.getTrees();

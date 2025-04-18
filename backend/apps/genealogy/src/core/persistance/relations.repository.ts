@@ -8,12 +8,26 @@ export abstract class RelationsRepository extends Repository<RelationEntity> {
    * @param treeId - The UUID of the tree whose relations should be deleted
    * @returns A Promise that resolves when the deletion is complete
    */
-  abstract deleteRelationsByTreeId(treeId: UUID): Promise<void>;
+  abstract deleteByTreeId(treeId: UUID): Promise<void>;
 
   /**
    * Deletes all relations associated with a specific node.
    * @param nodeId - The UUID of the node whose relations should be deleted
    * @returns A Promise that resolves when the deletion is complete
    */
-  abstract deleteRelationsByNodeId(nodeId: UUID): Promise<void>;
+  abstract deleteByNodeId(nodeId: UUID): Promise<void>;
+
+  /**
+   * Retrieves all relations associated with a specific tree.
+   * @param treeId - The UUID of the tree whose relations should be retrieved
+   * @returns A Promise that resolves to an array of RelationEntity objects associated with the specified tree
+   */
+  abstract findByTreeId(treeId: UUID): Promise<RelationEntity[]>;
+
+  /**
+   * Retrieves genealogy data for a specific tree in a formatted string representation.
+   * @param treeId - The UUID of the tree whose genealogy data should be retrieved
+   * @returns A string representation of the genealogy data for the specified tree
+   */
+  abstract findGenealogy(treeId: UUID): Promise<object>;
 }

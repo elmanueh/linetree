@@ -1,15 +1,9 @@
 // GenealogyTree.tsx
+import createCustomLayout from '@data/layout'
+import { NODE_HEIGHT, NODE_WIDTH, Relationship } from '@data/tree'
+import { getGenealogy, getLinks, jsonLdData } from '@data/tree2'
 import * as d3 from 'd3'
 import { useEffect, useRef } from 'react'
-import createCustomLayout from '../data/layout'
-import {
-  links,
-  Node,
-  NODE_HEIGHT,
-  NODE_WIDTH,
-  Relationship,
-  treeData
-} from '../data/tree'
 
 export default function GenealogyTree() {
   const svgRef = useRef<SVGSVGElement | null>(null)

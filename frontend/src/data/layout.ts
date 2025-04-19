@@ -4,7 +4,7 @@ import {
   NODE_WIDTH,
   PARTNER_SPACING,
   VERTICAL_SPACING
-} from './tree'
+} from '@data/tree'
 
 // ---------- Constants ----------
 const nodes: Node[] = []

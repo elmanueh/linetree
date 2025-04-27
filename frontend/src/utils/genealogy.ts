@@ -3,6 +3,8 @@ import { GenealogyNode, Node, Relationship } from '@/data/tree'
 const nodes = new Map<string, Node>()
 
 export function getGenealogyNodes(jsonld: GenealogyNode[]): Node {
+  nodes.clear()
+
   jsonld.forEach((item) => {
     const nodeId = item['@id'].split('/').pop()!
     if (!nodes.get(nodeId)) {

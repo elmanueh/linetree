@@ -73,6 +73,8 @@ function layoutTree(node: Node, x: number, y: number, level: number) {
 }
 
 export default function generateLayoutTree(data: Node) {
+  nodes.splice(0, nodes.length)
+  visited.clear()
   layoutTree(data, POS_X, POS_Y, 0)
   return nodes
 }

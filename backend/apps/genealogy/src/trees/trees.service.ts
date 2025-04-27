@@ -74,8 +74,15 @@ export class TreesService {
 
   async getGenealogy(treeId: UUID): Promise<object> {
     try {
-      await this.treeRepository.findById(treeId);
+      const tree = await this.treeRepository.findById(treeId);
       const jsonld = await this.relationRepository.findGenealogy(treeId);
+      if (jsonld.length === 0) {
+        return [
+          {
+            '@id': tree.getNodes()[0].id,
+          },
+        ];
+      }
       return jsonld;
     } catch (error) {
       if (error instanceof EntityNotFoundException) {

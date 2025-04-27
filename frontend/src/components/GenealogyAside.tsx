@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import './aside.css'
 
-export default function GenealogyAside({ nodeSelected, treeId }) {
+export default function GenealogyAside({ nodeSelected, treeId, callback }) {
   const handlePareja = async () => {
     const response = await fetch(
       `http://localhost:3000/api/trees/${treeId}/nodes`,
@@ -26,7 +26,10 @@ export default function GenealogyAside({ nodeSelected, treeId }) {
       alert('Error al añadir pareja')
       return
     }
+
+    callback()
   }
+
   const handleHijo = async () => {
     const response = await fetch(
       `http://localhost:3000/api/trees/${treeId}/nodes`,
@@ -51,6 +54,8 @@ export default function GenealogyAside({ nodeSelected, treeId }) {
       alert('Error al añadir hijo')
       return
     }
+
+    callback()
   }
 
   return (

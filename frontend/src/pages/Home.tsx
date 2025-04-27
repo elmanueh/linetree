@@ -1,13 +1,15 @@
 import TreeCard from '@/components/TreeCard'
+import { API_URLS } from '@/configs/constants'
+import { Tree } from '@/configs/types'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
-  const [trees, setTrees] = useState([])
+  const [trees, setTrees] = useState<Tree[]>([])
 
   const handleNewTree = async () => {
     const nombre = document.getElementById('arbol-nombre') as HTMLInputElement
 
-    const response = await fetch('http://localhost:3000/api/trees', {
+    const response = await fetch(API_URLS.TREES, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -22,18 +24,22 @@ export default function Home() {
       return
     }
 
-    const jsonLdData = await response.json()
-    setTrees([...trees, { id: jsonLdData, name: nombre.value }])
+    const treeId = await response.text()
+    setTrees([...trees, { id: treeId, name: nombre.value }])
+  }
+
+  const handleDeleteTree = async (id: string) => {
+    setTrees(trees.filter((tree) => tree.id !== id))
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch('http://localhost:3000/api/trees')
+      const response = await fetch(API_URLS.TREES)
       return response.json()
     }
 
-    fetchData().then((jsonLdData) => {
-      setTrees(jsonLdData.trees)
+    fetchData().then((response) => {
+      setTrees(response.trees)
     })
   }, [])
 
@@ -44,9 +50,17 @@ export default function Home() {
       <input type="text" id="arbol-nombre" className="home-text"></input>
       <p>Seleccione uno de los siguientes arboles</p>
       <div className="tree-list">
-        {trees.map((tree) => (
-          <TreeCard treeId={tree.id} treeName={tree.name} key={tree.id} />
-        ))}
+        <ul>
+          {trees.map((tree) => (
+            <li key={tree.id}>
+              <TreeCard
+                id={tree.id}
+                name={tree.name}
+                callback={handleDeleteTree}
+              />
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   )

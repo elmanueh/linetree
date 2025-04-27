@@ -1,9 +1,17 @@
+import { API_URLS } from '@/configs/constants'
+import { Tree } from '@/configs/types'
 import { Link } from 'react-router'
 import './card.css'
 
-export default function TreeCard({ treeId, treeName }) {
-  const handleDeleteTree = async () => {
-    const response = await fetch(`http://localhost:3000/api/trees/${treeId}`, {
+interface TreeCardProps extends Tree {
+  callback: (id: string) => void
+}
+
+export default function TreeCard({ id, name, callback }: TreeCardProps) {
+  const handleDeleteTree = async (event: React.MouseEvent) => {
+    event.preventDefault()
+
+    const response = await fetch(API_URLS.TREE(id), {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
@@ -14,15 +22,14 @@ export default function TreeCard({ treeId, treeName }) {
       alert('Error al eliminar el árbol')
       return
     }
-
-    window.location.reload()
+    callback(id)
   }
 
   return (
-    <Link to={`/${treeId}`}>
+    <Link to={`/${id}`}>
       <div className="card">
-        <h3>{treeName}</h3>
-        <p>{treeId}</p>
+        <h3>{name}</h3>
+        <p>{id}</p>
         <button onClick={handleDeleteTree}>Eliminar</button>
       </div>
     </Link>

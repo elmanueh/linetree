@@ -1,15 +1,18 @@
-import { Node, NODE_HEIGHT, NODE_WIDTH, Relationship } from '@data/tree'
+import GenealogyAside from '@/components/GenealogyAside'
+import { Node, NODE_HEIGHT, NODE_WIDTH, Relationship } from '@/data/tree'
 import * as d3 from 'd3'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useLoaderData } from 'react-router'
 import { getGenealogyNodes, getGenealogyRelations } from 'src/utils/genealogy'
 import generateLayoutTree from 'src/utils/layout-tree'
 
 export default function GenealogyTree() {
+  const treeId = useLoaderData()
+  const [selectedNode, setSelectedNode] = useState<string>('')
   const svgRef = useRef<SVGSVGElement>(null)
 
   useEffect(() => {
     const fetchData = async () => {
-      const treeId = 'a34b06a3-d5a2-4dfd-8964-2047c61c59e0'
       const response = await fetch(
         `http://localhost:3000/api/trees/${treeId}/genealogy`
       )
@@ -86,6 +89,9 @@ export default function GenealogyTree() {
         .append('g')
         .attr('class', 'node')
         .attr('transform', (d: Node) => `translate(${d.x},${d.y})`)
+        .on('click', (event, d) => {
+          setSelectedNode(d.id)
+        })
 
       node
         .append('rect')
@@ -132,8 +138,11 @@ export default function GenealogyTree() {
   }, [])
 
   return (
-    <div className="tree">
-      <svg ref={svgRef} />
+    <div className="layout">
+      <GenealogyAside nodeSelected={selectedNode} treeId={treeId} />
+      <div className="tree">
+        <svg ref={svgRef} />
+      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { GenealogyNode, Node, Relationship } from '@data/tree'
+import { GenealogyNode, Node, Relationship } from '@/data/tree'
 
 const nodes = new Map<string, Node>()
 

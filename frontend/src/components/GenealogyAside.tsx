@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import './aside.css'
 
 export default function GenealogyAside({ nodeSelected, treeId }) {
@@ -54,6 +55,9 @@ export default function GenealogyAside({ nodeSelected, treeId }) {
 
   return (
     <aside className="aside">
+      <Link to="/" className="aside-link">
+        Volver
+      </Link>
       <h2 className="aside-title">Genealogy Tree</h2>
       <p className="aside-paragraph">Nodo Seleccionado: {nodeSelected}</p>
 

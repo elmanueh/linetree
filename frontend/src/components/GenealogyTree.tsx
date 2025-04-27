@@ -10,6 +10,7 @@ export default function GenealogyTree() {
   const treeId = useLoaderData()
   const [selectedNode, setSelectedNode] = useState<string>('')
   const svgRef = useRef<SVGSVGElement>(null)
+  const [jsonLdData, setJsonLdData] = useState<object>({})
 
   useEffect(() => {
     const fetchData = async () => {
@@ -21,6 +22,8 @@ export default function GenealogyTree() {
     }
 
     fetchData().then((jsonLdData) => {
+      setJsonLdData(jsonLdData)
+
       const layoutTree = generateLayoutTree(getGenealogyNodes(jsonLdData))
       const linksTree = getGenealogyRelations()
       const svg = d3.select(svgRef.current)

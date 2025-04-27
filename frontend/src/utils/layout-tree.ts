@@ -72,7 +72,7 @@ function layoutTree(node: Node, x: number, y: number, level: number) {
   }
 }
 
-export default function createCustomLayout(data: Node) {
+export default function generateLayoutTree(data: Node) {
   layoutTree(data, POS_X, POS_Y, 0)
   return nodes
 }

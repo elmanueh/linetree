@@ -87,8 +87,19 @@ export class NodesService {
   async removeNode(treeId: UUID, nodeId: UUID): Promise<void> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      tree.removeNode(nodeId);
+      const relations = await this.relationRepository.findDescendantsByNodeId(
+        treeId,
+        nodeId,
+      );
 
+      for (const relation of relations) {
+        const descendant = relation.targetNodeId;
+        tree.removeNode(descendant);
+        await this.nodeRepository.delete(descendant);
+        await this.relationRepository.deleteByNodeId(descendant);
+      }
+
+      tree.removeNode(nodeId);
       await this.nodeRepository.delete(nodeId);
       await this.treeRepository.save(tree);
       await this.relationRepository.deleteByNodeId(nodeId);

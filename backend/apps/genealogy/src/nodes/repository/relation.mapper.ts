@@ -1,9 +1,19 @@
 import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
 import { Mapper, TripleRdf } from '@app/shared';
+import { UUID } from 'crypto';
 
 export class RelationPersistanceMapper
   implements Mapper<RelationEntity, TripleRdf>
 {
+  private getUUID(uri: string): UUID | undefined {
+    if (!uri) return undefined;
+    const match = uri.match(
+      /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/,
+    );
+
+    return match ? (match[0] as UUID) : undefined;
+  }
+
   domain2Persistance(entity: RelationEntity): TripleRdf {
     return {
       subject: entity.souceNodeId,
@@ -15,8 +25,8 @@ export class RelationPersistanceMapper
 
   persistance2Domain(document: TripleRdf): RelationEntity {
     return RelationEntity.create({
-      souceNodeId: document.subject,
-      targetNodeId: document.object,
+      souceNodeId: this.getUUID(document.subject)!,
+      targetNodeId: this.getUUID(document.object)!,
       relationType: document.predicate,
       treeId: document.context,
     });

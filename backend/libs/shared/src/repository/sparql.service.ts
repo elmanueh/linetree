@@ -88,9 +88,9 @@ export class SparqlService {
     );
 
     return response.data?.results?.bindings.map((binding: any) => ({
-      subject: binding.subject.value,
-      predicate: binding.predicate.value,
-      object: binding.object.value,
+      subject: binding.subject?.value,
+      predicate: binding.predicate?.value,
+      object: binding.object?.value,
       context: triple.context,
     }));
   }
@@ -126,5 +126,40 @@ export class SparqlService {
     );
 
     return response.data as object;
+  }
+
+  async queryDescendants(triple: TripleRdf): Promise<TripleRdf[]> {
+    const query = `
+      PREFIX schema: <http://schema.org/>
+      SELECT ?subject ?predicate ?object
+      WHERE {
+        GRAPH <${this.contextUri}${triple.context}> {
+          BIND(<${this.nodeUri}${triple.subject}> AS ?subject)
+          {
+            ?subject schema:children+ ?object
+          } UNION {
+            ?subject schema:children+ ?a .
+            ?a schema:spouse ?object
+          } UNION {
+            ?subject schema:spouse ?object
+          }
+        }
+      }`;
+
+    const response = await firstValueFrom(
+      this.httpService.post(this.endpoint, query, {
+        headers: {
+          'Content-Type': 'application/sparql-query',
+          Accept: 'application/sparql-results+json',
+        },
+      }),
+    );
+
+    return response.data?.results?.bindings.map((binding: any) => ({
+      subject: binding.subject?.value,
+      predicate: binding.predicate?.value,
+      object: binding.object?.value,
+      context: triple.context,
+    }));
   }
 }

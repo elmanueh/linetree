@@ -63,6 +63,22 @@ export default function GenealogyAside({
     callback()
   }
 
+  const handleDelete = async () => {
+    const response = await fetch(API_URLS.NODE(treeId, node), {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      alert('Error al eliminar nodo')
+      return
+    }
+
+    callback()
+  }
+
   return (
     <aside className="aside">
       <Link to="/" className="aside-link">
@@ -73,6 +89,8 @@ export default function GenealogyAside({
 
       <button onClick={handleSpouse}>Añadir Pareja</button>
       <button onClick={handleChildren}>Añadir Hijo</button>
+      <hr style={{ width: '100%' }} />
+      <button onClick={handleDelete}>Eliminar Nodo</button>
     </aside>
   )
 }

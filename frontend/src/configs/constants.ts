@@ -4,7 +4,9 @@ export const API_URLS = {
   TREES: `${URL_GATEWAY}/api/trees`,
   TREE: (id: string) => `${URL_GATEWAY}/api/trees/${id}`,
   GENEALOGY: (id: string) => `${URL_GATEWAY}/api/trees/${id}/genealogy`,
-  NODES: (id: string) => `${URL_GATEWAY}/api/trees/${id}/nodes`
+  NODES: (id: string) => `${URL_GATEWAY}/api/trees/${id}/nodes`,
+  NODE: (treeId: string, nodeId: string) =>
+    `${URL_GATEWAY}/api/trees/${treeId}/nodes/${nodeId}`
 }
 
 export const NODE_RELATIONS = {

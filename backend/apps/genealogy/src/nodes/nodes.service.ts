@@ -110,4 +110,26 @@ export class NodesService {
       throw new InternalErrorRpcException("The node couldn't be deleted");
     }
   }
+
+  async updateNode(treeId: UUID, nodeId: UUID, name?: string): Promise<void> {
+    try {
+      const tree = await this.treeRepository.findById(treeId);
+      const node = tree.getNode(nodeId);
+      if (!node) {
+        throw new NotFoundRpcException("The node couldn't be found");
+      }
+
+      if (name) {
+        node.name = name;
+      }
+
+      await this.nodeRepository.save(node);
+    } catch (error) {
+      if (error instanceof RpcException) throw error;
+      if (error instanceof EntityNotFoundException) {
+        throw new NotFoundRpcException("The tree couldn't be found");
+      }
+      throw new InternalErrorRpcException("The node couldn't be updated");
+    }
+  }
 }

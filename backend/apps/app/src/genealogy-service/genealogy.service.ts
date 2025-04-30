@@ -8,6 +8,7 @@ import {
   GetTreesDto,
   NODES_PATTERNS,
   TREES_PATTERNS,
+  UpdateNodeDto,
 } from '@app/contracts';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
@@ -85,6 +86,20 @@ export class GenealogyService {
       this.genealogyClient.send<void>(NODES_PATTERNS.REMOVE, {
         treeId,
         nodeId,
+      }),
+    );
+  }
+
+  async updateNode(
+    treeId: UUID,
+    nodeId: UUID,
+    dto: UpdateNodeDto,
+  ): Promise<void> {
+    await lastValueFrom(
+      this.genealogyClient.send<void>(NODES_PATTERNS.UPDATE, {
+        treeId,
+        nodeId,
+        dto,
       }),
     );
   }

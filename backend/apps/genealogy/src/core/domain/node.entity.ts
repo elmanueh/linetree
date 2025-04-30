@@ -14,6 +14,10 @@ export class NodeEntity extends Entity<NodeProps> {
     return this.props.name;
   }
 
+  set name(name: string) {
+    this.props.name = name;
+  }
+
   static create(props: NodeProps, id?: UUID): NodeEntity {
     return new NodeEntity(props, id);
   }

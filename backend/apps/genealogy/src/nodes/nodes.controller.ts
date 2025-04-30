@@ -3,6 +3,7 @@ import { NodeDomainMapper } from '@app/genealogy/core/mapper/node.mapper';
 import { CreateNodePayload } from '@app/genealogy/nodes/dto/create-node.payload';
 import { GetNodePayload } from '@app/genealogy/nodes/dto/get-node.payload';
 import { RemoveNodePayload } from '@app/genealogy/nodes/dto/remove-node.payload';
+import { UpdateNodePayload } from '@app/genealogy/nodes/dto/update-node.payload';
 import { NodesService } from '@app/genealogy/nodes/nodes.service';
 import { RpcParseUUIDPipe, RpcValidationPipe } from '@app/shared';
 import { Controller } from '@nestjs/common';
@@ -41,6 +42,16 @@ export class NodesController {
   @MessagePattern(NODES_PATTERNS.REMOVE)
   async removeNode(@Payload(RpcValidationPipe) payload: RemoveNodePayload) {
     await this.nodesService.removeNode(payload.treeId, payload.nodeId);
+    return {};
+  }
+
+  @MessagePattern(NODES_PATTERNS.UPDATE)
+  async updateNode(@Payload(RpcValidationPipe) payload: UpdateNodePayload) {
+    await this.nodesService.updateNode(
+      payload.treeId,
+      payload.nodeId,
+      payload.dto.name,
+    );
     return {};
   }
 }

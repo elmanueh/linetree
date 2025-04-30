@@ -1,4 +1,8 @@
-import { CreateRelatedNodeDto, CreateTreeDto } from '@app/contracts';
+import {
+  CreateRelatedNodeDto,
+  CreateTreeDto,
+  UpdateNodeDto,
+} from '@app/contracts';
 import { GenealogyService } from '@app/gateway/genealogy-service/genealogy.service';
 import {
   Body,
@@ -8,6 +12,7 @@ import {
   HttpCode,
   HttpStatus,
   Param,
+  Patch,
   Post,
 } from '@nestjs/common';
 import { UUID } from 'crypto';
@@ -63,5 +68,15 @@ export class GenealogyController {
   @HttpCode(HttpStatus.NO_CONTENT)
   deleteNode(@Param('id') treeId: UUID, @Param('id2') nodeId: UUID) {
     return this.genealogyService.deleteNode(treeId, nodeId);
+  }
+
+  @Patch(':id/nodes/:id2')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  updateNode(
+    @Param('id') treeId: UUID,
+    @Param('id2') nodeId: UUID,
+    @Body() dto: UpdateNodeDto,
+  ) {
+    return this.genealogyService.updateNode(treeId, nodeId, dto);
   }
 }

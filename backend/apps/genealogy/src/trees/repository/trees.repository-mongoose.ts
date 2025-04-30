@@ -5,7 +5,7 @@ import {
   Tree,
   TreeDocument,
 } from '@app/genealogy/trees/repository/tree.schema';
-import { RepositoryMongoose } from '@app/shared';
+import { EntityNotFoundException, RepositoryMongoose } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UUID } from 'crypto';
@@ -27,7 +27,7 @@ export class TreeRepositoryMongoose
   async findById(id: UUID): Promise<TreeEntity> {
     const document = await this.treeModel.findById(id).populate('nodes');
     if (!document) {
-      throw new Error(`Tree with id "${id}" not found`);
+      throw new EntityNotFoundException(`Tree with id "${id}" not found`);
     }
     return this.treeMapper.persistance2DomainAsync(document);
   }

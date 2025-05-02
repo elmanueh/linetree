@@ -3,13 +3,16 @@ import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
 import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
 import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
+import { RelationsService } from '@app/genealogy/relations/relations.service';
 import {
   EntityNotFoundException,
   InternalErrorRpcException,
   NotFoundRpcException,
 } from '@app/shared';
 import { Injectable } from '@nestjs/common';
+import { RpcException } from '@nestjs/microservices';
 import { UUID } from 'crypto';
+import { JsonLdDocument } from 'jsonld';
 
 @Injectable()
 export class TreesService {
@@ -17,6 +20,7 @@ export class TreesService {
     private readonly treeRepository: TreeRepository,
     private readonly nodeRepository: NodeRepository,
     private readonly relationRepository: RelationsRepository,
+    private readonly relationsService: RelationsService,
   ) {}
 
   async createTree(name: string): Promise<UUID> {
@@ -72,19 +76,14 @@ export class TreesService {
     }
   }
 
-  async getGenealogy(treeId: UUID): Promise<object> {
+  async getGenealogy(treeId: UUID): Promise<JsonLdDocument> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      const jsonld = await this.relationRepository.findGenealogy(treeId);
-      if (jsonld.length === 0) {
-        return [
-          {
-            '@id': tree.getNodes()[0].id,
-          },
-        ];
-      }
-      return jsonld;
+      const genealogy = this.relationsService.getGenealogy(tree);
+
+      return genealogy;
     } catch (error) {
+      if (error instanceof RpcException) throw error;
       if (error instanceof EntityNotFoundException) {
         throw new NotFoundRpcException("The tree couldn't be found");
       }

@@ -1,6 +1,7 @@
 import { TripleRdf } from '@app/shared';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { NodeObject } from 'jsonld';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
@@ -95,10 +96,13 @@ export class SparqlService {
     }));
   }
 
-  async construct(triple: TripleRdf): Promise<object> {
+  async construct(triple: TripleRdf): Promise<NodeObject[]> {
     const query = `
         PREFIX schema: <http://schema.org/>
         CONSTRUCT {
+          ?person a schema:Person .
+          ?spouse a schema:Person .
+          ?child a schema:Person .
           ?person schema:spouse ?spouse .
           ?person schema:children ?child .
           ?spouse schema:spouse ?person .
@@ -109,15 +113,13 @@ export class SparqlService {
             ?person schema:spouse ?spouse .
             OPTIONAL { ?person schema:children ?child . }
             OPTIONAL { ?spouse schema:children ?child . }
-            OPTIONAL { ?child schema:parent ?person . }
-            OPTIONAL { ?child schema:parent ?spouse . }
           }
         }
       `;
 
     // Realiza la solicitud con la consulta CONSTRUCT
     const response = await firstValueFrom(
-      this.httpService.post(this.endpoint, query, {
+      this.httpService.post<NodeObject[]>(this.endpoint, query, {
         headers: {
           'Content-Type': 'application/sparql-query',
           Accept: 'application/ld+json',
@@ -125,7 +127,7 @@ export class SparqlService {
       }),
     );
 
-    return response.data as object;
+    return response.data;
   }
 
   async queryDescendants(triple: TripleRdf): Promise<TripleRdf[]> {

@@ -1,6 +1,7 @@
 import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
 import { Repository } from '@app/shared';
 import { UUID } from 'crypto';
+import { NodeObject } from 'jsonld';
 
 export abstract class RelationsRepository extends Repository<RelationEntity> {
   /**
@@ -38,7 +39,7 @@ export abstract class RelationsRepository extends Repository<RelationEntity> {
   /**
    * Retrieves genealogy data for a specific tree in a formatted string representation.
    * @param treeId - The UUID of the tree whose genealogy data should be retrieved
-   * @returns A string representation of the genealogy data for the specified tree
+   * @returns A Promise that resolves to an array of NodeObject objects representing the genealogy data
    */
-  abstract findGenealogy(treeId: UUID): Promise<object>;
+  abstract findGenealogy(treeId: UUID): Promise<NodeObject[]>;
 }

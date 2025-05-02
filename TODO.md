@@ -5,3 +5,4 @@
 - [ ] Revisar porque al insertar/eliminar se queda nodos sueltos.
 - [ ] Implementar UPDATE para modificar un arbol.
 - [x] Implementar UPDATE para modificar un nodo.
+- [ ] Arreglar el movimiento del zoom al mover el arbol.

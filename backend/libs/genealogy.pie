@@ -25,11 +25,15 @@ Rules
     a <schema:children> b
     -------------------------------
     b <schema:parent> a
+    a <rdf:type> <schema:Person>
+    b <rdf:type> <schema:Person>
 
     Id: Spouse
     a <schema:spouse> b
     -------------------------------
     b <schema:spouse> a
+    a <rdf:type> <schema:Person>
+    b <rdf:type> <schema:Person>
 
     Id: SpouseHasChild
     a <schema:children> c

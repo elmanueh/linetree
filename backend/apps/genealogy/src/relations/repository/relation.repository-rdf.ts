@@ -1,9 +1,10 @@
 import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
 import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
-import { RelationPersistanceMapper } from '@app/genealogy/nodes/repository/relation.mapper';
+import { RelationPersistanceMapper } from '@app/genealogy/relations/repository/relation.mapper';
 import { RepositoryException, RepositoryRDF, SparqlService } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
+import { NodeObject } from 'jsonld';
 
 @Injectable()
 export class RelationRepositoryRDF
@@ -55,7 +56,7 @@ export class RelationRepositoryRDF
     }
   }
 
-  async findGenealogy(treeId: UUID): Promise<object> {
+  async findGenealogy(treeId: UUID): Promise<NodeObject[]> {
     try {
       const triple = this.relationMapper.domain2Persistance({
         treeId: treeId,
@@ -84,7 +85,7 @@ export class RelationRepositoryRDF
       return triples.map((triple) => {
         return this.relationMapper.persistance2Domain(triple);
       });
-    } catch (error) {
+    } catch {
       throw new RepositoryException("The relations couldn't be fetched");
     }
   }

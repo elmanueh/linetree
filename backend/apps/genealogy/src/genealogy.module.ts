@@ -3,6 +3,7 @@ import { TreesModule } from '@app/genealogy/trees/trees.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { RelationsModule } from './relations/relations.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MongooseModule } from '@nestjs/mongoose';
     }),
     TreesModule,
     NodesModule,
+    RelationsModule,
   ],
 })
 export class GenealogyModule {}

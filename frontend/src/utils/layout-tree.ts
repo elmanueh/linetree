@@ -1,10 +1,10 @@
 import {
   CHILD_SPACING,
-  Node,
   NODE_WIDTH,
-  PARTNER_SPACING,
+  SPOUSE_SPACING,
   VERTICAL_SPACING
-} from '@/data/tree'
+} from '@/configs/constants'
+import { Node } from '@/configs/types'
 
 // ---------- Constants ----------
 const nodes: Node[] = []
@@ -14,8 +14,8 @@ const POS_Y = 300
 
 // get the width of the tree
 function getTreeWidth(node: Node): number {
-  const minWidth = 2 * NODE_WIDTH + PARTNER_SPACING
-  if (!node.partner || node.partner.length === 0) return NODE_WIDTH
+  const minWidth = 2 * NODE_WIDTH + SPOUSE_SPACING
+  if (!node.spouse || node.spouse.length === 0) return NODE_WIDTH
   if (!node.children || node.children.length === 0) return minWidth
 
   let treeWidth = 0
@@ -43,23 +43,22 @@ function layoutTree(node: Node, x: number, y: number, level: number) {
   if (!currentNode) return
   const nextLevel = y + VERTICAL_SPACING
 
-  // partners
-  if (node.partner) {
-    node.partner.forEach((partner: Node, i: number) => {
-      const px = x + NODE_WIDTH + PARTNER_SPACING + i * PARTNER_SPACING
-      addNode(partner, px, y, level)
+  // spouses
+  if (node.spouse) {
+    node.spouse.forEach((spouse: Node, i: number) => {
+      const px = x + NODE_WIDTH + SPOUSE_SPACING + i * SPOUSE_SPACING
+      addNode(spouse, px, y, level)
     })
   }
 
   // children
   if (node.children && node.children.length > 0) {
-    let treeWidth =
-      x + NODE_WIDTH + PARTNER_SPACING / 2 - getTreeWidth(node) / 2
+    let treeWidth = x + NODE_WIDTH + SPOUSE_SPACING / 2 - getTreeWidth(node) / 2
     node.children.forEach((child: Node) => {
       const childTreeWidth = getTreeWidth(child)
       const offset =
-        child.partner && child.partner?.length != 0
-          ? PARTNER_SPACING / 2 + NODE_WIDTH
+        child.spouse && child.spouse?.length != 0
+          ? SPOUSE_SPACING / 2 + NODE_WIDTH
           : NODE_WIDTH / 2
       layoutTree(
         child,

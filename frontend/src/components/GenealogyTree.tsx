@@ -1,28 +1,30 @@
 import GenealogyAside from '@/components/GenealogyAside'
 import { API_URLS } from '@/configs/constants'
+import { parseGenealogy } from '@/utils/genealogy'
 import { drawNodes, drawRelationships, setupZoom } from '@/utils/genealogy-d3'
+import generateLayoutTree from '@/utils/layout-tree'
 import * as d3 from 'd3'
+import { NodeObject } from 'jsonld'
 import { useEffect, useRef, useState } from 'react'
 import { useLoaderData } from 'react-router'
-import { getGenealogyNodes, getGenealogyRelations } from 'src/utils/genealogy'
-import generateLayoutTree from 'src/utils/layout-tree'
 
 export default function GenealogyTree() {
   const treeId = useLoaderData()
   const svgRef = useRef<SVGSVGElement>(null)
   const [selectedNode, setSelectedNode] = useState<string>('')
 
-  const fetchTreeData = async () => {
+  const fetchTreeData = async (): Promise<NodeObject> => {
     const response = await fetch(API_URLS.GENEALOGY(treeId))
     return response.json()
   }
 
   const handleUpdateTree = async () => {
-    const data = await fetchTreeData()
-    const nodes = getGenealogyNodes(data)
-    const linksTree = getGenealogyRelations()
+    const jsonld = await fetchTreeData()
+    const data = Array.isArray(jsonld['@graph']) ? jsonld['@graph'] : [jsonld]
+    const { root, relations } = parseGenealogy(data)
+    const linksTree = relations
 
-    const layoutTree = generateLayoutTree(nodes)
+    const layoutTree = generateLayoutTree(root)
     const svg = d3.select(svgRef.current!)
 
     svg.selectAll('*').remove()
@@ -36,11 +38,12 @@ export default function GenealogyTree() {
 
   useEffect(() => {
     const initializeTree = async () => {
-      const jsonLdData = await fetchTreeData()
-      const nodes = getGenealogyNodes(jsonLdData)
-      const linksTree = getGenealogyRelations()
+      const jsonld = await fetchTreeData()
+      const data = Array.isArray(jsonld['@graph']) ? jsonld['@graph'] : [jsonld]
+      const { root, relations } = parseGenealogy(data)
+      const linksTree = relations
 
-      const layoutTree = generateLayoutTree(nodes)
+      const layoutTree = generateLayoutTree(root)
       const svg = d3.select(svgRef.current!)
 
       svg.selectAll('*').remove()

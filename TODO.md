@@ -4,7 +4,7 @@
 
 - [ ] Arreglar el problema de que los nodos se vinculen a padre y madre.
 - [ ] Revisar porque al insertar/eliminar se queda nodos sueltos.
-- [ ] Arreglar el movimiento del zoom al mover el arbol.
+- [x] Arreglar el movimiento del zoom al mover el arbol.
 
 ## Features
 

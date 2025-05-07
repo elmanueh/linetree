@@ -3,7 +3,14 @@ import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 
 export class NodeDomainMapper {
   static createDto2Domain(dto: CreateNodeDto): NodeEntity {
-    const node = NodeEntity.create({ name: dto.name });
+    const node = NodeEntity.create({
+      name: dto.name,
+      firstName: dto.firstName,
+      lastName: dto.lastName,
+      birthDate: new Date(dto.birthDate),
+      deathDate: dto.deathDate ? new Date(dto.deathDate) : undefined,
+      gender: dto.gender,
+    });
     return node;
   }
 
@@ -11,6 +18,11 @@ export class NodeDomainMapper {
     const dto = new GetNodeDto();
     dto.id = node.id;
     dto.name = node.name;
+    dto.firstName = node.firstName;
+    dto.lastName = node.lastName;
+    dto.birthDate = node.birthDate.toISOString();
+    dto.deathDate = node.deathDate ? node.deathDate.toISOString() : undefined;
+    dto.gender = node.gender;
     return dto;
   }
 

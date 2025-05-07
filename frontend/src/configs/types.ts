@@ -21,5 +21,8 @@ export interface Relationship {
 export interface GenealogyNode {
   name: string
   firstName: string
-  lastName: string
+  lastName?: string
+  birthDate: Date
+  deathDate?: Date
+  gender: string
 }

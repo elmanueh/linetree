@@ -22,7 +22,10 @@ export default function GenealogyAside({ callback }: GenealogyAsideProps) {
     await addNode(selectedNodeId, relation, {
       name: 'Amadeo',
       firstName: 'Amadeo',
-      lastName: 'Amadeo'
+      lastName: 'Amadeo',
+      birthDate: new Date('2023-10-10'),
+      deathDate: new Date('2023-10-11'),
+      gender: 'male'
     })
 
     callback()

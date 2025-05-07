@@ -1,3 +1,4 @@
+import { Gender } from '@app/genealogy/core/domain/gender.enum';
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
@@ -25,7 +26,14 @@ export class TreesService {
 
   async createTree(name: string): Promise<UUID> {
     try {
-      const node = NodeEntity.create({ name: 'test' });
+      const node = NodeEntity.create({
+        name: 'test',
+        firstName: 'test1',
+        lastName: 'test2',
+        birthDate: new Date(),
+        deathDate: undefined,
+        gender: Gender.Male,
+      });
       const tree = TreeEntity.create({ name, nodes: [node] });
 
       await this.treeRepository.save(tree);

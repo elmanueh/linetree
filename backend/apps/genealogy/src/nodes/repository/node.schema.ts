@@ -11,6 +11,21 @@ export class Node {
 
   @Prop()
   name: string;
+
+  @Prop()
+  firstName: string;
+
+  @Prop()
+  lastName: string;
+
+  @Prop()
+  birthDate: Date;
+
+  @Prop()
+  deathDate?: Date;
+
+  @Prop()
+  gender: string;
 }
 
 export const NodeSchema = SchemaFactory.createForClass(Node);

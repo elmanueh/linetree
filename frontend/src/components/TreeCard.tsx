@@ -5,9 +5,15 @@ import './card.css'
 
 interface TreeCardProps extends Tree {
   callback: (id: string) => void
+  callback2: (id: string) => void
 }
 
-export default function TreeCard({ id, name, callback }: TreeCardProps) {
+export default function TreeCard({
+  id,
+  name,
+  callback,
+  callback2
+}: TreeCardProps) {
   const handleDeleteTree = async (event: React.MouseEvent) => {
     event.preventDefault()
 
@@ -26,7 +32,7 @@ export default function TreeCard({ id, name, callback }: TreeCardProps) {
   }
 
   return (
-    <Link to={`/${id}`}>
+    <Link to={`/${id}`} onClick={() => callback2(id)}>
       <div className="card">
         <h3>{name}</h3>
         <p>{id}</p>

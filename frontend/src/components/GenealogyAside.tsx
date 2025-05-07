@@ -1,81 +1,35 @@
-import { API_URLS, NODE_RELATIONS } from '@/configs/constants'
+import NodeInfo from '@/components/NodeInfo'
+import { NODE_RELATIONS } from '@/configs/constants'
+import { TreeContext } from '@/context/TreeContext'
+import { useAddNode } from '@/hooks/useAddNode'
+import { useGetNode } from '@/hooks/useGetNode'
+import { useRemoveNode } from '@/hooks/useRemoveNode'
+import { useContext } from 'react'
 import { Link } from 'react-router'
 import './aside.css'
 
 interface GenealogyAsideProps {
-  node: string
-  treeId: string
   callback: () => void
 }
 
-export default function GenealogyAside({
-  node,
-  treeId,
-  callback
-}: GenealogyAsideProps) {
-  const handleSpouse = async () => {
-    const response = await fetch(API_URLS.NODES(treeId), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        nodeId: node,
-        relation: NODE_RELATIONS.SPOUSE,
-        nodeInfo: {
-          name: 'Amadeo',
-          firstName: 'prueba2',
-          lastName: 'prueba3'
-        }
-      })
-    })
+export default function GenealogyAside({ callback }: GenealogyAsideProps) {
+  const { treeId, selectedNodeId } = useContext(TreeContext)
+  const { addNode, loading } = useAddNode({ treeId })
+  const { removeNode } = useRemoveNode({ treeId })
+  const { node } = useGetNode()
 
-    if (!response.ok) {
-      alert('Error al añadir pareja')
-      return
-    }
+  const handleAddNode = async (relation: string) => {
+    await addNode(selectedNodeId, relation, {
+      name: 'Amadeo',
+      firstName: 'Amadeo',
+      lastName: 'Amadeo'
+    })
 
     callback()
   }
 
-  const handleChildren = async () => {
-    const response = await fetch(API_URLS.NODES(treeId), {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        nodeId: node,
-        relation: NODE_RELATIONS.CHILDREN,
-        nodeInfo: {
-          name: 'Amadeo',
-          firstName: 'prueba2',
-          lastName: 'prueba3'
-        }
-      })
-    })
-
-    if (!response.ok) {
-      alert('Error al añadir hijo')
-      return
-    }
-
-    callback()
-  }
-
-  const handleDelete = async () => {
-    const response = await fetch(API_URLS.NODE(treeId, node), {
-      method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-
-    if (!response.ok) {
-      alert('Error al eliminar nodo')
-      return
-    }
-
+  const handleRemoveNode = async () => {
+    await removeNode(selectedNodeId)
     callback()
   }
 
@@ -85,12 +39,27 @@ export default function GenealogyAside({
         Volver
       </Link>
       <h2 className="aside-title">Genealogy Tree</h2>
-      <p className="aside-paragraph">Nodo Seleccionado: {node}</p>
+      {selectedNodeId && (
+        <>
+          <button
+            disabled={loading}
+            onClick={() => handleAddNode(NODE_RELATIONS.CHILDREN)}
+          >
+            {loading ? 'Añadiendo...' : 'Añadir hijo'}
+          </button>
+          <button
+            disabled={loading}
+            onClick={() => handleAddNode(NODE_RELATIONS.SPOUSE)}
+          >
+            {loading ? 'Añadiendo...' : 'Añadir pareja'}
+          </button>
+          <h3>Información nodo</h3>
 
-      <button onClick={handleSpouse}>Añadir Pareja</button>
-      <button onClick={handleChildren}>Añadir Hijo</button>
-      <hr style={{ width: '100%' }} />
-      <button onClick={handleDelete}>Eliminar Nodo</button>
+          <p className="aside-paragraph">{selectedNodeId}</p>
+          <NodeInfo node={node} treeId={treeId} callback={callback} />
+          <button onClick={handleRemoveNode}>Eliminar Nodo</button>
+        </>
+      )}
     </aside>
   )
 }

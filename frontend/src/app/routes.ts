@@ -1,5 +1,5 @@
-import GenealogyTree from '@/components/GenealogyTree'
 import Layout from '@/components/Layout'
+import GenealogyTree from '@/pages/GenealogyTree'
 import Home from '@/pages/Home'
 import { createBrowserRouter } from 'react-router'
 

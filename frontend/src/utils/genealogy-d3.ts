@@ -6,11 +6,12 @@ export function setupZoom(
   svg: d3.Selection<SVGSVGElement, unknown, null, undefined>,
   g: d3.Selection<SVGGElement, unknown, null, undefined>
 ) {
-  svg.call(
-    d3
-      .zoom<SVGSVGElement, unknown>()
-      .on('zoom', (event) => g.attr('transform', event.transform))
-  )
+  const zoom = d3.zoom<SVGSVGElement, unknown>().on('zoom', (event) => {
+    g.attr('transform', event.transform)
+  })
+
+  svg.call(zoom)
+  return zoom
 }
 
 export function drawNodes(

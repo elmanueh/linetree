@@ -17,3 +17,9 @@ export interface Relationship {
   source: string
   target: string
 }
+
+export interface GenealogyNode {
+  name: string
+  firstName: string
+  lastName: string
+}

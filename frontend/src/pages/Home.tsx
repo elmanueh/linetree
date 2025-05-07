@@ -1,10 +1,16 @@
 import TreeCard from '@/components/TreeCard'
 import { API_URLS } from '@/configs/constants'
 import { Tree } from '@/configs/types'
-import { useEffect, useState } from 'react'
+import { TreeContext } from '@/context/TreeContext'
+import { useContext, useEffect, useState } from 'react'
 
 export default function Home() {
   const [trees, setTrees] = useState<Tree[]>([])
+  const { handleSelectedTree } = useContext(TreeContext)
+
+  const handleGetTree = async (id: string) => {
+    handleSelectedTree(id)
+  }
 
   const handleNewTree = async () => {
     const nombre = document.getElementById('arbol-nombre') as HTMLInputElement
@@ -57,6 +63,7 @@ export default function Home() {
                 id={tree.id}
                 name={tree.name}
                 callback={handleDeleteTree}
+                callback2={handleGetTree}
               />
             </li>
           ))}

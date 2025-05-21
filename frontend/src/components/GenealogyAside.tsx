@@ -6,7 +6,6 @@ import { useGetNode } from '@/hooks/useGetNode'
 import { useRemoveNode } from '@/hooks/useRemoveNode'
 import { useContext } from 'react'
 import { Link } from 'react-router'
-import './aside.css'
 
 interface GenealogyAsideProps {
   callback: () => void

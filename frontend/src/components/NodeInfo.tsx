@@ -1,7 +1,6 @@
 import { GenealogyNode } from '@/configs/types'
 import { useUpdateNode } from '@/hooks/useUpdateNode'
 import { useState } from 'react'
-import './NodeInfo.css'
 
 interface NodeInfoProps {
   node: any

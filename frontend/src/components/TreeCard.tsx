@@ -1,7 +1,6 @@
 import { API_URLS } from '@/configs/constants'
 import { Tree } from '@/configs/types'
 import { Link } from 'react-router'
-import './card.css'
 
 interface TreeCardProps extends Tree {
   callback: (id: string) => void

@@ -9,6 +9,10 @@ export const API_URLS = {
     `${URL_GATEWAY}/api/trees/${treeId}/nodes/${nodeId}`
 }
 
+export const NAV_ROUTES = {
+  HOME: '/'
+}
+
 export const NODE_RELATIONS = {
   SPOUSE: 'spouse',
   CHILDREN: 'children'

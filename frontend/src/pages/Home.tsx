@@ -1,74 +1,64 @@
+import Loading from '@/components/layout/Loading'
+import SearchBarCreateTree from '@/components/SearchBarCreateTree'
 import TreeCard from '@/components/TreeCard'
-import { API_URLS } from '@/configs/constants'
-import { Tree } from '@/configs/types'
-import { TreeContext } from '@/context/TreeContext'
-import { useContext, useEffect, useState } from 'react'
+import { CreateTree } from '@/configs/api.types'
+import { TREE_REDUCER } from '@/configs/types'
+import { useTree } from '@/hooks/useTree'
 
 export default function Home() {
-  const [trees, setTrees] = useState<Tree[]>([])
-  const { handleSelectedTree } = useContext(TreeContext)
+  const { trees, loading, createTree, deleteTree } = useTree(TREE_REDUCER.ALL)
 
-  const handleGetTree = async (id: string) => {
-    handleSelectedTree(id)
-  }
-
-  const handleNewTree = async () => {
-    const nombre = document.getElementById('arbol-nombre') as HTMLInputElement
-
-    const response = await fetch(API_URLS.TREES, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: nombre.value
-      })
-    })
-
-    if (!response.ok) {
-      alert('Error al crear el árbol')
-      return
+  const handleCreateTree = async (name: string) => {
+    try {
+      const tree: CreateTree = { name }
+      await createTree(tree)
+    } catch (error) {
+      alert('Error creating tree: ' + error)
     }
-
-    const treeId = await response.text()
-    setTrees([...trees, { id: treeId, name: nombre.value }])
   }
 
   const handleDeleteTree = async (id: string) => {
-    setTrees(trees.filter((tree) => tree.id !== id))
+    try {
+      await deleteTree(id)
+    } catch (error) {
+      alert('Error deleting tree: ' + error)
+    }
   }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(API_URLS.TREES)
-      return response.json()
-    }
-
-    fetchData().then((response) => {
-      setTrees(response.trees)
-    })
-  }, [])
+  if (loading) return <Loading />
 
   return (
-    <div className="home">
-      <h1>Genealogy Tree</h1>
-      <button onClick={handleNewTree}>Nuevo</button>
-      <input type="text" id="arbol-nombre" className="home-text"></input>
-      <p>Seleccione uno de los siguientes arboles</p>
-      <div className="tree-list">
-        <ul>
-          {trees.map((tree) => (
-            <li key={tree.id}>
-              <TreeCard
-                id={tree.id}
-                name={tree.name}
-                callback={handleDeleteTree}
-                callback2={handleGetTree}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
+    <section>
+      <header className="mb-10 text-center">
+        <h1 className="text-4xl font-bold text-green-800">Genealogy Tree</h1>
+        <p className="mt-2 text-lg ">
+          Explora, crea y gestiona tus árboles genealógicos fácilmente.
+        </p>
+      </header>
+
+      <SearchBarCreateTree callback={handleCreateTree} />
+
+      <section className="max-w-6xl mx-auto mt-20">
+        <h2 className="text-2xl font-semibold mb-4">
+          Mis árboles genealógicos
+        </h2>
+        {trees.length === 0 ? (
+          <p className="text-gray-500">No tienes árboles creados todavía.</p>
+        ) : (
+          <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {trees.map((tree) => (
+              <li key={tree.id}>
+                <TreeCard
+                  id={tree.id}
+                  name={tree.name}
+                  nodeCount={tree.nodes.length}
+                  callbackDelete={handleDeleteTree}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+    </section>
   )
 }

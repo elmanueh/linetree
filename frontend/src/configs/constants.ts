@@ -10,7 +10,8 @@ export const API_URLS = {
 }
 
 export const NAV_ROUTES = {
-  HOME: '/'
+  HOME: '/',
+  TREE: (id: string) => `/${id}`
 }
 
 export const NODE_RELATIONS = {

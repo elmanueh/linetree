@@ -26,3 +26,20 @@ export interface GenealogyNode {
   deathDate?: Date
   gender: string
 }
+
+// -------------- HOOKS -------------- //
+
+export const TREE_REDUCER = {
+  ALL: 'ALL'
+}
+
+export interface ReducerAction {
+  type: string
+  payload?: unknown
+}
+
+export interface ReducerState<T> {
+  trees: T[]
+  loading: boolean
+  error: string | null
+}

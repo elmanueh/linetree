@@ -14,8 +14,11 @@ import {
   Param,
   Patch,
   Post,
+  Req,
+  Res,
 } from '@nestjs/common';
 import { UUID } from 'crypto';
+import { Request, Response } from 'express';
 
 @Controller('trees')
 export class GenealogyController {
@@ -23,8 +26,14 @@ export class GenealogyController {
 
   // -------------------- TREES --------------------
   @Post()
-  createTree(@Body() dto: CreateTreeDto) {
-    return this.genealogyService.createTree(dto);
+  async createTree(
+    @Body() dto: CreateTreeDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const treeId = await this.genealogyService.createTree(dto);
+    const location = `${req.protocol}://${req.get('host')}${req.baseUrl}/api/trees/${treeId}`;
+    return res.location(location).status(HttpStatus.CREATED).send();
   }
 
   @Get(':id')

@@ -1,32 +1,37 @@
 import { CreateTree, Tree } from '@/configs/api.types'
-import { ReducerAction, ReducerState, TREE_REDUCER } from '@/configs/types'
+import {
+  ReducerAction,
+  ReducerActionType,
+  ReducerState,
+  TreeReducerType
+} from '@/configs/types'
 import { TreeService } from '@/services/treeService'
 import { useCallback, useEffect, useReducer } from 'react'
 
 const initialState: ReducerState<Tree> = {
-  trees: [],
+  items: [],
   loading: true,
   error: null
 }
 
-function treeReducer(state: ReducerState<Tree>, action: ReducerAction) {
+function treeReducer(state: ReducerState<Tree>, action: ReducerAction<Tree>) {
   switch (action.type) {
-    case 'ACTION_START':
+    case ReducerActionType.START:
       return { ...state, loading: true, error: null }
-    case 'ACTION_ERROR':
+    case ReducerActionType.ERROR:
       return { ...state, loading: false, error: action.payload }
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, trees: action.payload }
-    case 'CREATE_SUCCESS':
+    case ReducerActionType.FETCH:
+      return { ...state, loading: false, items: action.payload }
+    case ReducerActionType.CREATE:
       return {
         ...state,
-        trees: [...state.trees, action.payload],
+        items: [...state.items, action.payload],
         loading: false
       }
-    case 'DELETE_SUCCESS':
+    case ReducerActionType.DELETE:
       return {
         ...state,
-        trees: state.trees.filter((tree) => tree.id !== action.payload),
+        items: state.items.filter((tree) => tree.id !== action.payload),
         loading: false
       }
     default:
@@ -34,44 +39,46 @@ function treeReducer(state: ReducerState<Tree>, action: ReducerAction) {
   }
 }
 
-export function useTree(type: string) {
+export function useTree(type: TreeReducerType) {
   const [state, dispatch] = useReducer(treeReducer, initialState)
 
   const fetchTrees = useCallback(async () => {
-    dispatch({ type: 'ACTION_START' })
+    dispatch({ type: ReducerActionType.START })
     try {
       let trees
       switch (type) {
-        case TREE_REDUCER.ALL:
+        case TreeReducerType.ALL:
           trees = await TreeService.getTrees()
           break
         default:
           throw new TypeError('The tree type is not valid')
       }
-
-      dispatch({ type: 'FETCH_SUCCESS', payload: trees })
+      dispatch({ type: ReducerActionType.FETCH, payload: trees })
     } catch (error) {
-      dispatch({ type: 'ACTION_ERROR', payload: error.message })
+      if (error instanceof Error)
+        dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
   }, [type])
 
   const createTree = async (treeData: CreateTree) => {
-    dispatch({ type: 'ACTION_START' })
+    dispatch({ type: ReducerActionType.START })
     try {
       const tree = await TreeService.createTree(treeData)
-      dispatch({ type: 'CREATE_SUCCESS', payload: tree })
+      dispatch({ type: ReducerActionType.CREATE, payload: tree })
     } catch (error) {
-      dispatch({ type: 'ACTION_ERROR', payload: error.message })
+      if (error instanceof Error)
+        dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
   }
 
   const deleteTree = async (id: string) => {
-    dispatch({ type: 'ACTION_START' })
+    dispatch({ type: ReducerActionType.START })
     try {
       await TreeService.deleteTree(id)
-      dispatch({ type: 'DELETE_SUCCESS', payload: id })
+      dispatch({ type: ReducerActionType.DELETE, payload: id })
     } catch (error) {
-      dispatch({ type: 'ACTION_ERROR', payload: error.message })
+      if (error instanceof Error)
+        dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
   }
 
@@ -80,7 +87,7 @@ export function useTree(type: string) {
   }, [fetchTrees])
 
   return {
-    trees: state.trees,
+    trees: state.items,
     loading: state.loading,
     error: state.error,
     createTree,

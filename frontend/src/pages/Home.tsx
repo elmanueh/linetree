@@ -2,11 +2,13 @@ import Loading from '@/components/layout/Loading'
 import SearchBarCreateTree from '@/components/SearchBarCreateTree'
 import TreeCard from '@/components/TreeCard'
 import { CreateTree } from '@/configs/api.types'
-import { TREE_REDUCER } from '@/configs/types'
+import { TreeReducerType } from '@/configs/types'
 import { useTree } from '@/hooks/useTree'
 
 export default function Home() {
-  const { trees, loading, createTree, deleteTree } = useTree(TREE_REDUCER.ALL)
+  const { trees, loading, createTree, deleteTree } = useTree(
+    TreeReducerType.ALL
+  )
 
   const handleCreateTree = async (name: string) => {
     try {

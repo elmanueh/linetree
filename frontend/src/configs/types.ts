@@ -29,17 +29,27 @@ export interface GenealogyNode {
 
 // -------------- HOOKS -------------- //
 
-export const TREE_REDUCER = {
-  ALL: 'ALL'
-}
-
-export interface ReducerAction {
-  type: string
-  payload?: unknown
+export enum TreeReducerType {
+  ALL = 'ALL'
 }
 
 export interface ReducerState<T> {
-  trees: T[]
+  items: T[]
   loading: boolean
   error: string | null
+}
+
+export type ReducerAction<T> =
+  | { type: ReducerActionType.START }
+  | { type: ReducerActionType.ERROR; payload: string }
+  | { type: ReducerActionType.FETCH; payload: T[] }
+  | { type: ReducerActionType.CREATE; payload: T }
+  | { type: ReducerActionType.DELETE; payload: string }
+
+export enum ReducerActionType {
+  START = 'ACTION_START',
+  ERROR = 'ACTION_ERROR',
+  FETCH = 'FETCH_SUCCESS',
+  CREATE = 'CREATE_SUCCESS',
+  DELETE = 'DELETE_SUCCESS'
 }

@@ -1,35 +1,35 @@
-import { TreeContext } from '@/context/TreeContext'
+import { GenealogyContext } from '@/context/GenealogyContext'
 import { useState } from 'react'
 
-interface TreeProviderProps {
+interface GenealogyProviderProps {
   children: React.ReactNode
 }
 
-export interface TreeContextType {
+export interface GenealogyContextType {
   treeId: string
   handleSelectedTree: (treeId: string) => void
-  selectedNodeId: string
+  nodeId: string
   handleSelectedNode: (nodeId: string) => void
 }
 
-export function TreeProvider({ children }: TreeProviderProps) {
+export function GenealogyProvider({ children }: GenealogyProviderProps) {
   const pathTreeId = window.location.pathname.split('/')[1]
   const [treeId, setTreeId] = useState<string>(pathTreeId || '')
-  const [selectedNodeId, setSelectedNodeId] = useState<string>('')
+  const [nodeId, setNodeId] = useState<string>('')
 
   const handleSelectedTree = (treeId: string) => {
     setTreeId(treeId)
   }
 
   const handleSelectedNode = (nodeId: string) => {
-    setSelectedNodeId(nodeId)
+    setNodeId(nodeId)
   }
 
   return (
-    <TreeContext.Provider
-      value={{ treeId, handleSelectedTree, selectedNodeId, handleSelectedNode }}
+    <GenealogyContext.Provider
+      value={{ treeId, handleSelectedTree, nodeId, handleSelectedNode }}
     >
       {children}
-    </TreeContext.Provider>
+    </GenealogyContext.Provider>
   )
 }

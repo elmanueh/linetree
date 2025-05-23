@@ -1,5 +1,5 @@
 import { NAV_ROUTES } from '@/configs/constants'
-import { TreeContext } from '@/context/TreeContext'
+import { GenealogyContext } from '@/context/GenealogyContext'
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 
@@ -16,7 +16,7 @@ export default function TreeCard({
   nodeCount,
   callbackDelete
 }: TreeCardProps) {
-  const { handleSelectedTree } = useContext(TreeContext)
+  const { handleSelectedTree } = useContext(GenealogyContext)
   const [menuOpen, setMenuOpen] = useState(false)
   const buttonRef = useRef<HTMLDivElement | null>(null)
 

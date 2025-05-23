@@ -1,5 +1,5 @@
 import Layout from '@/components/layout/Layout'
-import GenealogyTree from '@/pages/GenealogyTree'
+import Genealogy from '@/pages/Genealogy'
 import Home from '@/pages/Home'
 import { createBrowserRouter } from 'react-router'
 
@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
       { index: true, Component: Home },
       {
         path: ':id',
-        Component: GenealogyTree,
+        Component: Genealogy,
         loader: async ({ params }) => {
           return params.id
         }

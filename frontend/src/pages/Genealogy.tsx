@@ -1,7 +1,9 @@
 import GenealogyAside from '@/components/GenealogyAside'
 import { GenealogyContext } from '@/context/GenealogyContext'
 import { useGenealogy } from '@/hooks/useGenealogy'
-import { drawNodes, drawRelationships, setupZoom } from '@/utils/genealogy-d3'
+import { drawNodes } from '@/utils/genealogy/drawNodes'
+import { drawRelationships } from '@/utils/genealogy/drawRelationships'
+import { setupZoom } from '@/utils/genealogy/setupZoom'
 import generateLayoutTree from '@/utils/layout-tree'
 import * as d3 from 'd3'
 import { useCallback, useContext, useEffect, useRef } from 'react'
@@ -43,7 +45,7 @@ export default function Genealogy() {
   return (
     <div className="flex">
       <GenealogyAside callback={handleUpdateTree} />
-      <main className="flex-1">
+      <main className="flex-1 bg-gray-200">
         <svg ref={svgRef} className="w-full h-full block" />
       </main>
     </div>

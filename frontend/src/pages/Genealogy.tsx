@@ -1,21 +1,24 @@
 import GenealogyAside from '@/components/GenealogyAside'
-import { TreeContext } from '@/context/TreeContext'
+import { GenealogyContext } from '@/context/GenealogyContext'
 import { useGenealogy } from '@/hooks/useGenealogy'
 import { drawNodes, drawRelationships, setupZoom } from '@/utils/genealogy-d3'
 import generateLayoutTree from '@/utils/layout-tree'
 import * as d3 from 'd3'
-import { useContext, useEffect, useRef } from 'react'
+import { useCallback, useContext, useEffect, useRef } from 'react'
 
-export default function GenealogyTree() {
-  const { treeId, handleSelectedNode } = useContext(TreeContext)
+export default function Genealogy() {
+  const { treeId, handleSelectedNode } = useContext(GenealogyContext)
   const { handleGenealogy } = useGenealogy({ treeId })
   const svgRef = useRef<SVGSVGElement>(null)
 
-  const handleSelectedNode2 = (nodeId: string) => {
-    handleSelectedNode(nodeId)
-  }
+  const handleSelectedNode2 = useCallback(
+    (nodeId: string) => {
+      handleSelectedNode(nodeId)
+    },
+    [handleSelectedNode]
+  )
 
-  const handleUpdateTree = async () => {
+  const handleUpdateTree = useCallback(async () => {
     const svg = d3.select(svgRef.current!)
     const zoomTransform = d3.zoomTransform(svg.node()!)
 
@@ -31,18 +34,18 @@ export default function GenealogyTree() {
 
     const zoom = setupZoom(svg, g)
     svg.call(zoom.transform, zoomTransform)
-  }
+  }, [handleGenealogy, handleSelectedNode2])
 
   useEffect(() => {
     handleUpdateTree()
-  }, [])
+  }, [handleUpdateTree])
 
   return (
-    <div className="layout">
+    <div className="flex">
       <GenealogyAside callback={handleUpdateTree} />
-      <div className="tree">
-        <svg ref={svgRef} />
-      </div>
+      <main className="flex-1">
+        <svg ref={svgRef} className="w-full h-full block" />
+      </main>
     </div>
   )
 }

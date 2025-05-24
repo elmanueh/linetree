@@ -38,7 +38,7 @@ export default function Footer() {
                   <img
                     src="./github.svg"
                     alt="GitHub"
-                    className="w-5 h-5 inline-block mr-2"
+                    className="w-5 h-5 inline-block mr-1"
                   />
                   <span>Github</span>
                 </a>

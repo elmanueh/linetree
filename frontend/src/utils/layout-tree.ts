@@ -3,17 +3,17 @@ import {
   NODE_WIDTH,
   SPOUSE_SPACING,
   VERTICAL_SPACING
-} from '@/configs/constants'
-import { Node } from '@/configs/types'
+} from '@/configs/genealogy.style'
+import { GenealogyNode, UUID } from '@/configs/types'
 
 // ---------- Constants ----------
-const nodes: Node[] = []
-const visited = new Map<string, Node>()
+const nodes: GenealogyNode[] = []
+const visited = new Map<UUID, GenealogyNode>()
 const POS_X = 800
 const POS_Y = 300
 
 // get the width of the tree
-function getTreeWidth(node: Node): number {
+function getTreeWidth(node: GenealogyNode): number {
   const minWidth = 2 * NODE_WIDTH + SPOUSE_SPACING
   if (!node.spouse || node.spouse.length === 0) return NODE_WIDTH
   if (!node.children || node.children.length === 0) return minWidth
@@ -27,7 +27,12 @@ function getTreeWidth(node: Node): number {
 }
 
 // add node to the visited map and nodes array
-function addNode(node: Node, x: number, y: number, level: number): Node | void {
+function addNode(
+  node: GenealogyNode,
+  x: number,
+  y: number,
+  level: number
+): GenealogyNode | void {
   const existing = visited.get(node.id)
   if (existing) return
 
@@ -38,14 +43,14 @@ function addNode(node: Node, x: number, y: number, level: number): Node | void {
 }
 
 // layout the tree recursively
-function layoutTree(node: Node, x: number, y: number, level: number) {
+function layoutTree(node: GenealogyNode, x: number, y: number, level: number) {
   const currentNode = addNode(node, x, y, level)
   if (!currentNode) return
   const nextLevel = y + VERTICAL_SPACING
 
   // spouses
   if (node.spouse) {
-    node.spouse.forEach((spouse: Node, i: number) => {
+    node.spouse.forEach((spouse: GenealogyNode, i: number) => {
       const px = x + NODE_WIDTH + SPOUSE_SPACING + i * SPOUSE_SPACING
       addNode(spouse, px, y, level)
     })
@@ -54,7 +59,7 @@ function layoutTree(node: Node, x: number, y: number, level: number) {
   // children
   if (node.children && node.children.length > 0) {
     let treeWidth = x + NODE_WIDTH + SPOUSE_SPACING / 2 - getTreeWidth(node) / 2
-    node.children.forEach((child: Node) => {
+    node.children.forEach((child: GenealogyNode) => {
       const childTreeWidth = getTreeWidth(child)
       const offset =
         child.spouse && child.spouse?.length != 0
@@ -71,7 +76,7 @@ function layoutTree(node: Node, x: number, y: number, level: number) {
   }
 }
 
-export default function generateLayoutTree(data: Node) {
+export default function generateLayoutTree(data: GenealogyNode) {
   nodes.splice(0, nodes.length)
   visited.clear()
   layoutTree(data, POS_X, POS_Y, 0)

@@ -1,15 +1,16 @@
+import { NodeGenderType } from '@/configs/constants'
 import { UUID } from '@/configs/types'
 
 // ------------ TREE -------------
 
 export interface GetTrees {
-  trees: Array<Tree>
+  trees: Tree[]
 }
 
 export interface Tree {
   id: UUID
   name: string
-  nodes: string[]
+  nodes: UUID[]
 }
 
 export interface CreateTree {
@@ -27,7 +28,7 @@ export interface CreateNode {
     lastName?: string
     birthDate: Date
     deathDate: Date
-    gender: string
+    gender: NodeGenderType
   }
 }
 
@@ -38,7 +39,7 @@ export interface UpdateNode {
 export interface Node {
   id: UUID
   name: string
-  gender: string
+  gender: NodeGenderType
   birthDate: string
   deathDate: string
 }

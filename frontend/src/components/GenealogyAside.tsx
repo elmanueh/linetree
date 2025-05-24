@@ -1,6 +1,6 @@
 import NodeInfo from '@/components/NodeInfo'
 import { CreateNode, UpdateNode } from '@/configs/api.types'
-import { NODE_RELATIONS } from '@/configs/constants'
+import { NodeGenderType, NodeRelationType } from '@/configs/constants'
 import { GenealogyContext } from '@/context/GenealogyContext'
 import { useNode } from '@/hooks/useNode'
 import { useContext } from 'react'
@@ -23,7 +23,7 @@ export default function GenealogyAside({ callback }: GenealogyAsideProps) {
         lastName: 'Amadeo',
         birthDate: new Date('2023-10-10'),
         deathDate: new Date('2023-10-11'),
-        gender: 'male'
+        gender: NodeGenderType.MALE
       }
     }
 
@@ -61,7 +61,7 @@ export default function GenealogyAside({ callback }: GenealogyAsideProps) {
             <h2 className="text-lg font-semibold">Acciones</h2>
             <button
               disabled={loading}
-              onClick={() => handleAddNode(NODE_RELATIONS.CHILDREN)}
+              onClick={() => handleAddNode(NodeRelationType.CHILDREN)}
               className="w-full py-2 bg-blue-600 text-white rounded-md cursor-pointer"
             >
               {loading ? 'Añadiendo...' : 'Añadir hijo'}
@@ -69,7 +69,7 @@ export default function GenealogyAside({ callback }: GenealogyAsideProps) {
 
             <button
               disabled={loading}
-              onClick={() => handleAddNode(NODE_RELATIONS.SPOUSE)}
+              onClick={() => handleAddNode(NodeRelationType.SPOUSE)}
               className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-md cursor-pointer hover:bg-indigo-700 transition disabled:opacity-50"
             >
               {loading ? 'Añadiendo...' : 'Añadir pareja'}

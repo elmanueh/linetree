@@ -1,57 +1,65 @@
-import { Node, Relationship } from '@/configs/types'
+import { NodeGenderType, NodeRelationType } from '@/configs/constants'
+import { GenealogyNode, GenealogyRelation, UUID } from '@/configs/types'
 import { NodeObject } from 'jsonld'
 
 export function parseGenealogy(genealogy: NodeObject[]) {
-  const nodes = new Map<string, Node>()
-  const relations: Relationship[] = []
+  const nodes = new Map<UUID, GenealogyNode>()
+  const relations: GenealogyRelation[] = []
 
-  function getNode(nodeObject: NodeObject | string): Node {
+  const getNode = (nodeObject: NodeObject | UUID) => {
     const rawId =
-      typeof nodeObject === 'string' ? nodeObject : (nodeObject['id'] as string)
+      typeof nodeObject === 'string' ? nodeObject : (nodeObject['id'] as UUID)
     const nodeId = rawId.split('/').pop()!
     return nodes.get(nodeId)!
   }
 
-  function createRelationships(sourceId: string, nodes: Node[]) {
+  const createRelationships = (sourceId: UUID, nodes: GenealogyNode[]) => {
     nodes.forEach((node) => {
       const targetId = node.id
       if (sourceId !== targetId) {
-        relations.push({
-          source: sourceId,
-          target: targetId
-        })
+        relations.push({ source: sourceId, target: targetId })
       }
     })
   }
 
   // initialize nodes map
   genealogy.forEach((nodeObject) => {
-    const rawId = nodeObject['id'] as string
+    const rawId = nodeObject['id'] as UUID
     const nodeId = rawId.split('/').pop()!
 
-    nodes.set(nodeId, {
+    const node: GenealogyNode = {
       id: nodeId,
-      name: nodeObject['name'] as string
-    })
+      name: nodeObject['name'] as string,
+      gender: nodeObject['gender'] as NodeGenderType,
+      birthDate: nodeObject['birthDate'] as string,
+      deathDate: nodeObject['deathDate'] as string,
+      x: 0,
+      y: 0,
+      level: 0,
+      spouse: [],
+      children: []
+    }
+
+    nodes.set(nodeId, node)
   })
 
-  // add relationships
+  // add relations
   genealogy.forEach((nodeObject) => {
     const current = getNode(nodeObject)
 
-    if (nodeObject['spouse']) {
-      const spouses = Array.isArray(nodeObject['spouse'])
-        ? (nodeObject['spouse'] as NodeObject[])
-        : ([nodeObject['spouse']] as NodeObject[])
+    if (nodeObject[NodeRelationType.SPOUSE]) {
+      const spouses = Array.isArray(nodeObject[NodeRelationType.SPOUSE])
+        ? (nodeObject[NodeRelationType.SPOUSE] as NodeObject[])
+        : ([nodeObject[NodeRelationType.SPOUSE]] as NodeObject[])
 
       current.spouse = spouses.map((spouse) => getNode(spouse))
       createRelationships(current.id, current.spouse)
     }
 
-    if (nodeObject['children']) {
-      const children = Array.isArray(nodeObject['children'])
-        ? (nodeObject['children'] as NodeObject[])
-        : ([nodeObject['children']] as NodeObject[])
+    if (nodeObject[NodeRelationType.CHILDREN]) {
+      const children = Array.isArray(nodeObject[NodeRelationType.CHILDREN])
+        ? (nodeObject[NodeRelationType.CHILDREN] as NodeObject[])
+        : ([nodeObject[NodeRelationType.CHILDREN]] as NodeObject[])
 
       current.children = children.map((children) => getNode(children))
       createRelationships(current.id, current.children)
@@ -59,9 +67,9 @@ export function parseGenealogy(genealogy: NodeObject[]) {
   })
 
   // find root node
-  const childIds = new Set<string>()
+  const childIds = new Set<UUID>()
   nodes.forEach((node) => {
-    node.children?.forEach((child) => childIds.add(child.id))
+    node.children.forEach((child) => childIds.add(child.id))
   })
 
   const rootNodes = Array.from(nodes.values()).filter(

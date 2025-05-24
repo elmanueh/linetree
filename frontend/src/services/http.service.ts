@@ -13,16 +13,13 @@ async function get<T>(url: string): Promise<T> {
   return response.json()
 }
 
-async function post(
-  url: string,
-  data?: Record<string, unknown>
-): Promise<Response> {
+async function post<T>(url: string, data: T): Promise<string | undefined> {
   const response = await fetch(url, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: data ? JSON.stringify(data) : null
+    body: JSON.stringify(data)
   })
 
   if (!response.ok) {
@@ -30,10 +27,11 @@ async function post(
     throw new HttpError(response.status, response.statusText, error)
   }
 
-  return response
+  const location = response.headers.get('Location')
+  return location?.split('/').pop()
 }
 
-async function put<T>(url: string, data: Record<string, unknown>): Promise<T> {
+async function put<T>(url: string, data: T): Promise<void> {
   const response = await fetch(url, {
     method: 'PUT',
     headers: {
@@ -46,14 +44,9 @@ async function put<T>(url: string, data: Record<string, unknown>): Promise<T> {
     const error = await response.json()
     throw new HttpError(response.status, response.statusText, error)
   }
-
-  return response.json()
 }
 
-async function patch<T>(
-  url: string,
-  data: Record<string, unknown>
-): Promise<T> {
+async function patch<T>(url: string, data: T): Promise<void> {
   const response = await fetch(url, {
     method: 'PATCH',
     headers: {
@@ -66,8 +59,6 @@ async function patch<T>(
     const error = await response.json()
     throw new HttpError(response.status, response.statusText, error)
   }
-
-  return response.json()
 }
 
 async function del(url: string): Promise<void> {

@@ -59,8 +59,15 @@ export class GenealogyController {
 
   // -------------------- NODES --------------------
   @Post(':id/nodes')
-  createNode(@Param('id') treeId: UUID, @Body() dto: CreateRelatedNodeDto) {
-    return this.genealogyService.createNode(treeId, dto);
+  async createNode(
+    @Param('id') treeId: UUID,
+    @Body() dto: CreateRelatedNodeDto,
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const nodeId = await this.genealogyService.createNode(treeId, dto);
+    const location = `${req.protocol}://${req.get('host')}${req.baseUrl}/api/trees/${treeId}/nodes/${nodeId}`;
+    return res.location(location).status(HttpStatus.CREATED).send();
   }
 
   @Get(':id/nodes/:id2')

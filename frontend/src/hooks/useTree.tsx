@@ -3,9 +3,10 @@ import {
   ReducerAction,
   ReducerActionType,
   ReducerState,
-  TreeReducerType
+  TreeReducerType,
+  UUID
 } from '@/configs/types'
-import { TreeService } from '@/services/treeService'
+import { TreeService } from '@/services/tree.service'
 import { useCallback, useEffect, useReducer } from 'react'
 
 const initialState: ReducerState<Tree> = {
@@ -60,18 +61,20 @@ export function useTree(type: TreeReducerType) {
     }
   }, [type])
 
-  const createTree = async (treeData: CreateTree) => {
+  const createTree = async (data: CreateTree) => {
+    //console.log('Creating tree', data)
     dispatch({ type: ReducerActionType.START })
     try {
-      const tree = await TreeService.createTree(treeData)
-      dispatch({ type: ReducerActionType.CREATE, payload: tree })
+      const tree = await TreeService.createTree(data)
+      dispatch({ type: ReducerActionType.CREATE, payload: tree! })
     } catch (error) {
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
   }
 
-  const deleteTree = async (id: string) => {
+  const deleteTree = async (id: UUID) => {
+    //console.log('Deleting tree', id)
     dispatch({ type: ReducerActionType.START })
     try {
       await TreeService.deleteTree(id)

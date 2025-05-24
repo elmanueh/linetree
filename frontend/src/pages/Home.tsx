@@ -2,7 +2,7 @@ import Loading from '@/components/layout/Loading'
 import SearchBarCreateTree from '@/components/SearchBarCreateTree'
 import TreeCard from '@/components/TreeCard'
 import { CreateTree } from '@/configs/api.types'
-import { TreeReducerType } from '@/configs/types'
+import { TreeReducerType, UUID } from '@/configs/types'
 import { useTree } from '@/hooks/useTree'
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
     }
   }
 
-  const handleDeleteTree = async (id: string) => {
+  const handleDeleteTree = async (id: UUID) => {
     try {
       await deleteTree(id)
     } catch (error) {
@@ -30,7 +30,7 @@ export default function Home() {
   if (loading) return <Loading />
 
   return (
-    <section>
+    <section className="mt-24">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-bold text-green-800">Genealogy Tree</h1>
         <p className="mt-2 text-lg ">

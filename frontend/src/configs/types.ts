@@ -1,3 +1,5 @@
+export type UUID = string
+
 export type Tree = {
   id: string
   name: string
@@ -33,6 +35,10 @@ export enum TreeReducerType {
   ALL = 'ALL'
 }
 
+export enum NodeReducerType {
+  BY_ID = 'BY_ID'
+}
+
 export interface ReducerState<T> {
   items: T[]
   loading: boolean
@@ -44,12 +50,14 @@ export type ReducerAction<T> =
   | { type: ReducerActionType.ERROR; payload: string }
   | { type: ReducerActionType.FETCH; payload: T[] }
   | { type: ReducerActionType.CREATE; payload: T }
-  | { type: ReducerActionType.DELETE; payload: string }
+  | { type: ReducerActionType.DELETE; payload: UUID }
+  | { type: ReducerActionType.UPDATE; payload: T }
 
 export enum ReducerActionType {
   START = 'ACTION_START',
   ERROR = 'ACTION_ERROR',
   FETCH = 'FETCH_SUCCESS',
   CREATE = 'CREATE_SUCCESS',
-  DELETE = 'DELETE_SUCCESS'
+  DELETE = 'DELETE_SUCCESS',
+  UPDATE = 'UPDATE_SUCCESS'
 }

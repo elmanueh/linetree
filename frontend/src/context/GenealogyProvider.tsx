@@ -15,8 +15,8 @@ export interface GenealogyContextType {
 
 export function GenealogyProvider({ children }: GenealogyProviderProps) {
   const pathTreeId = window.location.pathname.split('/')[1]
-  const [treeId, setTreeId] = useState(pathTreeId || '')
-  const [nodeId, setNodeId] = useState('')
+  const [treeId, setTreeId] = useState<UUID>(pathTreeId || '')
+  const [nodeId, setNodeId] = useState<UUID>('')
 
   const handleSelectedTree = (treeId: UUID) => {
     setTreeId(treeId)

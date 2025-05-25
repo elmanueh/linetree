@@ -51,7 +51,7 @@ function nodeReducer(state: ReducerState<Node>, action: ReducerAction<Node>) {
 
 export function useNode(type: NodeReducerType | null) {
   const [state, dispatch] = useReducer(nodeReducer, initialState)
-  const { treeId, nodeId } = useContext(GenealogyContext)
+  const { treeId, nodeId, handleSelectedNode } = useContext(GenealogyContext)
 
   const fetchNode = useCallback(async () => {
     dispatch({ type: ReducerActionType.START })
@@ -89,6 +89,7 @@ export function useNode(type: NodeReducerType | null) {
     try {
       await NodeService.deleteNode(treeId, id)
       dispatch({ type: ReducerActionType.DELETE, payload: id })
+      handleSelectedNode('')
     } catch (error) {
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })

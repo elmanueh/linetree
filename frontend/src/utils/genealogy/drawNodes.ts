@@ -31,7 +31,7 @@ export function drawNodes(
     .attr('x', 10)
     .attr('y', NODE_HEIGHT / 2 - 20)
     .attr('href', (d) =>
-      d.gender === NodeGenderType.MALE ? 'public/male.svg' : 'public/female.svg'
+      d.gender === NodeGenderType.MALE ? '/male.svg' : '/female.svg'
     )
 
   nodeGroup

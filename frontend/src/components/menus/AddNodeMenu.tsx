@@ -21,6 +21,7 @@ export default function AddNodeMenu({ callbackUpdate }: AddNodeMenuProps) {
   const node = nodes[0]
 
   const handleOpenModal = (relation: NodeRelationType) => {
+    closeMenu()
     setSelectedRelation(relation)
     setShowModal(true)
   }
@@ -30,7 +31,6 @@ export default function AddNodeMenu({ callbackUpdate }: AddNodeMenuProps) {
       setShowModal(false)
       await createNode(data)
       callbackUpdate()
-      closeMenu()
     } catch (error) {
       alert('Error creating node: ' + error)
     }

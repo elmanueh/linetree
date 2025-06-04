@@ -8,7 +8,7 @@ interface GenealogyHookProps {
 
 export function useGenealogy({ treeId }: GenealogyHookProps) {
   const fetchGenealogy = async (): Promise<NodeObject> => {
-    console.log('Fetching genealogy data...', treeId)
+    //console.log('Fetching genealogy data...', treeId)
     const response = await fetch(API_URLS.GENEALOGY(treeId))
     if (!response.ok) {
       throw new Error('Error fetching genealogy data')

@@ -54,8 +54,10 @@ export class RepositoryMongoose<T, K> implements Repository<T> {
   async findAll(): Promise<T[]> {
     try {
       const documents = await this.model.find();
-      return documents.map((document) =>
-        this.mapper.persistance2Domain(document),
+      return Promise.all(
+        documents.map((document) => {
+          return this.mapper.persistance2Domain(document);
+        }),
       );
     } catch {
       throw new RepositoryException('The entities could not be found');

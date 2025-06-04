@@ -29,10 +29,11 @@ export function parseGenealogy(genealogy: NodeObject[]) {
 
     const node: GenealogyNode = {
       id: nodeId,
-      name: nodeObject['name'] as string,
-      gender: nodeObject['gender'] as NodeGenderType,
       birthDate: nodeObject['birthDate'] as string,
       deathDate: nodeObject['deathDate'] as string,
+      familyName: nodeObject['familyName'] as string,
+      gender: nodeObject['gender'] as NodeGenderType,
+      givenName: nodeObject['givenName'] as string,
       x: 0,
       y: 0,
       level: 0,

@@ -12,10 +12,10 @@ interface AddNodeModalProps {
 }
 
 const initialFormData = {
-  firstName: '',
-  lastName: '',
   birthDate: '',
-  gender: NodeGenderType.MALE
+  familyName: '',
+  gender: NodeGenderType.MALE,
+  givenName: ''
 }
 
 export default function AddNodeModal({
@@ -40,12 +40,10 @@ export default function AddNodeModal({
       nodeId,
       relation,
       nodeInfo: {
-        name: formData.firstName + ' ' + formData.lastName,
-        firstName: formData.firstName,
-        lastName: formData.lastName,
         birthDate: new Date(formData.birthDate),
-        deathDate: new Date(),
-        gender: formData.gender
+        familyName: formData.familyName,
+        gender: formData.gender,
+        givenName: formData.givenName
       }
     }
     onCreate(node)
@@ -72,8 +70,8 @@ export default function AddNodeModal({
             <div>
               <label className="block text-sm font-medium mb-1">Nombre</label>
               <input
-                name="firstName"
-                value={formData.firstName}
+                name="givenName"
+                value={formData.givenName}
                 onChange={handleChange}
                 required
                 className="w-full border rounded px-3 py-2"
@@ -85,8 +83,8 @@ export default function AddNodeModal({
                 Apellidos
               </label>
               <input
-                name="lastName"
-                value={formData.lastName}
+                name="familyName"
+                value={formData.familyName}
                 onChange={handleChange}
                 required
                 className="w-full border rounded px-3 py-2"

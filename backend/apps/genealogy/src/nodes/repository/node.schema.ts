@@ -10,22 +10,37 @@ export class Node {
   _id: UUID;
 
   @Prop()
-  name: string;
+  address?: string;
 
   @Prop()
-  firstName: string;
+  birthDate?: Date;
 
   @Prop()
-  lastName: string;
-
-  @Prop()
-  birthDate: Date;
+  birthPlace?: string;
 
   @Prop()
   deathDate?: Date;
 
   @Prop()
+  deathPlace?: string;
+
+  @Prop()
+  email?: string;
+
+  @Prop()
+  familyName?: string;
+
+  @Prop()
   gender: string;
+
+  @Prop()
+  givenName: string;
+
+  @Prop()
+  nationality?: string;
+
+  @Prop()
+  telephone?: string;
 }
 
 export const NodeSchema = SchemaFactory.createForClass(Node);

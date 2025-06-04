@@ -1,6 +1,7 @@
-import { Gender } from '@app/genealogy/core/domain/gender.enum';
+import { CreateNodeDto, UpdateNodeDto } from '@app/contracts';
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
+import { NodeDomainMapper } from '@app/genealogy/core/mapper/node.mapper';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
 import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
 import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
@@ -25,23 +26,11 @@ export class NodesService {
     treeId: UUID,
     nodeRefId: UUID,
     type: string,
-    name: string,
-    firstName: string,
-    lastName: string,
-    gender: Gender,
-    birthDate: Date,
-    deathDate?: Date,
+    dto: CreateNodeDto,
   ): Promise<UUID> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      const node = NodeEntity.create({
-        name,
-        firstName,
-        lastName,
-        birthDate,
-        deathDate,
-        gender,
-      });
+      const node = NodeDomainMapper.createDto2Domain(dto);
       tree.addNode(node);
 
       await this.nodeRepository.save(node);
@@ -124,7 +113,11 @@ export class NodesService {
     }
   }
 
-  async updateNode(treeId: UUID, nodeId: UUID, name?: string): Promise<void> {
+  async updateNode(
+    treeId: UUID,
+    nodeId: UUID,
+    dto: UpdateNodeDto,
+  ): Promise<void> {
     try {
       const tree = await this.treeRepository.findById(treeId);
       const node = tree.getNode(nodeId);
@@ -132,9 +125,10 @@ export class NodesService {
         throw new NotFoundRpcException("The node couldn't be found");
       }
 
-      if (name) {
-        node.name = name;
-      }
+      if (dto.birthDate) node.birthDate = dto.birthDate;
+      if (dto.familyName) node.familyName = dto.familyName;
+      if (dto.gender) node.gender = dto.gender;
+      if (dto.givenName) node.givenName = dto.givenName;
 
       await this.nodeRepository.save(node);
     } catch (error) {

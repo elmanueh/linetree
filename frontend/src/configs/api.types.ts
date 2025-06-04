@@ -23,23 +23,25 @@ export interface CreateNode {
   nodeId: UUID
   relation: string
   nodeInfo: {
-    name: string
-    firstName: string
-    lastName?: string
-    birthDate: Date
-    deathDate: Date
+    birthDate?: Date
+    familyName?: string
     gender: NodeGenderType
+    givenName: string
   }
 }
 
 export interface UpdateNode {
-  name?: string
+  birthDate?: Date
+  familyName?: string
+  gender?: NodeGenderType
+  givenName?: string
 }
 
 export interface Node {
   id: UUID
-  name: string
-  gender: NodeGenderType
   birthDate: string
   deathDate: string
+  familyName: string
+  gender: NodeGenderType
+  givenName: string
 }

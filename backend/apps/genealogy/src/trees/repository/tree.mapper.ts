@@ -1,4 +1,3 @@
-import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
 import { Tree } from '@app/genealogy/trees/repository/tree.schema';
@@ -20,22 +19,10 @@ export class TreePersistanceMapper extends Mapper<TreeEntity, Tree> {
     };
   }
 
-  persistance2Domain(document: Tree): TreeEntity {
-    return TreeEntity.create(
-      {
-        name: document.name,
-        nodes: document.nodes.map((nodeId) =>
-          NodeEntity.create({ name: '' }, nodeId as UUID),
-        ),
-      },
-      document._id as UUID,
-    );
-  }
-
-  async persistance2DomainAsync(document: Tree): Promise<TreeEntity> {
+  async persistance2Domain(document: Tree): Promise<TreeEntity> {
     const nodes = await Promise.all(
-      document.nodes.map(
-        async (nodeId) => await this.nodeRepository.findById(nodeId as UUID),
+      document.nodes.map((nodeId) =>
+        this.nodeRepository.findById(nodeId as UUID),
       ),
     );
 

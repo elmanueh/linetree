@@ -32,7 +32,9 @@ export class RelationsService {
 
         const node = tree.getNode(id);
         if (!node) continue;
-        nodeGenealogy['http://schema.org/name'] = [{ '@value': node.name }];
+        nodeGenealogy['http://schema.org/givenName'] = [
+          { '@value': node.givenName },
+        ];
       }
 
       return compact(genealogy, {

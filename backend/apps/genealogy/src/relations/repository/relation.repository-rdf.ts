@@ -48,9 +48,11 @@ export class RelationRepositoryRDF
       } as RelationEntity);
 
       const triples = await this.sparqlService.query(triple);
-      return triples.map((triple) => {
-        return this.relationMapper.persistance2Domain(triple);
-      });
+      return Promise.all(
+        triples.map(async (triple) => {
+          return await this.relationMapper.persistance2Domain(triple);
+        }),
+      );
     } catch {
       throw new RepositoryException("The relations couldn't be fetched");
     }
@@ -82,9 +84,11 @@ export class RelationRepositoryRDF
 
       const triples = await this.sparqlService.queryDescendants(triple);
 
-      return triples.map((triple) => {
-        return this.relationMapper.persistance2Domain(triple);
-      });
+      return Promise.all(
+        triples.map(async (triple) => {
+          return this.relationMapper.persistance2Domain(triple);
+        }),
+      );
     } catch {
       throw new RepositoryException("The relations couldn't be fetched");
     }

@@ -3,12 +3,17 @@ import { Entity } from '@app/shared';
 import { UUID } from 'crypto';
 
 export interface NodeProps {
-  name: string;
-  firstName: string;
-  lastName?: string;
-  birthDate: Date;
+  address?: string;
+  birthDate?: Date;
+  birthPlace?: string;
   deathDate?: Date;
+  deathPlace?: string;
+  email?: string;
+  familyName?: string;
   gender: Gender;
+  givenName: string;
+  nationality?: string;
+  telephone?: string;
 }
 
 export class NodeEntity extends Entity<NodeProps> {
@@ -16,44 +21,60 @@ export class NodeEntity extends Entity<NodeProps> {
     super(props, id);
   }
 
-  get name(): string {
-    return this.props.name;
+  get address(): string | undefined {
+    return this.props.address;
   }
 
-  set name(name: string) {
-    this.props.name = name;
+  set address(address: string | undefined) {
+    this.props.address = address;
   }
 
-  get firstName(): string {
-    return this.props.firstName;
-  }
-
-  set firstName(firstName: string) {
-    this.props.firstName = firstName;
-  }
-
-  get lastName(): string {
-    return this.props.lastName || '';
-  }
-
-  set lastName(lastName: string) {
-    this.props.lastName = lastName;
-  }
-
-  get birthDate(): Date {
+  get birthDate(): Date | undefined {
     return this.props.birthDate;
   }
 
-  set birthDate(birthDate: Date) {
+  set birthDate(birthDate: Date | undefined) {
     this.props.birthDate = birthDate;
   }
 
-  get deathDate(): Date | null {
-    return this.props.deathDate || null;
+  get birthPlace(): string | undefined {
+    return this.props.birthPlace;
   }
 
-  set deathDate(deathDate: Date) {
+  set birthPlace(birthPlace: string | undefined) {
+    this.props.birthPlace = birthPlace;
+  }
+
+  get deathDate(): Date | undefined {
+    return this.props.deathDate;
+  }
+
+  set deathDate(deathDate: Date | undefined) {
     this.props.deathDate = deathDate;
+  }
+
+  get deathPlace(): string | undefined {
+    return this.props.deathPlace;
+  }
+
+  set deathPlace(deathPlace: string | undefined) {
+    this.props.deathPlace = deathPlace;
+  }
+
+  get email(): string | undefined {
+    return this.props.email;
+  }
+
+  set email(email: string | undefined) {
+    this.props.email = email;
+  }
+
+  get familyName(): string | undefined {
+    return this.props.familyName;
+  }
+
+  set familyName(familyName: string | undefined) {
+    this.props.familyName = familyName;
   }
 
   get gender(): Gender {
@@ -62,6 +83,30 @@ export class NodeEntity extends Entity<NodeProps> {
 
   set gender(gender: Gender) {
     this.props.gender = gender;
+  }
+
+  get givenName(): string {
+    return this.props.givenName;
+  }
+
+  set givenName(givenName: string) {
+    this.props.givenName = givenName;
+  }
+
+  get nationality(): string | undefined {
+    return this.props.nationality;
+  }
+
+  set nationality(nationality: string | undefined) {
+    this.props.nationality = nationality;
+  }
+
+  get telephone(): string | undefined {
+    return this.props.telephone;
+  }
+
+  set telephone(telephone: string | undefined) {
+    this.props.telephone = telephone;
   }
 
   static create(props: NodeProps, id?: UUID): NodeEntity {

@@ -9,26 +9,38 @@ export class NodePersistanceMapper implements Mapper<NodeEntity, Node> {
   domain2Persistance(entity: NodeEntity): Node {
     return {
       _id: entity.id,
-      name: entity.name,
-      firstName: entity.firstName,
-      lastName: entity.lastName,
+      address: entity.address,
       birthDate: entity.birthDate,
-      deathDate: entity.deathDate ? entity.deathDate : undefined,
+      birthPlace: entity.birthPlace,
+      deathDate: entity.deathDate,
+      deathPlace: entity.deathPlace,
+      email: entity.email,
+      familyName: entity.familyName,
       gender: entity.gender,
+      givenName: entity.givenName,
+      nationality: entity.nationality,
+      telephone: entity.telephone,
     };
   }
 
-  persistance2Domain(document: Node): NodeEntity {
-    return NodeEntity.create(
-      {
-        name: document.name,
-        firstName: document.firstName,
-        lastName: document.lastName,
-        birthDate: document.birthDate,
-        deathDate: document.deathDate,
-        gender: document.gender as Gender,
-      },
-      document._id,
+  persistance2Domain(document: Node): Promise<NodeEntity> {
+    return Promise.resolve(
+      NodeEntity.create(
+        {
+          address: document.address,
+          birthDate: document.birthDate,
+          birthPlace: document.birthPlace,
+          deathDate: document.deathDate,
+          deathPlace: document.deathPlace,
+          email: document.email,
+          familyName: document.familyName,
+          gender: document.gender as Gender,
+          givenName: document.givenName,
+          nationality: document.nationality,
+          telephone: document.telephone,
+        },
+        document._id,
+      ),
     );
   }
 }

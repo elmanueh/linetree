@@ -20,12 +20,7 @@ export class NodesController {
       payload.treeId,
       payload.nodeRefId,
       payload.type,
-      payload.dto.name,
-      payload.dto.firstName,
-      payload.dto.lastName || '',
-      payload.dto.gender,
-      new Date(payload.dto.birthDate),
-      payload.dto.deathDate ? new Date(payload.dto.deathDate) : undefined,
+      payload.dto,
     );
   }
 
@@ -55,7 +50,7 @@ export class NodesController {
     await this.nodesService.updateNode(
       payload.treeId,
       payload.nodeId,
-      payload.dto.name,
+      payload.dto,
     );
     return {};
   }

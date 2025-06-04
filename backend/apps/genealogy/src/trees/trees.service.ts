@@ -26,12 +26,14 @@ export class TreesService {
 
   async createTree(name: string): Promise<UUID> {
     try {
+      // TODO: change for user data
       const node = NodeEntity.create({
-        name: 'test',
-        firstName: 'test1',
-        lastName: 'test2',
+        givenName: 'test1',
+        familyName: 'test2',
         birthDate: new Date(),
-        deathDate: undefined,
+        email: '',
+        nationality: '',
+        telephone: '',
         gender: Gender.Male,
       });
       const tree = TreeEntity.create({ name, nodes: [node] });

@@ -23,12 +23,14 @@ export class RelationPersistanceMapper
     };
   }
 
-  persistance2Domain(document: TripleRdf): RelationEntity {
-    return RelationEntity.create({
-      souceNodeId: this.getUUID(document.subject)!,
-      targetNodeId: this.getUUID(document.object)!,
-      relationType: document.predicate,
-      treeId: document.context,
-    });
+  persistance2Domain(document: TripleRdf): Promise<RelationEntity> {
+    return Promise.resolve(
+      RelationEntity.create({
+        souceNodeId: this.getUUID(document.subject)!,
+        targetNodeId: this.getUUID(document.object)!,
+        relationType: document.predicate,
+        treeId: document.context,
+      }),
+    );
   }
 }

@@ -9,31 +9,51 @@ import {
 } from 'class-validator';
 
 export class CreateNodeDto {
-  @IsString({ message: 'Name must be a string' })
-  @IsNotEmpty({ message: 'Name is required' })
-  name: string;
-
-  @IsString({ message: 'First name must be a string' })
-  @IsNotEmpty({ message: 'First name is required' })
-  firstName: string;
-
-  @IsString({ message: 'Last name must be a string' })
   @IsOptional()
-  lastName?: string;
+  @IsString({ message: 'Address must be a string' })
+  address?: string;
 
+  @IsOptional()
+  @Type(() => Date)
   @IsDate({ message: 'Birth date must be a valid date' })
-  @IsNotEmpty({ message: 'Birth date is required' })
-  @Type(() => Date)
-  birthDate: Date;
+  birthDate?: Date;
 
-  @IsDate({ message: 'Death date must be a valid date' })
+  @IsOptional()
+  @IsString({ message: 'Birth place must be a string' })
+  birthPlace?: string;
+
   @IsOptional()
   @Type(() => Date)
+  @IsDate({ message: 'Death date must be a valid date' })
   deathDate?: Date;
 
-  @IsEnum(Gender, {
-    message: 'Gender must be one of the following: male, female, or other',
-  })
+  @IsOptional()
+  @IsString({ message: 'Death place must be a string' })
+  deathPlace?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Email must be a string' })
+  email?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Family name must be a string' })
+  familyName?: string;
+
   @IsNotEmpty({ message: 'Gender is required' })
+  @IsEnum(Gender, {
+    message: 'Gender must be one of the following: male, female, other',
+  })
   gender: Gender;
+
+  @IsNotEmpty({ message: 'Given name is required' })
+  @IsString({ message: 'Given name must be a string' })
+  givenName: string;
+
+  @IsOptional()
+  @IsString({ message: 'Nationality must be a string' })
+  nationality?: string;
+
+  @IsOptional()
+  @IsString({ message: 'Telephone must be a string' })
+  telephone?: string;
 }

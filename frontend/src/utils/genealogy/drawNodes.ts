@@ -39,7 +39,7 @@ export function drawNodes(
     .attr('class', 'node-name')
     .attr('x', 60)
     .attr('y', 35)
-    .text((d) => d.name)
+    .text((d) => d.givenName)
 
   nodeGroup
     .append('text')

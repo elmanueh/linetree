@@ -15,3 +15,11 @@
 ## Improvements
 
 - [ ] El endpoint "/genealogy" es muy costoso en tiempo
+
+## Tasks
+
+- [ ] Terminar de emparejar los archivos que hay modificados en el frontend.
+- [ ] Añadir padres y madres a los nodos.
+- [ ] Exportacion de datos con GEDCOM
+- [ ] Importacion de datos con GEDCOM
+- [ ] Autenticacion y autorizacion de usuarios

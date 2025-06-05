@@ -1,4 +1,4 @@
-import { Gender } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { UUID } from 'crypto';
 
 export class GetNodeDto {
@@ -10,7 +10,7 @@ export class GetNodeDto {
   deathPlace?: string;
   email?: string;
   familyName?: string;
-  gender: Gender;
+  gender: GenderType;
   givenName: string;
   nationality?: string;
   telephone?: string;

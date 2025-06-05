@@ -1,4 +1,4 @@
-import { Gender } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
@@ -34,7 +34,7 @@ export class TreesService {
         email: '',
         nationality: '',
         telephone: '',
-        gender: Gender.Male,
+        gender: GenderType.Male,
       });
       const tree = TreeEntity.create({ name, nodes: [node] });
 

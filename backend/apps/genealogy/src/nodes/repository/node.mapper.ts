@@ -1,4 +1,4 @@
-import { Gender } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
 import { Node } from '@app/genealogy/nodes/repository/node.schema';
 import { Mapper } from '@app/shared';
@@ -34,7 +34,7 @@ export class NodePersistanceMapper implements Mapper<NodeEntity, Node> {
           deathPlace: document.deathPlace,
           email: document.email,
           familyName: document.familyName,
-          gender: document.gender as Gender,
+          gender: document.gender as GenderType,
           givenName: document.givenName,
           nationality: document.nationality,
           telephone: document.telephone,

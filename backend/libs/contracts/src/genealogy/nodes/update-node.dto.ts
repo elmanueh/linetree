@@ -1,4 +1,4 @@
-import { Gender } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { Type } from 'class-transformer';
 import { IsDate, IsEnum, IsOptional, IsString } from 'class-validator';
 
@@ -13,10 +13,10 @@ export class UpdateNodeDto {
   familyName?: string;
 
   @IsOptional()
-  @IsEnum(Gender, {
+  @IsEnum(GenderType, {
     message: 'Gender must be one of the following: male, female, other',
   })
-  gender?: Gender;
+  gender?: GenderType;
 
   @IsOptional()
   @IsString({ message: 'GivenName must be a string' })

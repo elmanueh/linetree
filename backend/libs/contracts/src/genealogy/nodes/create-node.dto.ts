@@ -1,4 +1,4 @@
-import { Gender } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { Type } from 'class-transformer';
 import {
   IsDate,
@@ -40,10 +40,10 @@ export class CreateNodeDto {
   familyName?: string;
 
   @IsNotEmpty({ message: 'Gender is required' })
-  @IsEnum(Gender, {
+  @IsEnum(GenderType, {
     message: 'Gender must be one of the following: male, female, other',
   })
-  gender: Gender;
+  gender: GenderType;
 
   @IsNotEmpty({ message: 'Given name is required' })
   @IsString({ message: 'Given name must be a string' })

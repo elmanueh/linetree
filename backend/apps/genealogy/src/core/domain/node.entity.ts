@@ -1,4 +1,4 @@
-import { Gender } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { Entity } from '@app/shared';
 import { UUID } from 'crypto';
 
@@ -10,7 +10,7 @@ export interface NodeProps {
   deathPlace?: string;
   email?: string;
   familyName?: string;
-  gender: Gender;
+  gender: GenderType;
   givenName: string;
   nationality?: string;
   telephone?: string;
@@ -77,11 +77,11 @@ export class NodeEntity extends Entity<NodeProps> {
     this.props.familyName = familyName;
   }
 
-  get gender(): Gender {
+  get gender(): GenderType {
     return this.props.gender;
   }
 
-  set gender(gender: Gender) {
+  set gender(gender: GenderType) {
     this.props.gender = gender;
   }
 

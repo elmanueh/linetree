@@ -9,7 +9,7 @@ import * as d3 from 'd3'
 import { useCallback, useContext, useEffect, useRef } from 'react'
 
 export default function Genealogy() {
-  const { treeId, handleSelectedNode } = useContext(GenealogyContext)
+  const { treeId, nodeId, handleSelectedNode } = useContext(GenealogyContext)
   const { handleGenealogy } = useGenealogy({ treeId })
   const svgRef = useRef<SVGSVGElement>(null)
 
@@ -44,7 +44,7 @@ export default function Genealogy() {
 
   return (
     <div className="flex">
-      <GenealogyAside callback={handleUpdateTree} />
+      {nodeId && <GenealogyAside callback={handleUpdateTree} />}
       <main className="flex-1 bg-gray-200">
         <svg ref={svgRef} className="w-full h-full block" />
       </main>

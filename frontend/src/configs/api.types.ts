@@ -39,9 +39,9 @@ export interface UpdateNode {
 
 export interface Node {
   id: UUID
-  birthDate: string
-  deathDate: string
-  familyName: string
+  birthDate?: string
+  deathDate?: string
+  familyName?: string
   gender: NodeGenderType
   givenName: string
 }

@@ -1,9 +1,9 @@
 import { NodesModule } from '@app/genealogy/nodes/nodes.module';
+import { RelationsModule } from '@app/genealogy/relations/relations.module';
 import { TreesModule } from '@app/genealogy/trees/trees.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { RelationsModule } from './relations/relations.module';
 
 @Module({
   imports: [

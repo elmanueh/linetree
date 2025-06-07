@@ -50,6 +50,10 @@ export default function AddNodeMenu({ callbackUpdate }: AddNodeMenuProps) {
       {menuOpen && (
         <Menu position="left">
           <MenuItem
+            label="Añadir padre"
+            onClick={() => handleOpenModal(NodeRelationType.PARENT)}
+          />
+          <MenuItem
             label="Añadir pareja"
             onClick={() => handleOpenModal(NodeRelationType.SPOUSE)}
           />

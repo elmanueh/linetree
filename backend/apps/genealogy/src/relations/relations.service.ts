@@ -1,6 +1,8 @@
+import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
+import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
-import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
 import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
+import { InferenceService } from '@app/genealogy/relations/inference/inference.service';
 import { InternalErrorRpcException } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
@@ -10,8 +12,55 @@ import { compact, JsonLdDocument } from 'jsonld';
 export class RelationsService {
   constructor(
     private readonly relationRepository: RelationsRepository,
-    private readonly nodeRepository: NodeRepository,
+    private readonly inferenceService: InferenceService,
   ) {}
+
+  async createRelation(
+    sourceNodeId: UUID,
+    targetNodeId: UUID,
+    spouseId: UUID | undefined,
+    relationType: RelationType,
+    treeId: UUID,
+  ): Promise<void> {
+    console.log(spouseId);
+
+    const relation = RelationEntity.create({
+      souceNodeId: sourceNodeId,
+      targetNodeId: targetNodeId,
+      type: relationType,
+      treeId: treeId,
+    });
+    await this.relationRepository.save(relation);
+
+    // Generate inferences based on the new relation
+    const inferences =
+      this.inferenceService.generateInferencesFromInsert(relation);
+
+    for (const inference of inferences) {
+      await this.relationRepository.save(inference);
+    }
+
+    if (relationType === RelationType.Children && spouseId) {
+      await this.createRelation(
+        spouseId,
+        targetNodeId,
+        undefined,
+        RelationType.Children,
+        treeId,
+      );
+    }
+  }
+
+  async removeRelation(nodeId: UUID): Promise<void> {
+    await this.relationRepository.deleteByNodeId(nodeId);
+  }
+
+  async findRelationsByNodeId(
+    nodeId: UUID,
+    treeId: UUID,
+  ): Promise<RelationEntity[]> {
+    return this.relationRepository.findDescendantsByNodeId(nodeId, treeId);
+  }
 
   async getGenealogy(tree: TreeEntity): Promise<JsonLdDocument> {
     try {
@@ -35,6 +84,16 @@ export class RelationsService {
         nodeGenealogy['http://schema.org/givenName'] = [
           { '@value': node.givenName },
         ];
+        //nodeGenealogy['http://schema.org/familyName'] = [
+        //  { '@value': node.familyName },
+        //];
+        //nodeGenealogy['http://schema.org/birthDate'] = [
+        //  { '@value': node.birthDate?.toISOString() },
+        //];
+        //nodeGenealogy['http://schema.org/deathDate'] = [
+        //  { '@value': node.deathDate?.toISOString() },
+        //];
+        nodeGenealogy['http://schema.org/gender'] = [{ '@value': node.gender }];
       }
 
       return compact(genealogy, {

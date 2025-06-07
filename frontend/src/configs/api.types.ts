@@ -1,4 +1,4 @@
-import { NodeGenderType } from '@/configs/constants'
+import { NodeGenderType, NodeRelationType } from '@/configs/constants'
 import { UUID } from '@/configs/types'
 
 // ------------ TREE -------------
@@ -21,7 +21,8 @@ export interface CreateTree {
 
 export interface CreateNode {
   nodeId: UUID
-  relation: string
+  spouseId?: UUID
+  relation: NodeRelationType
   nodeInfo: {
     birthDate?: Date
     familyName?: string

@@ -17,8 +17,9 @@ export const NAV_ROUTES = {
 }
 
 export enum NodeRelationType {
-  SPOUSE = 'spouse',
-  CHILDREN = 'children'
+  CHILDREN = 'children',
+  PARENT = 'parent',
+  SPOUSE = 'spouse'
 }
 
 export enum NodeGenderType {

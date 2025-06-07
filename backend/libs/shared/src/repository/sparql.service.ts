@@ -98,26 +98,23 @@ export class SparqlService {
 
   async construct(triple: TripleRdf): Promise<NodeObject[]> {
     const query = `
-        PREFIX schema: <http://schema.org/>
-        CONSTRUCT {
-          ?person a schema:Person .
-          ?spouse a schema:Person .
-          ?child a schema:Person .
-          ?person schema:spouse ?spouse .
-          ?person schema:children ?child .
-          ?spouse schema:spouse ?person .
-          ?spouse schema:children ?child .
-        }
-        WHERE {
-          GRAPH <${this.contextUri}${triple.context}> {
-            ?person schema:spouse ?spouse .
-            OPTIONAL { ?person schema:children ?child . }
-            OPTIONAL { ?spouse schema:children ?child . }
-          }
-        }
-      `;
+      PREFIX schema: <http://schema.org/>
 
-    // Realiza la solicitud con la consulta CONSTRUCT
+      CONSTRUCT {
+        ?person a schema:Person .
+        ?spouse a schema:Person .
+        ?child a schema:Person .
+        ?person schema:spouse ?spouse .
+        ?person schema:children ?child .
+      }
+      WHERE {
+        GRAPH <${this.contextUri}${triple.context}> {
+          OPTIONAL { ?person schema:spouse ?spouse . }
+          OPTIONAL { ?person schema:children ?child . }
+        }
+      }
+    `;
+
     const response = await firstValueFrom(
       this.httpService.post<NodeObject[]>(this.endpoint, query, {
         headers: {

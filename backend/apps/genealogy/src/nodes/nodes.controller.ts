@@ -19,6 +19,7 @@ export class NodesController {
     return await this.nodesService.createNode(
       payload.treeId,
       payload.nodeRefId,
+      payload.spouseId,
       payload.type,
       payload.dto,
     );

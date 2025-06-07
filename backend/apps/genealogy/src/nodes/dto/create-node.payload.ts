@@ -1,6 +1,13 @@
 import { CreateNodeDto } from '@app/contracts';
+import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 import { Type } from 'class-transformer';
-import { IsIn, IsNotEmpty, IsUUID, ValidateNested } from 'class-validator';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
 import { UUID } from 'crypto';
 
 export class CreateNodePayload {
@@ -10,11 +17,15 @@ export class CreateNodePayload {
   @IsUUID()
   nodeRefId: UUID;
 
+  @IsOptional()
+  @IsUUID()
+  spouseId?: UUID;
+
   @IsNotEmpty({ message: 'Type is required' })
-  @IsIn(['children', 'spouse'], {
-    message: "relation must be one of the following: 'children', 'spouse'",
+  @IsEnum(RelationType, {
+    message: 'Type must be one of the following: children, parent, spouse',
   })
-  type: string;
+  type: RelationType;
 
   @ValidateNested()
   @Type(() => CreateNodeDto)

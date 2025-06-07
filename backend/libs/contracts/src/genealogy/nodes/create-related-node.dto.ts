@@ -1,6 +1,11 @@
 import { CreateNodeDto } from '@app/contracts';
 import { Type } from 'class-transformer';
-import { IsNotEmpty, IsUUID, ValidateNested } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsUUID,
+  ValidateNested,
+} from 'class-validator';
 import { UUID } from 'crypto';
 
 export class CreateRelatedNodeDto {
@@ -9,6 +14,10 @@ export class CreateRelatedNodeDto {
 
   @IsNotEmpty({ message: 'Relation is required' })
   relation: string;
+
+  @IsOptional()
+  @IsUUID()
+  spouseId?: UUID;
 
   @ValidateNested()
   @Type(() => CreateNodeDto)

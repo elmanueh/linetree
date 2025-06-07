@@ -1,4 +1,5 @@
 import { NodesModule } from '@app/genealogy/nodes/nodes.module';
+import { InferenceService } from '@app/genealogy/relations/inference/inference.service';
 import { RelationsModule } from '@app/genealogy/relations/relations.module';
 import { TreesModule } from '@app/genealogy/trees/trees.module';
 import { Module } from '@nestjs/common';
@@ -19,5 +20,6 @@ import { MongooseModule } from '@nestjs/mongoose';
     NodesModule,
     RelationsModule,
   ],
+  providers: [InferenceService],
 })
 export class GenealogyModule {}

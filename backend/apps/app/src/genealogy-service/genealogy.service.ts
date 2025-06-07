@@ -58,6 +58,7 @@ export class GenealogyService {
       this.genealogyClient.send<UUID>(NODES_PATTERNS.CREATE, {
         treeId,
         nodeRefId: dto.nodeId,
+        spouseId: dto.spouseId,
         type: dto.relation,
         dto: dto.nodeInfo,
       }),

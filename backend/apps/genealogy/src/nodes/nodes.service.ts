@@ -1,10 +1,10 @@
 import { CreateNodeDto, UpdateNodeDto } from '@app/contracts';
 import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
+import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 import { NodeDomainMapper } from '@app/genealogy/core/mapper/node.mapper';
 import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
-import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
 import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
+import { RelationsService } from '@app/genealogy/relations/relations.service';
 import {
   EntityNotFoundException,
   InternalErrorRpcException,
@@ -19,13 +19,14 @@ export class NodesService {
   constructor(
     private readonly nodeRepository: NodeRepository,
     private readonly treeRepository: TreeRepository,
-    private readonly relationRepository: RelationsRepository,
+    private readonly relationService: RelationsService,
   ) {}
 
   async createNode(
     treeId: UUID,
     nodeRefId: UUID,
-    type: string,
+    spouseId: UUID | undefined,
+    type: RelationType,
     dto: CreateNodeDto,
   ): Promise<UUID> {
     try {
@@ -36,14 +37,13 @@ export class NodesService {
       await this.nodeRepository.save(node);
       await this.treeRepository.save(tree);
 
-      const relation = RelationEntity.create({
-        souceNodeId: nodeRefId,
-        targetNodeId: node.id,
-        relationType: type,
-        treeId: treeId,
-      });
-
-      await this.relationRepository.save(relation);
+      await this.relationService.createRelation(
+        nodeRefId,
+        node.id,
+        spouseId,
+        type,
+        treeId,
+      );
 
       return node.id;
     } catch (error) {
@@ -89,22 +89,22 @@ export class NodesService {
   async removeNode(treeId: UUID, nodeId: UUID): Promise<void> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      const relations = await this.relationRepository.findDescendantsByNodeId(
-        treeId,
+      const relations = await this.relationService.findRelationsByNodeId(
         nodeId,
+        treeId,
       );
 
       for (const relation of relations) {
         const descendant = relation.targetNodeId;
         tree.removeNode(descendant);
         await this.nodeRepository.delete(descendant);
-        await this.relationRepository.deleteByNodeId(descendant);
+        await this.relationService.removeRelation(descendant);
       }
 
       tree.removeNode(nodeId);
       await this.nodeRepository.delete(nodeId);
       await this.treeRepository.save(tree);
-      await this.relationRepository.deleteByNodeId(nodeId);
+      await this.relationService.removeRelation(nodeId);
     } catch (error) {
       if (error instanceof EntityNotFoundException) {
         throw new NotFoundRpcException("The tree couldn't be found");

@@ -1,5 +1,6 @@
 import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
 import { NodesModule } from '@app/genealogy/nodes/nodes.module';
+import { InferenceService } from '@app/genealogy/relations/inference/inference.service';
 import { RelationsService } from '@app/genealogy/relations/relations.service';
 import { RelationPersistanceMapper } from '@app/genealogy/relations/repository/relation.mapper';
 import { RelationRepositoryRDF } from '@app/genealogy/relations/repository/relation.repository-rdf';
@@ -12,6 +13,7 @@ import { forwardRef, Module } from '@nestjs/common';
   providers: [
     RelationsService,
     SparqlService,
+    InferenceService,
     RelationPersistanceMapper,
     {
       provide: RelationsRepository,

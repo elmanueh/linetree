@@ -15,7 +15,8 @@ const initialFormData = {
   birthDate: '',
   familyName: '',
   gender: NodeGenderType.MALE,
-  givenName: ''
+  givenName: '',
+  spouseRef: undefined
 }
 
 export default function AddNodeModal({
@@ -38,6 +39,7 @@ export default function AddNodeModal({
     e.preventDefault()
     const node: CreateNode = {
       nodeId,
+      spouseId: formData.spouseRef,
       relation,
       nodeInfo: {
         birthDate: new Date(formData.birthDate),
@@ -119,6 +121,20 @@ export default function AddNodeModal({
               <option value={NodeGenderType.FEMALE}>Femenino</option>
             </select>
           </div>
+
+          {relation === NodeRelationType.CHILDREN && (
+            <div>
+              <label className="block text-sm font-medium mb-1">
+                Selecciona pareja
+              </label>
+              <select
+                name="spouseRef"
+                value={formData.spouseRef}
+                onChange={handleChange}
+                className="w-full border rounded px-3 py-2"
+              ></select>
+            </div>
+          )}
 
           <div className="flex justify-end mt-6 gap-3">
             <button

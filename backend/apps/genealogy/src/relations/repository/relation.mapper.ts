@@ -1,4 +1,5 @@
 import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
+import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 import { Mapper, TripleRdf } from '@app/shared';
 import { UUID } from 'crypto';
 
@@ -17,7 +18,7 @@ export class RelationPersistanceMapper
   domain2Persistance(entity: RelationEntity): TripleRdf {
     return {
       subject: entity.souceNodeId,
-      predicate: entity.relationType,
+      predicate: entity.type,
       object: entity.targetNodeId,
       context: entity.treeId,
     };
@@ -28,7 +29,7 @@ export class RelationPersistanceMapper
       RelationEntity.create({
         souceNodeId: this.getUUID(document.subject)!,
         targetNodeId: this.getUUID(document.object)!,
-        relationType: document.predicate,
+        type: document.predicate as RelationType,
         treeId: document.context,
       }),
     );

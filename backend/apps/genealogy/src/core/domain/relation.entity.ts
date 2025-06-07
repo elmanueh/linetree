@@ -1,10 +1,11 @@
+import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 import { Entity } from '@app/shared';
 import { UUID } from 'crypto';
 
 export interface RelationProps {
   souceNodeId: UUID;
   targetNodeId: UUID;
-  relationType: string;
+  type: RelationType;
   treeId: UUID;
 }
 
@@ -25,8 +26,8 @@ export class RelationEntity extends Entity<RelationProps> {
     return this.props.targetNodeId;
   }
 
-  get relationType(): string {
-    return this.props.relationType;
+  get type(): RelationType {
+    return this.props.type;
   }
 
   get treeId(): UUID {

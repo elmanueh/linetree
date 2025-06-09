@@ -95,7 +95,6 @@ function layoutTree(node: GenealogyNode, x: number, y: number, level: number) {
         )
         treeWidth += childTreeWidth + CHILD_SPACING
       })
-    console.log('fin')
   }
 }
 

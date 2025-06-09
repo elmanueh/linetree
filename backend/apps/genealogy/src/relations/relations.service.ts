@@ -22,8 +22,6 @@ export class RelationsService {
     relationType: RelationType,
     treeId: UUID,
   ): Promise<void> {
-    console.log(spouseId);
-
     const relation = RelationEntity.create({
       souceNodeId: sourceNodeId,
       targetNodeId: targetNodeId,

@@ -6,9 +6,9 @@ import {
   ReducerState,
   UUID
 } from '@/configs/types'
-import { GenealogyContext } from '@/context/GenealogyContext'
+import { useGenealogy } from '@/hooks/useGenealogy'
 import { NodeService } from '@/services/node.service'
-import { useCallback, useContext, useEffect, useReducer } from 'react'
+import { useCallback, useEffect, useReducer } from 'react'
 
 const initialState: ReducerState<Node> = {
   items: [],
@@ -51,7 +51,7 @@ function nodeReducer(state: ReducerState<Node>, action: ReducerAction<Node>) {
 
 export function useNode(type: NodeReducerType | null) {
   const [state, dispatch] = useReducer(nodeReducer, initialState)
-  const { treeId, nodeId, handleSelectedNode } = useContext(GenealogyContext)
+  const { treeId, nodeId, handleSelectedNode } = useGenealogy()
 
   const fetchNode = useCallback(async () => {
     dispatch({ type: ReducerActionType.START })

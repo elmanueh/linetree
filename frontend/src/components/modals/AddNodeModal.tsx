@@ -1,3 +1,4 @@
+import SpouseSelector from '@/components/SpouseSelector'
 import { CreateNode } from '@/configs/api.types'
 import { NodeGenderType, NodeRelationType } from '@/configs/constants'
 import { UUID } from '@/configs/types'
@@ -16,7 +17,7 @@ const initialFormData = {
   familyName: '',
   gender: NodeGenderType.MALE,
   givenName: '',
-  spouseRef: undefined
+  spouseId: undefined as UUID | undefined
 }
 
 export default function AddNodeModal({
@@ -27,7 +28,6 @@ export default function AddNodeModal({
   relation
 }: AddNodeModalProps) {
   const [formData, setFormData] = useState(initialFormData)
-
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
@@ -39,7 +39,7 @@ export default function AddNodeModal({
     e.preventDefault()
     const node: CreateNode = {
       nodeId,
-      spouseId: formData.spouseRef,
+      spouseId: formData.spouseId,
       relation,
       nodeInfo: {
         birthDate: new Date(formData.birthDate),
@@ -54,6 +54,10 @@ export default function AddNodeModal({
   const handleReset = () => {
     setFormData(initialFormData)
     onClose()
+  }
+
+  const callbackChange = (spouseId: UUID) => {
+    setFormData({ ...formData, spouseId: spouseId })
   }
 
   if (!isOpen) return null
@@ -123,17 +127,10 @@ export default function AddNodeModal({
           </div>
 
           {relation === NodeRelationType.CHILDREN && (
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Selecciona pareja
-              </label>
-              <select
-                name="spouseRef"
-                value={formData.spouseRef}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-              ></select>
-            </div>
+            <SpouseSelector
+              formData={formData}
+              callbackChange={callbackChange}
+            />
           )}
 
           <div className="flex justify-end mt-6 gap-3">

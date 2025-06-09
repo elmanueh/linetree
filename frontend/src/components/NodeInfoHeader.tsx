@@ -4,14 +4,12 @@ import MoreNodeMenu from '@/components/menus/MoreNodeMenu'
 import EditNodeModal from '@/components/modals/EditNodeModal'
 import { UpdateNode } from '@/configs/api.types'
 import { NodeReducerType } from '@/configs/types'
+import { useGenealogy } from '@/hooks/useGenealogy'
 import { useNode } from '@/hooks/useNode'
 import { useState } from 'react'
 
-interface NodeInfoProps {
-  callbackUpdate: () => void
-}
-
-export default function NodeInfoHeader({ callbackUpdate }: NodeInfoProps) {
+export default function NodeInfoHeader() {
+  const { handleGenealogy } = useGenealogy()
   const [showEditModal, setShowEditModal] = useState(false)
   const { nodes, loading, updateNode } = useNode(NodeReducerType.BY_ID)
   const node = nodes[0]
@@ -19,7 +17,7 @@ export default function NodeInfoHeader({ callbackUpdate }: NodeInfoProps) {
   const handleOnEdit = (data: UpdateNode) => {
     try {
       updateNode(node.id, data)
-      callbackUpdate()
+      handleGenealogy()
       setShowEditModal(false)
     } catch (error) {
       alert('Error updating node: ' + error)
@@ -35,7 +33,7 @@ export default function NodeInfoHeader({ callbackUpdate }: NodeInfoProps) {
         <h3 className="text-md">{node.givenName}</h3>
       </div>
       <div className="flex space-x-8 justify-center">
-        <AddNodeMenu callbackUpdate={callbackUpdate} />
+        <AddNodeMenu />
 
         <button
           onClick={() => setShowEditModal(true)}
@@ -51,7 +49,7 @@ export default function NodeInfoHeader({ callbackUpdate }: NodeInfoProps) {
           onClose={() => setShowEditModal(false)}
         />
 
-        <MoreNodeMenu callbackUpdate={callbackUpdate} />
+        <MoreNodeMenu />
       </div>
     </div>
   )

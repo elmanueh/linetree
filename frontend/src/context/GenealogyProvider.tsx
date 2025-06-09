@@ -1,35 +1,28 @@
 import { UUID } from '@/configs/types'
 import { GenealogyContext } from '@/context/GenealogyContext'
+import { NodeObject } from 'jsonld'
 import { useState } from 'react'
 
 interface GenealogyProviderProps {
   children: React.ReactNode
 }
 
-export interface GenealogyContextType {
-  treeId: UUID
-  handleSelectedTree: (treeId: UUID) => void
-  nodeId: UUID
-  handleSelectedNode: (nodeId: UUID) => void
-}
-
 export function GenealogyProvider({ children }: GenealogyProviderProps) {
   const pathTreeId = window.location.pathname.split('/')[1]
   const [treeId, setTreeId] = useState<UUID>(pathTreeId || '')
   const [nodeId, setNodeId] = useState<UUID>('')
-
-  const handleSelectedTree = (treeId: UUID) => {
-    setTreeId(treeId)
-    setNodeId('')
-  }
-
-  const handleSelectedNode = (nodeId: UUID) => {
-    setNodeId(nodeId)
-  }
+  const [genealogy, setGenealogy] = useState<NodeObject[]>([])
 
   return (
     <GenealogyContext.Provider
-      value={{ treeId, handleSelectedTree, nodeId, handleSelectedNode }}
+      value={{
+        treeId,
+        setTreeId,
+        nodeId,
+        setNodeId,
+        genealogy,
+        setGenealogy
+      }}
     >
       {children}
     </GenealogyContext.Provider>

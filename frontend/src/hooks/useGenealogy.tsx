@@ -1,25 +1,29 @@
-import { API_URLS } from '@/configs/constants'
+import { UUID } from '@/configs/types'
+import { GenealogyContext } from '@/context/GenealogyContext'
+import { NodeService } from '@/services/node.service'
 import { parseGenealogy } from '@/utils/genealogy'
-import { NodeObject } from 'jsonld'
+import { useContext } from 'react'
 
-interface GenealogyHookProps {
-  treeId: string
-}
+export function useGenealogy() {
+  const { treeId, setTreeId, nodeId, setNodeId, genealogy, setGenealogy } =
+    useContext(GenealogyContext)
 
-export function useGenealogy({ treeId }: GenealogyHookProps) {
-  const fetchGenealogy = async (): Promise<NodeObject> => {
-    //console.log('Fetching genealogy data...', treeId)
-    const response = await fetch(API_URLS.GENEALOGY(treeId))
-    if (!response.ok) {
-      throw new Error('Error fetching genealogy data')
-    }
-    return response.json()
+  const handleSelectedTree = (treeId: UUID) => {
+    setTreeId(treeId)
+    setNodeId('')
+    setGenealogy([])
+  }
+
+  const handleSelectedNode = (nodeId: UUID) => {
+    setNodeId(nodeId)
   }
 
   const handleGenealogy = async () => {
     try {
-      const jsonld = await fetchGenealogy()
+      const jsonld = await NodeService.getGenealogy(treeId)
       const data = Array.isArray(jsonld['@graph']) ? jsonld['@graph'] : [jsonld]
+      if (JSON.stringify(data) !== JSON.stringify(genealogy)) setGenealogy(data)
+
       const { root, relations } = parseGenealogy(data)
 
       return { root, relations }
@@ -29,5 +33,12 @@ export function useGenealogy({ treeId }: GenealogyHookProps) {
     }
   }
 
-  return { handleGenealogy }
+  return {
+    treeId,
+    nodeId,
+    genealogy,
+    handleSelectedTree,
+    handleSelectedNode,
+    handleGenealogy
+  }
 }

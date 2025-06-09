@@ -2,6 +2,7 @@ import { CreateNode, Node, UpdateNode } from '@/configs/api.types'
 import { API_URLS } from '@/configs/constants'
 import { UUID } from '@/configs/types'
 import { HttpService } from '@/services/http.service'
+import { NodeObject } from 'jsonld'
 
 const createNode = async (treeId: UUID, data: CreateNode) => {
   const id = await HttpService.post(API_URLS.NODES(treeId), data)
@@ -25,10 +26,15 @@ const getNode = async (treeId: UUID, nodeId: UUID) => {
   return HttpService.get<Node>(API_URLS.NODE(treeId, nodeId))
 }
 
+const getGenealogy = async (treeId: UUID) => {
+  return HttpService.get<NodeObject>(API_URLS.GENEALOGY(treeId))
+}
+
 export const NodeService = {
   createNode,
   deleteNode,
   updateNode,
   getNodes,
-  getNode
+  getNode,
+  getGenealogy
 }

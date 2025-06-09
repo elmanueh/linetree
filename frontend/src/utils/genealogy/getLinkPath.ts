@@ -1,4 +1,8 @@
-import { NODE_HEIGHT, NODE_WIDTH } from '@/configs/genealogy.style'
+import {
+  NODE_HEIGHT,
+  NODE_WIDTH,
+  VERTICAL_SPACING
+} from '@/configs/genealogy.style'
 import { GenealogyNode, GenealogyRelation } from '@/configs/types'
 
 export function getLinkPath(
@@ -27,15 +31,22 @@ export function getLinkPath(
     return `M${sx},${adjustedY} H${tx}`
   }
 
+  // parent to child
   const parents = nodes.filter((n) =>
-    n.children.find((c) => c.id === target.id)
+    n.children.some((c) => c.id === target.id)
   )
 
-  if (parents.length < 2) return ''
+  const [p1, p2] =
+    parents[0].spouse.length >= parents[1].spouse.length
+      ? [parents[0], parents[1]]
+      : [parents[1], parents[0]]
+  const isFirstPartner = p1.spouse.findIndex((s) => s.id === p2.id) === 0
 
-  const midX = (parents[0].x + parents[1].x + NODE_WIDTH) / 2
-  const verticalStart = parents[0].y! + NODE_HEIGHT / 2
-  const verticalStop = verticalStart + 80
+  const connectX = isFirstPartner
+    ? (p1.x + p2.x + NODE_WIDTH) / 2
+    : p2.x + NODE_WIDTH / 2
+  const connectY = p1.y + NODE_HEIGHT / 2
+  const offsetY = connectY + VERTICAL_SPACING / 2
 
-  return `M${midX},${verticalStart} V${verticalStop} H${tx} V${ty}` // parent to child
+  return `M${connectX},${connectY} V${offsetY} H${tx} V${ty}`
 }

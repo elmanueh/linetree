@@ -40,7 +40,8 @@
 
 .link {
   fill: none;
-  stroke: #666060;
-  stroke-width: 1px;
-  opacity: 0.8;
+  stroke: #898f99;
+  stroke-width: 1.5px;
+  stroke-dasharray: 4 3;
+  stroke-opacity: 0.75;
 }

@@ -13,8 +13,19 @@ export function getLinkPath(
   const tx = target.x + NODE_WIDTH / 2
   const ty = target.y + NODE_HEIGHT / 2
 
-  if (source.level === target.level) return `M${sx},${sy} H${tx}` // spouse to spouse
-  if (source.level !== target.level - 1) return '' // child to parent
+  // spouse to spouse
+  if (source.level === target.level) {
+    const hasSpouse = source.spouse?.some((s) => s.id === target.id) ?? false
+    let adjustedY = sy
+
+    if (hasSpouse) {
+      const spouseIndex = source.spouse.findIndex((s) => s.id === target.id)
+      const verticalOffset = 6
+      adjustedY = sy - spouseIndex * verticalOffset
+    }
+
+    return `M${sx},${adjustedY} H${tx}`
+  }
 
   const parents = nodes.filter((n) =>
     n.children.find((c) => c.id === target.id)

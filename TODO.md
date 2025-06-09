@@ -2,10 +2,11 @@
 
 ## Bugs
 
-- [ ] Arreglar el problema de que los nodos se vinculen a padre y madre.
+- [x] Arreglar el problema de que los nodos se vinculen a padre y madre.
 - [ ] Revisar porque al insertar/eliminar se queda nodos sueltos.
 - [x] Arreglar el movimiento del zoom al mover el arbol.
 - [x] Terminar de emparejar los archivos que hay modificados en el frontend.
+- [x] Al mostrar los hijos, que salgan en orden por la madre.
 
 ## Features
 

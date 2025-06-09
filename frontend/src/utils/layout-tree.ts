@@ -49,30 +49,53 @@ function layoutTree(node: GenealogyNode, x: number, y: number, level: number) {
   const nextLevel = y + VERTICAL_SPACING
 
   // spouses
-  if (node.spouse) {
-    node.spouse.forEach((spouse: GenealogyNode, i: number) => {
-      const px = x + NODE_WIDTH + SPOUSE_SPACING + i * SPOUSE_SPACING
+  if (node.spouse && node.spouse.length > 0) {
+    let px =
+      x + NODE_WIDTH + SPOUSE_SPACING / 2 - getTreeWidth(node.spouse[0]) / 2
+    node.spouse.forEach((spouse: GenealogyNode, index: number) => {
+      px +=
+        index === 0
+          ? getTreeWidth(spouse) / 2 + SPOUSE_SPACING / 2
+          : getTreeWidth(spouse) / 2 - NODE_WIDTH / 2
       addNode(spouse, px, y, level)
+      px += -SPOUSE_SPACING / 2 + getTreeWidth(spouse) / 2 + CHILD_SPACING
     })
   }
 
   // children
   if (node.children && node.children.length > 0) {
-    let treeWidth = x + NODE_WIDTH + SPOUSE_SPACING / 2 - getTreeWidth(node) / 2
-    node.children.forEach((child: GenealogyNode) => {
-      const childTreeWidth = getTreeWidth(child)
-      const offset =
-        child.spouse && child.spouse?.length != 0
-          ? SPOUSE_SPACING / 2 + NODE_WIDTH
-          : NODE_WIDTH / 2
-      layoutTree(
-        child,
-        treeWidth + childTreeWidth / 2 - offset,
-        nextLevel,
-        level + 1
-      )
-      treeWidth += childTreeWidth + CHILD_SPACING
-    })
+    let treeWidth =
+      x + NODE_WIDTH + SPOUSE_SPACING / 2 - getTreeWidth(node.spouse[0]) / 2
+
+    node.children
+      .sort((a, b) => {
+        const getMotherIndex = (child: GenealogyNode) => {
+          return (
+            node.spouse?.findIndex((spouse) =>
+              spouse.children?.some(
+                (spouseChild) => spouseChild.id === child.id
+              )
+            ) ?? -1
+          )
+        }
+
+        return getMotherIndex(a) - getMotherIndex(b)
+      })
+      .forEach((child: GenealogyNode) => {
+        const childTreeWidth = getTreeWidth(child)
+        const offset =
+          child.spouse && child.spouse?.length != 0
+            ? SPOUSE_SPACING / 2 + NODE_WIDTH
+            : NODE_WIDTH / 2
+        layoutTree(
+          child,
+          treeWidth + childTreeWidth / 2 - offset,
+          nextLevel,
+          level + 1
+        )
+        treeWidth += childTreeWidth + CHILD_SPACING
+      })
+    console.log('fin')
   }
 }
 

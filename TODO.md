@@ -20,7 +20,10 @@
 
 ## Tasks
 
-- [ ] Añadir padres y madres a los nodos.
+- [ ] Que no se pueda borrar el ultimo nodo del arbol.
+- [ ] Que en una pareja, puedan existir padres y madres.
+- [ ] Al eliminar un arbol, accede de repente a su genealogia.
+- [ ] Mostrar mensajes de error del sistema.
 - [ ] Exportacion de datos con GEDCOM
 - [ ] Importacion de datos con GEDCOM
 - [ ] Autenticacion y autorizacion de usuarios

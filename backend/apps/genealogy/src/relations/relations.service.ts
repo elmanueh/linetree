@@ -23,7 +23,7 @@ export class RelationsService {
     treeId: UUID,
   ): Promise<void> {
     const relation = RelationEntity.create({
-      souceNodeId: sourceNodeId,
+      sourceNodeId: sourceNodeId,
       targetNodeId: targetNodeId,
       type: relationType,
       treeId: treeId,
@@ -39,7 +39,7 @@ export class RelationsService {
 
     for (const inference of inferences) {
       await this.createRelation(
-        inference.souceNodeId,
+        inference.sourceNodeId,
         inference.targetNodeId,
         undefined,
         inference.type,

@@ -7,8 +7,8 @@ export class Spouse2SpouseRule {
 
     const newRelations = [
       RelationEntity.create({
-        souceNodeId: relation.targetNodeId,
-        targetNodeId: relation.souceNodeId,
+        sourceNodeId: relation.targetNodeId,
+        targetNodeId: relation.sourceNodeId,
         type: RelationType.Spouse,
         treeId: relation.treeId,
       }),
@@ -22,8 +22,8 @@ export class Spouse2SpouseRule {
 
     const newRelations = [
       RelationEntity.create({
-        souceNodeId: relation.targetNodeId,
-        targetNodeId: relation.souceNodeId,
+        sourceNodeId: relation.targetNodeId,
+        targetNodeId: relation.sourceNodeId,
         type: RelationType.Spouse,
         treeId: relation.treeId,
       }),

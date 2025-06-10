@@ -12,7 +12,7 @@ export class SpouseFromParentRule {
     const relationsParents = relations.filter(
       (r) =>
         r.type === RelationType.Parent &&
-        r.souceNodeId === relation.souceNodeId,
+        r.sourceNodeId === relation.sourceNodeId,
     );
 
     if (relationsParents.length < 2) return [];
@@ -20,7 +20,7 @@ export class SpouseFromParentRule {
 
     newRelations.push(
       RelationEntity.create({
-        souceNodeId: p1.targetNodeId,
+        sourceNodeId: p1.targetNodeId,
         targetNodeId: p2.targetNodeId,
         type: RelationType.Spouse,
         treeId: relation.treeId,

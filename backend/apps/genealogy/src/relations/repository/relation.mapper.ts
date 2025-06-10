@@ -17,7 +17,7 @@ export class RelationPersistanceMapper
 
   domain2Persistance(entity: RelationEntity): TripleRdf {
     return {
-      subject: entity.souceNodeId,
+      subject: entity.sourceNodeId,
       predicate: entity.type,
       object: entity.targetNodeId,
       context: entity.treeId,
@@ -27,7 +27,7 @@ export class RelationPersistanceMapper
   persistance2Domain(document: TripleRdf): Promise<RelationEntity> {
     return Promise.resolve(
       RelationEntity.create({
-        souceNodeId: this.getUUID(document.subject)!,
+        sourceNodeId: this.getUUID(document.subject)!,
         targetNodeId: this.getUUID(document.object)!,
         type: document.predicate.split('/').pop() as RelationType,
         treeId: document.context,

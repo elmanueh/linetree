@@ -13,17 +13,17 @@ export class ChildrenFromSpouseRule {
 
     parents.forEach((p) => {
       const parent = p.targetNodeId;
-      const child = p.souceNodeId;
+      const child = p.sourceNodeId;
       const spousesParent = relations
         .filter(
-          (r) => r.type === RelationType.Spouse && r.souceNodeId === parent,
+          (r) => r.type === RelationType.Spouse && r.sourceNodeId === parent,
         )
         .map((r) => r.targetNodeId);
 
       if (spousesParent.length === 1) {
         newRelations.push(
           RelationEntity.create({
-            souceNodeId: spousesParent[0],
+            sourceNodeId: spousesParent[0],
             targetNodeId: child,
             type: RelationType.Children,
             treeId: relation.treeId,

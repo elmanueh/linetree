@@ -3,7 +3,7 @@ import { Entity } from '@app/shared';
 import { UUID } from 'crypto';
 
 export interface RelationProps {
-  souceNodeId: UUID;
+  sourceNodeId: UUID;
   targetNodeId: UUID;
   type: RelationType;
   treeId: UUID;
@@ -18,8 +18,8 @@ export class RelationEntity extends Entity<RelationProps> {
     return new RelationEntity(props, id);
   }
 
-  get souceNodeId(): UUID {
-    return this.props.souceNodeId;
+  get sourceNodeId(): UUID {
+    return this.props.sourceNodeId;
   }
 
   get targetNodeId(): UUID {

@@ -21,7 +21,7 @@ export class InferenceService {
     relation2: RelationEntity,
   ) {
     return (
-      relation1.souceNodeId === relation2.souceNodeId &&
+      relation1.sourceNodeId === relation2.sourceNodeId &&
       relation1.targetNodeId === relation2.targetNodeId &&
       relation1.type === relation2.type &&
       relation1.treeId === relation2.treeId

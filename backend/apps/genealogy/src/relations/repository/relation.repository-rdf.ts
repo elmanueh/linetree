@@ -32,7 +32,7 @@ export class RelationRepositoryRDF
   async deleteByNodeId(nodeId: UUID): Promise<void> {
     try {
       const triple = this.relationMapper.domain2Persistance({
-        souceNodeId: nodeId,
+        sourceNodeId: nodeId,
         targetNodeId: nodeId,
       } as RelationEntity);
       await this.sparqlService.delete(triple);
@@ -78,7 +78,7 @@ export class RelationRepositoryRDF
   ): Promise<RelationEntity[]> {
     try {
       const triple = this.relationMapper.domain2Persistance({
-        souceNodeId: nodeId,
+        sourceNodeId: nodeId,
         treeId: treeId,
       } as RelationEntity);
 
@@ -100,7 +100,7 @@ export class RelationRepositoryRDF
   ): Promise<RelationEntity[]> {
     try {
       const triple = this.relationMapper.domain2Persistance({
-        souceNodeId: nodeId,
+        sourceNodeId: nodeId,
         treeId: treeId,
       } as RelationEntity);
 

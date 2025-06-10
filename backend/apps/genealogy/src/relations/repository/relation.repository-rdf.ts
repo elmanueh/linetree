@@ -50,7 +50,7 @@ export class RelationRepositoryRDF
       const triples = await this.sparqlService.query(triple);
       return Promise.all(
         triples.map(async (triple) => {
-          return await this.relationMapper.persistance2Domain(triple);
+          return this.relationMapper.persistance2Domain(triple);
         }),
       );
     } catch {

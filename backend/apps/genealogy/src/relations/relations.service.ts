@@ -60,6 +60,10 @@ export class RelationsService {
     return this.relationRepository.findDescendantsByNodeId(nodeId, treeId);
   }
 
+  async findParents(nodeId: UUID, treeId: UUID): Promise<RelationEntity[]> {
+    return this.relationRepository.findParentsByNodeId(nodeId, treeId);
+  }
+
   async getGenealogy(tree: TreeEntity): Promise<JsonLdDocument> {
     try {
       const genealogy = await this.relationRepository.findGenealogy(tree.id);

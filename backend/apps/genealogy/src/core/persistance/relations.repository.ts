@@ -42,4 +42,15 @@ export abstract class RelationsRepository extends Repository<RelationEntity> {
    * @returns A Promise that resolves to an array of NodeObject objects representing the genealogy data
    */
   abstract findGenealogy(treeId: UUID): Promise<NodeObject[]>;
+
+  /**
+   * Retrieves parent relations for a specific node.
+   * @param nodeId - The UUID of the node whose parent relations should be retrieved
+   * @param treeId - The UUID of the tree to which the node belongs
+   * @returns A Promise that resolves to an array of RelationEntity objects representing the parent relations of the specified node
+   */
+  abstract findParentsByNodeId(
+    nodeId: UUID,
+    treeId: UUID,
+  ): Promise<RelationEntity[]>;
 }

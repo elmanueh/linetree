@@ -13,6 +13,7 @@ import {
 import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UUID } from 'crypto';
+import { ConflictRpcException } from 'libs/shared/src/exceptions/conflict.exception';
 
 @Injectable()
 export class NodesService {
@@ -30,6 +31,19 @@ export class NodesService {
     dto: CreateNodeDto,
   ): Promise<UUID> {
     try {
+      if (type === RelationType.Parent) {
+        const parents = await this.relationService.findParents(
+          nodeRefId,
+          treeId,
+        );
+
+        if (parents.length >= 2) {
+          throw new ConflictRpcException(
+            'A node can only have two parents. Please check the existing relations.',
+          );
+        }
+      }
+
       const tree = await this.treeRepository.findById(treeId);
       const node = NodeDomainMapper.createDto2Domain(dto);
       tree.addNode(node);

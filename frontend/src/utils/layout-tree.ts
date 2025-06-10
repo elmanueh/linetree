@@ -49,7 +49,7 @@ function layoutTree(node: GenealogyNode, x: number, y: number, level: number) {
   const nextLevel = y + VERTICAL_SPACING
 
   // spouses
-  if (node.spouse && node.spouse.length > 0) {
+  if (node.spouse.length > 0) {
     let px =
       x + NODE_WIDTH + SPOUSE_SPACING / 2 - getTreeWidth(node.spouse[0]) / 2
     node.spouse.forEach((spouse: GenealogyNode, index: number) => {
@@ -63,9 +63,12 @@ function layoutTree(node: GenealogyNode, x: number, y: number, level: number) {
   }
 
   // children
-  if (node.children && node.children.length > 0) {
-    let treeWidth =
-      x + NODE_WIDTH + SPOUSE_SPACING / 2 - getTreeWidth(node.spouse[0]) / 2
+  if (node.children.length > 0) {
+    let treeWidth = x + NODE_WIDTH + SPOUSE_SPACING / 2
+    treeWidth -=
+      node.spouse.length > 0
+        ? getTreeWidth(node.spouse[0]) / 2
+        : getTreeWidth(node) / 2
 
     node.children
       .sort((a, b) => {

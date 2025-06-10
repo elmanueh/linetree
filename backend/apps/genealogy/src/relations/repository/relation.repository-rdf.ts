@@ -93,4 +93,26 @@ export class RelationRepositoryRDF
       throw new RepositoryException("The relations couldn't be fetched");
     }
   }
+
+  async findParentsByNodeId(
+    nodeId: UUID,
+    treeId: UUID,
+  ): Promise<RelationEntity[]> {
+    try {
+      const triple = this.relationMapper.domain2Persistance({
+        souceNodeId: nodeId,
+        treeId: treeId,
+      } as RelationEntity);
+
+      const triples = await this.sparqlService.queryParents(triple);
+
+      return Promise.all(
+        triples.map(async (triple) => {
+          return this.relationMapper.persistance2Domain(triple);
+        }),
+      );
+    } catch {
+      throw new RepositoryException("The relations couldn't be fetched");
+    }
+  }
 }

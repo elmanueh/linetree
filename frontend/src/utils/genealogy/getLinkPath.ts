@@ -36,6 +36,15 @@ export function getLinkPath(
     n.children.some((c) => c.id === target.id)
   )
 
+  if (parents.length === 1) {
+    const parent = parents[0]
+    const connectX = parent.x + NODE_WIDTH / 2
+    const connectY = parent.y + NODE_HEIGHT / 2
+    const offsetY = connectY + VERTICAL_SPACING / 2
+
+    return `M${connectX},${connectY} V${offsetY} H${tx} V${ty}`
+  }
+
   const [p1, p2] =
     parents[0].spouse.length >= parents[1].spouse.length
       ? [parents[0], parents[1]]

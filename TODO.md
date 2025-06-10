@@ -7,6 +7,7 @@
 - [x] Arreglar el movimiento del zoom al mover el arbol.
 - [x] Terminar de emparejar los archivos que hay modificados en el frontend.
 - [x] Al mostrar los hijos, que salgan en orden por la madre.
+- [x] Que no se pueda borrar el ultimo nodo del arbol.
 
 ## Features
 
@@ -20,7 +21,6 @@
 
 ## Tasks
 
-- [ ] Que no se pueda borrar el ultimo nodo del arbol.
 - [ ] Que en una pareja, puedan existir padres y madres.
 - [ ] Al eliminar un arbol, accede de repente a su genealogia.
 - [ ] Mostrar mensajes de error del sistema.

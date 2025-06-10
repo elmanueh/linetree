@@ -103,6 +103,12 @@ export class NodesService {
   async removeNode(treeId: UUID, nodeId: UUID): Promise<void> {
     try {
       const tree = await this.treeRepository.findById(treeId);
+      if (tree.getNodes().length === 1) {
+        throw new ConflictRpcException(
+          'The last node in the tree cannot be deleted. Please delete the tree instead.',
+        );
+      }
+
       const relations = await this.relationService.findRelationsByNodeId(
         nodeId,
         treeId,
@@ -123,6 +129,7 @@ export class NodesService {
       if (error instanceof EntityNotFoundException) {
         throw new NotFoundRpcException("The tree couldn't be found");
       }
+      if (error instanceof RpcException) throw error;
       throw new InternalErrorRpcException("The node couldn't be deleted");
     }
   }

@@ -1,0 +1,36 @@
+import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
+import { RelationType } from '@app/genealogy/core/domain/relation.enum';
+
+export class SpouseFromParentRule {
+  applyInsert(
+    relation: RelationEntity,
+    relations: RelationEntity[],
+  ): RelationEntity[] {
+    if (relation.type !== RelationType.Parent) return [];
+
+    const newRelations: RelationEntity[] = [];
+    const relationsParents = relations.filter(
+      (r) =>
+        r.type === RelationType.Parent &&
+        r.souceNodeId === relation.souceNodeId,
+    );
+
+    if (relationsParents.length < 2) return [];
+    const [p1, p2] = relationsParents;
+
+    newRelations.push(
+      RelationEntity.create({
+        souceNodeId: p1.targetNodeId,
+        targetNodeId: p2.targetNodeId,
+        type: RelationType.Spouse,
+        treeId: relation.treeId,
+      }),
+    );
+
+    return newRelations;
+  }
+
+  applyDelete(): RelationEntity[] {
+    return [];
+  }
+}

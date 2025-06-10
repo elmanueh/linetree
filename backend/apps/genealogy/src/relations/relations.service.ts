@@ -31,13 +31,23 @@ export class RelationsService {
     await this.relationRepository.save(relation);
 
     // Generate inferences based on the new relation
-    const inferences =
-      this.inferenceService.generateInferencesFromInsert(relation);
+    const relations = await this.relationRepository.findByTreeId(treeId);
+    const inferences = this.inferenceService.generateInferencesFromInsert(
+      relation,
+      relations,
+    );
 
     for (const inference of inferences) {
-      await this.relationRepository.save(inference);
+      await this.createRelation(
+        inference.souceNodeId,
+        inference.targetNodeId,
+        undefined,
+        inference.type,
+        inference.treeId,
+      );
     }
 
+    // TODO: change
     if (relationType === RelationType.Children && spouseId) {
       await this.createRelation(
         spouseId,

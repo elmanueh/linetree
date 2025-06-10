@@ -4,7 +4,8 @@ import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 export class Children2ParentRule {
   applyInsert(relation: RelationEntity): RelationEntity[] {
     if (relation.type !== RelationType.Parent) return [];
-    return [
+
+    const newRelations = [
       RelationEntity.create({
         souceNodeId: relation.targetNodeId,
         targetNodeId: relation.souceNodeId,
@@ -12,11 +13,14 @@ export class Children2ParentRule {
         treeId: relation.treeId,
       }),
     ];
+
+    return newRelations;
   }
 
   applyDelete(relation: RelationEntity): RelationEntity[] {
     if (relation.type !== RelationType.Parent) return [];
-    return [
+
+    const newRelations = [
       RelationEntity.create({
         souceNodeId: relation.targetNodeId,
         targetNodeId: relation.souceNodeId,
@@ -24,5 +28,7 @@ export class Children2ParentRule {
         treeId: relation.treeId,
       }),
     ];
+
+    return newRelations;
   }
 }

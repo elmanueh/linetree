@@ -29,7 +29,7 @@ export class RelationPersistanceMapper
       RelationEntity.create({
         souceNodeId: this.getUUID(document.subject)!,
         targetNodeId: this.getUUID(document.object)!,
-        type: document.predicate as RelationType,
+        type: document.predicate.split('/').pop() as RelationType,
         treeId: document.context,
       }),
     );

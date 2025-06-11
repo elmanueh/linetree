@@ -89,7 +89,7 @@ export class TreesService {
   async getGenealogy(treeId: UUID): Promise<JsonLdDocument> {
     try {
       const tree = await this.treeRepository.findById(treeId);
-      const genealogy = this.relationsService.getGenealogy(tree);
+      const genealogy = await this.relationsService.getGenealogy(tree);
 
       return genealogy;
     } catch (error) {

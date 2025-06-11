@@ -2,9 +2,23 @@ import { CreateTree, Tree } from '@/configs/api.types'
 import { API_URLS } from '@/configs/constants'
 import { UUID } from '@/configs/types'
 import { HttpService } from '@/services/http.service'
+import HttpError from '@/utils/httpError'
 
 const getGenealogy = async (treeId: UUID) => {
   return HttpService.get(API_URLS.GENEALOGY(treeId))
+}
+
+const getGedcom = async (treeId: UUID) => {
+  const response = await fetch(API_URLS.EXPORT_GEDCOM(treeId), {
+    method: 'GET'
+  })
+
+  if (!response.ok) {
+    const error = await response.json()
+    throw new HttpError(response.status, response.statusText, error)
+  }
+
+  return response.text()
 }
 
 const createTree = async (data: CreateTree) => {
@@ -27,6 +41,7 @@ const getTree = async (id: UUID) => {
 
 export const TreeService = {
   getGenealogy,
+  getGedcom,
   getTrees,
   createTree,
   deleteTree

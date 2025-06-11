@@ -57,6 +57,11 @@ export class GenealogyController {
     return this.genealogyService.deleteTree(id);
   }
 
+  @Get(':id/gedcom')
+  async getGedcom(@Param('id') id: UUID) {
+    return this.genealogyService.getGedcom(id);
+  }
+
   // -------------------- NODES --------------------
   @Post(':id/nodes')
   async createNode(

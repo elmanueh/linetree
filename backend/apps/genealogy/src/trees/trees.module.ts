@@ -24,6 +24,6 @@ import { MongooseModule } from '@nestjs/mongoose';
       useClass: TreeRepositoryMongoose,
     },
   ],
-  exports: [TreeRepository],
+  exports: [TreeRepository, TreesService],
 })
 export class TreesModule {}

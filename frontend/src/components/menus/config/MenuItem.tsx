@@ -6,7 +6,7 @@ const typeClasses: Record<MenuItemType, string> = {
 }
 
 interface MenuItemProps {
-  onClick: () => void
+  onClick: (e: React.MouseEvent) => void
   label: string
   type?: MenuItemType
 }

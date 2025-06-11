@@ -1,6 +1,7 @@
 import {
   CreateRelatedNodeDto,
   CreateTreeDto,
+  EXCHANGE_PATTERNS,
   GENEALOGY_CLIENT,
   GetNodeDto,
   GetNodesDto,
@@ -49,6 +50,12 @@ export class GenealogyService {
   async deleteTree(id: UUID): Promise<void> {
     return lastValueFrom(
       this.genealogyClient.send<void>(TREES_PATTERNS.REMOVE, { id }),
+    );
+  }
+
+  async getGedcom(id: UUID): Promise<string> {
+    return lastValueFrom(
+      this.genealogyClient.send<UUID>(EXCHANGE_PATTERNS.GEDCOM, { id }),
     );
   }
 

@@ -28,8 +28,6 @@ export default function Home() {
     }
   }
 
-  if (loading) return <Loading />
-
   return (
     <section className="mt-24">
       <header className="mb-10 text-center">
@@ -45,7 +43,9 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mb-4">
           Mis árboles genealógicos
         </h2>
-        {trees.length === 0 ? (
+        {loading ? (
+          <Loading />
+        ) : trees.length === 0 ? (
           <p className="text-gray-500">No tienes árboles creados todavía.</p>
         ) : (
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

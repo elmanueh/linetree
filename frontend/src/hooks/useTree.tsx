@@ -85,6 +85,18 @@ export function useTree(type: TreeReducerType) {
     }
   }
 
+  const createTreeWithFile = async (fileData: string) => {
+    //console.log('Creating tree with file data', fileData)
+    dispatch({ type: ReducerActionType.START })
+    try {
+      const tree = await TreeService.importGedcom(fileData)
+      dispatch({ type: ReducerActionType.CREATE, payload: tree! })
+    } catch (error) {
+      if (error instanceof Error)
+        dispatch({ type: ReducerActionType.ERROR, payload: error.message })
+    }
+  }
+
   useEffect(() => {
     fetchTrees()
   }, [fetchTrees])
@@ -94,6 +106,7 @@ export function useTree(type: TreeReducerType) {
     loading: state.loading,
     error: state.error,
     createTree,
+    createTreeWithFile,
     deleteTree
   }
 }

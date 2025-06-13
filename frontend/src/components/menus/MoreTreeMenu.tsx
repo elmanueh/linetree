@@ -1,8 +1,7 @@
 import Menu from '@/components/menus/config/Menu'
 import MenuItem from '@/components/menus/config/MenuItem'
-import { TreeReducerType, UUID } from '@/configs/types'
+import { UUID } from '@/configs/types'
 import { useMenu } from '@/hooks/useMenu'
-import { useTree } from '@/hooks/useTree'
 import { TreeService } from '@/services/tree.service'
 
 interface MoreTreeMenuProps {
@@ -15,7 +14,6 @@ export default function MoreTreeMenu({
   callbackDelete
 }: MoreTreeMenuProps) {
   const { menuOpen, menuRef, toggleMenu, closeMenu } = useMenu()
-  const { trees } = useTree(TreeReducerType.ALL)
 
   const handleDeleteClick = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -30,15 +28,13 @@ export default function MoreTreeMenu({
     e.preventDefault()
     closeMenu()
 
-    if (trees?.length === 0) return
-    const tree = trees.find((t) => t.id === id)
     const data = await TreeService.exportGedcom(id)
     const blob = new Blob([data], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
 
     const a = document.createElement('a')
     a.href = url
-    a.download = `tree-${tree?.name || 'unknown'}.ged`
+    a.download = `tree-${id}.ged`
     a.click()
 
     URL.revokeObjectURL(url)

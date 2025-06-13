@@ -1,8 +1,7 @@
 import MoreTreeMenu from '@/components/menus/MoreTreeMenu'
 import { NAV_ROUTES } from '@/configs/constants'
 import { UUID } from '@/configs/types'
-import { GenealogyContext } from '@/context/GenealogyContext'
-import { useContext } from 'react'
+import { useGenealogy } from '@/hooks/useGenealogy'
 import { Link } from 'react-router'
 
 interface TreeCardProps {
@@ -18,7 +17,7 @@ export default function TreeCard({
   nodeCount,
   callbackDelete
 }: TreeCardProps) {
-  const { handleSelectedTree } = useContext(GenealogyContext)
+  const { handleSelectedTree } = useGenealogy()
 
   return (
     <div className="relative border border-gray-200 shadow-md rounded-lg p-5 hover:shadow-lg transition-shadow duration-200">

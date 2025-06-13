@@ -24,6 +24,7 @@
 
 ## Tasks
 
+- [ ] Incluir en gedcom el nombre del fichero para descargarlo.
 - [ ] Que en una pareja, puedan existir padres y madres.
 - [ ] Mostrar mensajes de error del sistema.
 - [ ] Autenticacion y autorizacion de usuarios

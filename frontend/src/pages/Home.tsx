@@ -1,3 +1,4 @@
+import ImportTree from '@/components/ImportTree'
 import Loading from '@/components/layout/Loading'
 import SearchBarCreateTree from '@/components/SearchBarCreateTree'
 import TreeCard from '@/components/TreeCard'
@@ -6,9 +7,8 @@ import { TreeReducerType, UUID } from '@/configs/types'
 import { useTree } from '@/hooks/useTree'
 
 export default function Home() {
-  const { trees, loading, createTree, deleteTree } = useTree(
-    TreeReducerType.ALL
-  )
+  const { trees, loading, createTree, createTreeWithFile, deleteTree } =
+    useTree(TreeReducerType.ALL)
 
   const handleCreateTree = async (name: string) => {
     try {
@@ -28,6 +28,15 @@ export default function Home() {
     }
   }
 
+  const handleFileUpload = async (fileData: string) => {
+    try {
+      if (!fileData) return
+      await createTreeWithFile(fileData)
+    } catch (error) {
+      alert('Error importing tree: ' + error)
+    }
+  }
+
   return (
     <section className="mt-24">
       <header className="mb-10 text-center">
@@ -38,6 +47,7 @@ export default function Home() {
       </header>
 
       <SearchBarCreateTree callback={handleCreateTree} />
+      <ImportTree callback={handleFileUpload} />
 
       <section className="max-w-6xl mx-auto mt-20">
         <h2 className="text-2xl font-semibold mb-4">

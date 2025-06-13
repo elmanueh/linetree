@@ -1,5 +1,5 @@
 import { TreeService } from '@/services/tree.service'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 interface SearchBarCreateTreeProps {
   callback: (name: string) => void
@@ -9,6 +9,7 @@ export default function SearchBarCreateTree({
   callback
 }: SearchBarCreateTreeProps) {
   const [name, setName] = useState('')
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleCreateTree = async () => {
     callback(name)
@@ -19,8 +20,14 @@ export default function SearchBarCreateTree({
     const file = e.target.files?.[0]
     if (!file) return
 
-    const text = await file.text()
-    await TreeService.importGedcom(text)
+    if (!file.name.toLowerCase().endsWith('.ged')) {
+      alert('Por favor, sube un archivo con extensión .ged')
+    } else {
+      const text = await file.text()
+      await TreeService.importGedcom(text)
+    }
+
+    fileInputRef.current!.value = ''
   }
 
   return (
@@ -66,6 +73,7 @@ export default function SearchBarCreateTree({
           Seleccionar archivo
         </label>
         <input
+          ref={fileInputRef}
           id="gedcom-upload"
           type="file"
           accept=".ged"

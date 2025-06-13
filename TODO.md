@@ -16,6 +16,7 @@
 - [ ] Implementar UPDATE para modificar un arbol.
 - [x] Implementar UPDATE para modificar un nodo.
 - [x] Exportacion de datos con GEDCOM
+- [x] Importacion de datos con GEDCOM
 
 ## Improvements
 
@@ -25,5 +26,4 @@
 
 - [ ] Que en una pareja, puedan existir padres y madres.
 - [ ] Mostrar mensajes de error del sistema.
-- [ ] Importacion de datos con GEDCOM
 - [ ] Autenticacion y autorizacion de usuarios

@@ -9,8 +9,13 @@ import { UUID } from 'crypto';
 export class ExchangeController {
   constructor(private readonly exchangeService: ExchangeService) {}
 
-  @MessagePattern(EXCHANGE_PATTERNS.GEDCOM)
+  @MessagePattern(EXCHANGE_PATTERNS.EXPORT_GEDCOM)
   createGedcomFile(@Payload('id', RpcParseUUIDPipe) treeId: UUID) {
     return this.exchangeService.createGedcomFile(treeId);
+  }
+
+  @MessagePattern(EXCHANGE_PATTERNS.IMPORT_GEDCOM)
+  loadGedcomFile(@Payload('gedcom') fileData: string) {
+    return this.exchangeService.loadGedcomFile(fileData);
   }
 }

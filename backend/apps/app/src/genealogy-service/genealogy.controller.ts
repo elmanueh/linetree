@@ -57,11 +57,6 @@ export class GenealogyController {
     return this.genealogyService.deleteTree(id);
   }
 
-  @Get(':id/gedcom')
-  async getGedcom(@Param('id') id: UUID) {
-    return this.genealogyService.getGedcom(id);
-  }
-
   // -------------------- NODES --------------------
   @Post(':id/nodes')
   async createNode(
@@ -99,5 +94,24 @@ export class GenealogyController {
     @Body() dto: UpdateNodeDto,
   ) {
     return this.genealogyService.updateNode(treeId, nodeId, dto);
+  }
+
+  // -------------------- IMPORT / EXPORT --------------------
+
+  @Post('/gedcom')
+  @HttpCode(HttpStatus.CREATED)
+  async importTree(
+    @Body() dto: { gedcom: string },
+    @Req() req: Request,
+    @Res() res: Response,
+  ) {
+    const treeId = await this.genealogyService.importTree(dto.gedcom);
+    const location = `${req.protocol}://${req.get('host')}${req.baseUrl}/api/trees/${treeId}`;
+    return res.location(location).status(HttpStatus.CREATED).send();
+  }
+
+  @Get(':id/gedcom')
+  async exportTree(@Param('id') id: UUID) {
+    return this.genealogyService.exportTree(id);
   }
 }

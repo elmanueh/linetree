@@ -1,12 +1,22 @@
 import { GenderType } from '@app/genealogy/core/domain/gender.enum';
+import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
+import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
+import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
 import { GenealogyNode } from '@app/genealogy/exchange/types/genealogy.type';
+import { parseGedcomJson } from '@app/genealogy/exchange/utils/import.util';
 import { TreesService } from '@app/genealogy/trees/trees.service';
 import { Injectable } from '@nestjs/common';
-import { UUID } from 'crypto';
+import { randomUUID, UUID } from 'crypto';
+import { compact, parse } from 'parse-gedcom';
 
 @Injectable()
 export class ExchangeService {
-  constructor(private readonly treeService: TreesService) {}
+  constructor(
+    private readonly treeService: TreesService,
+    private readonly treeRepository: TreeRepository,
+    private readonly nodeRepository: NodeRepository,
+    private readonly relationRepository: RelationsRepository,
+  ) {}
 
   private formatGedcomDate(date: Date): string {
     const month = date
@@ -105,5 +115,28 @@ export class ExchangeService {
     });
 
     return head + indi + fam + end;
+  }
+
+  async loadGedcomFile(fileData: string): Promise<UUID> {
+    const data = compact(parse(fileData));
+    const treeId = await this.treeService.createTree(randomUUID().slice(0, 8));
+    const { nodes, relations } = parseGedcomJson(data, treeId);
+
+    const tree = await this.treeRepository.findById(treeId);
+    const initialNode = tree.getNodes().pop()!;
+
+    for (const node of nodes) {
+      await this.nodeRepository.save(node);
+      tree.addNode(node);
+    }
+
+    tree.removeNode(initialNode.id);
+    await this.treeRepository.save(tree);
+
+    for (const relation of relations) {
+      await this.relationRepository.save(relation);
+    }
+
+    return treeId;
   }
 }

@@ -8,7 +8,7 @@ const getGenealogy = async (treeId: UUID) => {
   return HttpService.get(API_URLS.GENEALOGY(treeId))
 }
 
-const getGedcom = async (treeId: UUID) => {
+const exportGedcom = async (treeId: UUID) => {
   const response = await fetch(API_URLS.EXPORT_GEDCOM(treeId), {
     method: 'GET'
   })
@@ -19,6 +19,11 @@ const getGedcom = async (treeId: UUID) => {
   }
 
   return response.text()
+}
+
+const importGedcom = async (gedcom: string) => {
+  const id = await HttpService.post(API_URLS.IMPORT_GEDCOM, { gedcom })
+  return id ? getTree(id) : null
 }
 
 const createTree = async (data: CreateTree) => {
@@ -41,7 +46,8 @@ const getTree = async (id: UUID) => {
 
 export const TreeService = {
   getGenealogy,
-  getGedcom,
+  exportGedcom,
+  importGedcom,
   getTrees,
   createTree,
   deleteTree

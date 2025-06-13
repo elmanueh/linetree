@@ -1,3 +1,4 @@
 export const EXCHANGE_PATTERNS = {
-  GEDCOM: 'exchange.createGedcom',
+  EXPORT_GEDCOM: 'exchange.exportGedcom',
+  IMPORT_GEDCOM: 'exchange.importGedcom',
 };

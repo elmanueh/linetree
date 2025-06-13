@@ -32,7 +32,7 @@ export default function MoreTreeMenu({
 
     if (trees?.length === 0) return
     const tree = trees.find((t) => t.id === id)
-    const data = await TreeService.getGedcom(id)
+    const data = await TreeService.exportGedcom(id)
     const blob = new Blob([data], { type: 'text/plain;charset=utf-8' })
     const url = URL.createObjectURL(blob)
 

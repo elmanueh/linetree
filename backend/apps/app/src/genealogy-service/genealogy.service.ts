@@ -53,12 +53,6 @@ export class GenealogyService {
     );
   }
 
-  async getGedcom(id: UUID): Promise<string> {
-    return lastValueFrom(
-      this.genealogyClient.send<UUID>(EXCHANGE_PATTERNS.GEDCOM, { id }),
-    );
-  }
-
   // -------------------- NODES --------------------
   async createNode(treeId: UUID, dto: CreateRelatedNodeDto): Promise<UUID> {
     return lastValueFrom(
@@ -108,6 +102,22 @@ export class GenealogyService {
         treeId,
         nodeId,
         dto,
+      }),
+    );
+  }
+
+  // -------------------- IMPORT / EXPORT --------------------
+
+  async exportTree(id: UUID): Promise<string> {
+    return lastValueFrom(
+      this.genealogyClient.send<UUID>(EXCHANGE_PATTERNS.EXPORT_GEDCOM, { id }),
+    );
+  }
+
+  async importTree(gedcom: string): Promise<UUID> {
+    return lastValueFrom(
+      this.genealogyClient.send<UUID>(EXCHANGE_PATTERNS.IMPORT_GEDCOM, {
+        gedcom,
       }),
     );
   }

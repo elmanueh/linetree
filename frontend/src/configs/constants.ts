@@ -9,7 +9,8 @@ export const API_URLS = {
   NODES: (id: UUID) => `${URL_GATEWAY}/api/trees/${id}/nodes`,
   NODE: (treeId: UUID, nodeId: UUID) =>
     `${URL_GATEWAY}/api/trees/${treeId}/nodes/${nodeId}`,
-  EXPORT_GEDCOM: (id: UUID) => `${URL_GATEWAY}/api/trees/${id}/gedcom`
+  EXPORT_GEDCOM: (id: UUID) => `${URL_GATEWAY}/api/trees/${id}/gedcom`,
+  IMPORT_GEDCOM: `${URL_GATEWAY}/api/trees/gedcom`
 }
 
 export const NAV_ROUTES = {

@@ -12,6 +12,7 @@ export default function Home() {
 
   const handleCreateTree = async (name: string) => {
     try {
+      if (!name.trim()) return
       const tree: CreateTree = { name }
       await createTree(tree)
     } catch (error) {

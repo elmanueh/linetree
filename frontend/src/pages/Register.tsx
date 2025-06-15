@@ -1,161 +1,147 @@
-import { useState } from 'react'
+import { RegisterUser } from '@/configs/api.types'
+import { NAV_ROUTES, NodeGenderType } from '@/configs/constants'
+import { useAuth } from '@/hooks/useAuth'
+import { Link, useNavigate } from 'react-router'
 
 export default function Register() {
-  const [avatarPreview, setAvatarPreview] = useState(null)
+  const { register } = useAuth()
+  const navigate = useNavigate()
 
-  const handleAvatarChange = (e) => {
-    const file = e.target.files[0]
-    if (file) {
-      setAvatarPreview(URL.createObjectURL(file))
+  const handleRegister = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    const birthDateStr = formData.get('birthDate') as string
+
+    const userData: RegisterUser = {
+      birthDate: new Date(birthDateStr),
+      email: formData.get('email') as string,
+      firstName: formData.get('firstName') as string,
+      gender: formData.get('gender') as NodeGenderType,
+      lastName: formData.get('lastName') as string,
+      password: formData.get('password') as string
     }
+
+    try {
+      await register(userData)
+      navigate(NAV_ROUTES.HOME)
+    } catch {
+      alert('Error al registrarse. Inténtalo de nuevo.')
+    }
+    form.reset()
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-green-50 to-green-200 font-sans p-4">
-      <div className="bg-white shadow-lg rounded-xl p-10 max-w-lg w-full relative overflow-hidden">
-        <h2 className="text-3xl font-semibold text-green-700 mb-8 text-center">
-          Registro
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <div className="shadow-xl rounded-xl px-12 py-10 w-full max-w-3xl border border-white/20">
+        <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8">
+          Genealogy App
+        </h1>
+
+        <h2 className="text-lg font-semibold text-gray-800 mb-6 text-center">
+          Regístrate para comenzar
         </h2>
-        <form className="space-y-6">
-          <div className="grid grid-cols-2 gap-6">
-            <div>
-              <label
-                htmlFor="firstName"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Nombre
-              </label>
-              <input
-                type="text"
-                id="firstName"
-                name="firstName"
-                placeholder="Nombre"
-                className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
-                required
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="lastName"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Apellidos
-              </label>
-              <input
-                type="text"
-                id="lastName"
-                name="lastName"
-                placeholder="Apellidos"
-                className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
-                required
-              />
-            </div>
-          </div>
 
+        <form onSubmit={handleRegister} className="grid grid-cols-2 gap-6">
           <div>
-            <label
-              htmlFor="username"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Usuario
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Nombre
             </label>
             <input
+              name="firstName"
               type="text"
-              id="username"
-              name="username"
-              placeholder="Usuario"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
               required
+              placeholder="Nombre"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700 mb-1"
-            >
-              Email
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Apellidos
             </label>
             <input
-              type="email"
-              id="email"
-              name="email"
-              placeholder="correo@ejemplo.com"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
+              name="lastName"
+              type="text"
               required
+              placeholder="Apellidos"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
           <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700 mb-1"
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Género
+            </label>
+            <select
+              name="gender"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             >
+              <option value="">Selecciona una opción</option>
+              <option value="male">Hombre</option>
+              <option value="female">Mujer</option>
+              <option value="other">Otro</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Fecha de nacimiento
+            </label>
+            <input
+              name="birthDate"
+              type="date"
+              required
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Correo electrónico
+            </label>
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder="correo@ejemplo.com"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
               Contraseña
             </label>
             <input
-              type="password"
-              id="password"
               name="password"
-              placeholder="••••••••"
-              className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
+              type="password"
               required
+              placeholder="••••••••"
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
-          <div className="flex items-center space-x-6">
-            <div className="flex-1">
-              <label
-                htmlFor="birthDate"
-                className="block text-sm font-medium text-gray-700 mb-1"
-              >
-                Fecha de nacimiento
-              </label>
-              <input
-                type="date"
-                id="birthDate"
-                name="birthDate"
-                className="w-full px-4 py-2 border border-green-300 rounded-md focus:ring-2 focus:ring-green-400 focus:outline-none"
-                required
-              />
-            </div>
-            <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Avatar
-              </label>
-              <div className="flex items-center space-x-4">
-                <label
-                  htmlFor="avatar"
-                  className="cursor-pointer bg-green-600 hover:bg-green-700 text-white rounded-md px-4 py-2 transition"
-                >
-                  Subir imagen
-                </label>
-                <input
-                  type="file"
-                  id="avatar"
-                  name="avatar"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={handleAvatarChange}
-                />
-                {avatarPreview && (
-                  <img
-                    src={avatarPreview}
-                    alt="Avatar Preview"
-                    className="w-12 h-12 rounded-full border-2 border-green-500"
-                  />
-                )}
-              </div>
-            </div>
+          <div className="col-span-2">
+            <button
+              type="submit"
+              className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-md transition"
+            >
+              Registrarse
+            </button>
           </div>
-
-          <button
-            type="submit"
-            className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-md transition"
-          >
-            Registrarse
-          </button>
         </form>
+
+        <p className="mt-6 text-sm text-center text-gray-700">
+          ¿Ya tienes una cuenta?{' '}
+          <Link
+            to={NAV_ROUTES.LOGIN}
+            className="text-green-700 font-medium hover:underline"
+          >
+            Inicia sesión
+          </Link>
+        </p>
       </div>
     </div>
   )

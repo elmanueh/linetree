@@ -6,9 +6,9 @@ export default function Login() {
   const { login } = useAuth()
   const navigate = useNavigate()
 
-  const handleLogin = async (event: React.FormEvent) => {
-    event.preventDefault()
-    const form = event.target as HTMLFormElement
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    const form = e.target as HTMLFormElement
     const formData = new FormData(form)
     const email = formData.get('user') as string
     const password = formData.get('password') as string
@@ -22,9 +22,9 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-green-50 to-green-200 animate-gradient-x">
-      <div className="bg-white/30 backdrop-blur-lg shadow-xl rounded-xl px-10 py-12 max-w-md w-full border border-white/20">
-        <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8 tracking-wide drop-shadow">
+    <div className="min-h-screen w-full flex items-center justify-center">
+      <div className="shadow-xl rounded-xl px-10 py-12 max-w-md w-full border border-white/20">
+        <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8">
           Genealogy App
         </h1>
 

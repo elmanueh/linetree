@@ -1,11 +1,14 @@
 import Menu from '@/components/menus/config/Menu'
 import MenuItem from '@/components/menus/config/MenuItem'
+import { NAV_ROUTES } from '@/configs/constants'
 import { useAuth } from '@/hooks/useAuth'
 import { useMenu } from '@/hooks/useMenu'
+import { useNavigate } from 'react-router'
 
 export default function UserMenu() {
   const { menuOpen, menuRef, toggleMenu, closeMenu } = useMenu()
   const { user, loading, logout } = useAuth()
+  const navigate = useNavigate()
 
   const handleLogout = async (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -13,6 +16,7 @@ export default function UserMenu() {
     closeMenu()
 
     await logout()
+    navigate(NAV_ROUTES.OVERVIEW)
   }
 
   const handleButtonClick = (

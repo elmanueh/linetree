@@ -21,7 +21,8 @@ export const API_URLS = {
 }
 
 export const NAV_ROUTES = {
-  HOME: '/',
+  OVERVIEW: '/',
+  HOME: '/home',
   TREE: (id: UUID) => `/${id}`,
   LOGIN: '/login',
   REGISTER: '/register'

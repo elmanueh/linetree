@@ -8,18 +8,12 @@ import { createBrowserRouter } from 'react-router'
 
 export const router = createBrowserRouter([
   {
-    path: 'login',
-    Component: Login
-  },
-  {
-    path: 'register',
-    Component: Register
-  },
-  {
     path: '/',
     Component: Layout,
     children: [
       { index: true, Component: Overview },
+      { path: 'login', Component: Login },
+      { path: 'register', Component: Register },
       { path: 'home', Component: Home },
       {
         path: ':id',

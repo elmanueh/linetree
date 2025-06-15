@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 // ---------------- GENEALOGY -----------------
 export const GENEALOGY_CLIENT = 'GENEALOGY_CLIENT';
 

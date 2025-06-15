@@ -3,6 +3,13 @@ import { UUID } from '@/configs/types'
 const URL_GATEWAY = 'http://localhost:3000'
 
 export const API_URLS = {
+  // ---------- AUTH -----------
+  AUTH_LOGIN: `${URL_GATEWAY}/api/auth/login`,
+  AUTH_LOGOUT: `${URL_GATEWAY}/api/auth/logout`,
+  AUTH_REGISTER: `${URL_GATEWAY}/api/auth/register`,
+  AUTH_GET_USER: `${URL_GATEWAY}/api/auth/user`,
+
+  // ---------- GENEALOGY -----------
   TREES: `${URL_GATEWAY}/api/trees`,
   TREE: (id: UUID) => `${URL_GATEWAY}/api/trees/${id}`,
   GENEALOGY: (id: UUID) => `${URL_GATEWAY}/api/trees/${id}/genealogy`,
@@ -15,7 +22,9 @@ export const API_URLS = {
 
 export const NAV_ROUTES = {
   HOME: '/',
-  TREE: (id: UUID) => `/${id}`
+  TREE: (id: UUID) => `/${id}`,
+  LOGIN: '/login',
+  REGISTER: '/register'
 }
 
 export enum NodeRelationType {

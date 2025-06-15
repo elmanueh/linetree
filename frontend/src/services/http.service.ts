@@ -2,7 +2,8 @@ import HttpError from '@/utils/httpError'
 
 async function get<T>(url: string): Promise<T> {
   const response = await fetch(url, {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include'
   })
 
   if (!response.ok) {

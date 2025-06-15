@@ -46,3 +46,22 @@ export interface Node {
   gender: NodeGenderType
   givenName: string
 }
+
+// ---------- AUTH -------------
+export interface RegisterUser {
+  birthDate: Date
+  email: string
+  firstName: string
+  gender: NodeGenderType
+  lastName: string
+  password: string
+}
+
+export interface User {
+  id: UUID
+  birthDate: Date
+  email: string
+  firstName: string
+  gender: NodeGenderType
+  lastName: string
+}

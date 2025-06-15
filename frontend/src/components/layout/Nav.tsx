@@ -1,4 +1,4 @@
-import UserButton from '@/components/layout/UserButton'
+import UserMenu from '@/components/menus/UserMenu'
 import { NAV_ROUTES } from '@/configs/constants'
 import { Link } from 'react-router'
 
@@ -15,7 +15,7 @@ export default function Nav() {
           Mis árboles
         </Link>
 
-        <UserButton />
+        <UserMenu />
       </div>
     </nav>
   )

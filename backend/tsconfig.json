@@ -22,7 +22,9 @@
       "@app/shared": ["libs/shared/src"],
 
       "@app/gateway/*": ["apps/app/src/*"],
-      "@app/genealogy/*": ["apps/genealogy/src/*"]
+      "@app/genealogy/*": ["apps/genealogy/src/*"],
+
+      "@users-ms/*": ["apps/users/src/*"]
     }
   }
 }

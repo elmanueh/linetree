@@ -1,28 +1,27 @@
-import { UserPersistanceMapper } from '@app/gateway/user-service/persistance/user.mapper';
-import { UserRepository } from '@app/gateway/user-service/persistance/user.repository';
-import { UserRepositoryMongoose } from '@app/gateway/user-service/persistance/user.repository-mongoose';
-import {
-  User,
-  UserSchema,
-} from '@app/gateway/user-service/persistance/user.schema';
-import { UserController } from '@app/gateway/user-service/user.controller';
+import { USER_CLIENT } from '@app/contracts';
 import { UserService } from '@app/gateway/user-service/user.service';
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+    ClientsModule.registerAsync([
+      {
+        name: USER_CLIENT,
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            port: configService.get<number>('USER_SERVICE_PORT'),
+          },
+        }),
+        inject: [ConfigService],
+      },
+    ]),
   ],
-  controllers: [UserController],
-  providers: [
-    UserService,
-    UserPersistanceMapper,
-    {
-      provide: UserRepository,
-      useClass: UserRepositoryMongoose,
-    },
-  ],
+  controllers: [],
+  providers: [UserService],
   exports: [UserService],
 })
 export class UserModule {}

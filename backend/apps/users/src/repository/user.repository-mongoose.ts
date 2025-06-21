@@ -1,14 +1,10 @@
-import { UserEntity } from '@app/gateway/user-service/entities/user.entity';
-import { UserPersistanceMapper } from '@app/gateway/user-service/persistance/user.mapper';
-import { UserRepository } from '@app/gateway/user-service/persistance/user.repository';
-import {
-  User,
-  UserDocument,
-} from '@app/gateway/user-service/persistance/user.schema';
 import { RepositoryMongoose } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-
+import { UserEntity } from '@users-ms/domain/user.entity';
+import { UserPersistanceMapper } from '@users-ms/repository/user.mapper';
+import { UserRepository } from '@users-ms/repository/user.repository';
+import { User, UserDocument } from '@users-ms/repository/user.schema';
 import { Model } from 'mongoose';
 
 @Injectable()

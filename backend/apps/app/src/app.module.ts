@@ -1,22 +1,15 @@
 import { AuthModule } from '@app/gateway/auth-service/auth.module';
 import { GenealogyModule } from '@app/gateway/genealogy-service/genealogy.module';
-import { UserModule } from '@app/gateway/user-service/user.module';
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { MongooseModule } from '@nestjs/mongoose';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        uri: configService.get('MONGODB_URI'),
-      }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: './apps/app/.env',
     }),
     GenealogyModule,
-    UserModule,
     AuthModule,
   ],
   controllers: [],

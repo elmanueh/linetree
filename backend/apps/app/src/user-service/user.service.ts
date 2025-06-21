@@ -1,40 +1,44 @@
-import { CreateUserDto } from '@app/gateway/user-service/dto/create-user.dto';
-import { UserEntity } from '@app/gateway/user-service/entities/user.entity';
-import { UserRepository } from '@app/gateway/user-service/persistance/user.repository';
-import { Injectable } from '@nestjs/common';
+import { USER_CLIENT, USER_PATTERN } from '@app/contracts';
+import { RpcError, RpcErrorCode } from '@app/shared';
+import { Inject, Injectable } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
+import { CreateUserDto } from '@users-ms/dto/create-user.dto';
+import { GetUserDto } from '@users-ms/dto/get-user.dto';
 import { UUID } from 'crypto';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(@Inject(USER_CLIENT) private readonly userClient: ClientProxy) {}
 
-  async create(dto: CreateUserDto): Promise<UserEntity> {
-    const user = UserEntity.create({
-      birthDate: dto.birthDate,
-      email: dto.email,
-      firstName: dto.firstName,
-      gender: dto.gender,
-      lastName: dto.lastName,
-      password: dto.password,
-    });
-
-    await this.userRepository.save(user);
-    return user;
+  async createUser(dto: CreateUserDto): Promise<UUID> {
+    return lastValueFrom(this.userClient.send<UUID>(USER_PATTERN.CREATE, dto));
   }
 
-  async findAll(): Promise<UserEntity[]> {
-    return this.userRepository.findAll();
+  async getUser(id: UUID): Promise<GetUserDto> {
+    return lastValueFrom(
+      this.userClient.send<GetUserDto>(USER_PATTERN.FIND_ONE, { id }),
+    );
   }
 
-  async findByEmail(email: string): Promise<UserEntity | null> {
-    return this.userRepository.findByEmail(email);
+  async getUserByEmail(email: string): Promise<GetUserDto | null> {
+    try {
+      const user = await lastValueFrom(
+        this.userClient.send<GetUserDto>(USER_PATTERN.FIND_ONE_BY_EMAIL, {
+          email,
+        }),
+      );
+      return user;
+    } catch (error) {
+      const errorRpc = error as RpcError;
+      if (errorRpc.status === RpcErrorCode.NOT_FOUND) return null;
+      throw error;
+    }
   }
 
-  findById(id: UUID): Promise<UserEntity | null> {
-    return this.userRepository.findById(id);
-  }
-
-  async remove(id: UUID): Promise<void> {
-    return this.userRepository.delete(id);
+  async deleteUser(id: UUID): Promise<void> {
+    return lastValueFrom(
+      this.userClient.send<void>(USER_PATTERN.REMOVE, { id }),
+    );
   }
 }

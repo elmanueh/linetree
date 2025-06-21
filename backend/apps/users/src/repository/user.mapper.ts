@@ -1,8 +1,8 @@
-import { UserEntity } from '@app/gateway/user-service/entities/user.entity';
-import { User } from '@app/gateway/user-service/persistance/user.schema';
 import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { Mapper } from '@app/shared';
 import { Injectable } from '@nestjs/common';
+import { UserEntity } from '@users-ms/domain/user.entity';
+import { User } from '@users-ms/repository/user.schema';
 import { UUID } from 'crypto';
 
 @Injectable()

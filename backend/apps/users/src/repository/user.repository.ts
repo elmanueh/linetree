@@ -1,5 +1,5 @@
-import { UserEntity } from '@app/gateway/user-service/entities/user.entity';
 import { Repository } from '@app/shared';
+import { UserEntity } from '@users-ms/domain/user.entity';
 
 export abstract class UserRepository extends Repository<UserEntity> {
   /**

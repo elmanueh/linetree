@@ -1,18 +1,28 @@
+import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { UsersModule } from './users.module';
+import { UserModule } from '@users-ms/user.module';
 
 async function bootstrap() {
+  const appContext = await NestFactory.createApplicationContext(UserModule);
+  const configService = appContext.get(ConfigService);
+
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
-    UsersModule,
+    UserModule,
     {
       transport: Transport.TCP,
       options: {
-        host: 'localhost',
-        port: 3001,
+        host: configService.get<string>('USER_SERVICE_HOST'),
+        port: configService.get<number>('USER_SERVICE_PORT'),
       },
     },
   );
+
   await app.listen();
+
+  Logger.log(
+    `User microservice listening on ${configService.get('USER_SERVICE_HOST')}:${configService.get('USER_SERVICE_PORT')}`,
+  );
 }
 void bootstrap();

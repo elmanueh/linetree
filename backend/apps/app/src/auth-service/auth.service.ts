@@ -1,5 +1,4 @@
 import { LoginDto } from '@app/gateway/auth-service/dto/login.dto';
-import { CreateUserDto } from '@app/gateway/user-service/dto/create-user.dto';
 import { UserService } from '@app/gateway/user-service/user.service';
 import {
   ConflictException,
@@ -7,6 +6,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { CreateUserDto } from '@users-ms/dto/create-user.dto';
 import * as bcrypt from 'bcrypt';
 import { UUID } from 'crypto';
 
@@ -27,11 +27,11 @@ export class AuthService {
   }
 
   async register(dto: CreateUserDto) {
-    const existEmail = await this.userService.findByEmail(dto.email);
-    if (existEmail) throw new ConflictException('Email already exists');
+    const user = await this.userService.getUserByEmail(dto.email);
+    if (user) throw new ConflictException('Email already exists');
 
     const hashedPassword = await bcrypt.hash(dto.password, 10);
-    const user = await this.userService.create({
+    const id = await this.userService.createUser({
       birthDate: dto.birthDate,
       email: dto.email,
       firstName: dto.firstName,
@@ -40,12 +40,12 @@ export class AuthService {
       password: hashedPassword,
     });
 
-    const accessToken = await this.generateToken(user.id);
+    const accessToken = await this.generateToken(id);
     return { accessToken };
   }
 
   async login(dto: LoginDto) {
-    const user = await this.userService.findByEmail(dto.email);
+    const user = await this.userService.getUserByEmail(dto.email);
     if (!user || !(await bcrypt.compare(dto.password, user.password))) {
       throw new UnauthorizedException('Invalid email or password');
     }
@@ -59,7 +59,7 @@ export class AuthService {
 
     try {
       const payload = await this.jwtService.verifyAsync<JwtPayload>(token);
-      return this.userService.findById(payload.sub);
+      return this.userService.getUser(payload.sub);
     } catch {
       throw new UnauthorizedException('Invalid token');
     }

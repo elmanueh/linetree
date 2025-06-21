@@ -1,5 +1,5 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { Mapper } from '@app/shared';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
 import { Injectable } from '@nestjs/common';
 import { UserEntity } from '@users-ms/domain/user.entity';
 import { User } from '@users-ms/repository/user.schema';

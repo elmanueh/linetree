@@ -23,8 +23,7 @@
 
       "@gateway/*": ["apps/gateway/src/*"],
       "@users-ms/*": ["apps/users/src/*"],
-
-      "@app/genealogy/*": ["apps/genealogy/src/*"]
+      "@genealogy-ms/*": ["apps/genealogy/src/*"]
     }
   }
 }

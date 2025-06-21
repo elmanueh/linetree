@@ -1,9 +1,9 @@
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
-import { Children2ParentRule } from '@app/genealogy/relations/inference/children2parent.rule';
-import { ChildrenFromSpouseRule } from '@app/genealogy/relations/inference/childrenFromSpouse.rule';
-import { Parent2ChildrenRule } from '@app/genealogy/relations/inference/parent2children.rule';
-import { Spouse2SpouseRule } from '@app/genealogy/relations/inference/spouse2spouse.rule';
-import { SpouseFromParentRule } from '@app/genealogy/relations/inference/spouseFromParent.rule';
+import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
+import { Children2ParentRule } from '@genealogy-ms/relations/inference/children2parent.rule';
+import { ChildrenFromSpouseRule } from '@genealogy-ms/relations/inference/childrenFromSpouse.rule';
+import { Parent2ChildrenRule } from '@genealogy-ms/relations/inference/parent2children.rule';
+import { Spouse2SpouseRule } from '@genealogy-ms/relations/inference/spouse2spouse.rule';
+import { SpouseFromParentRule } from '@genealogy-ms/relations/inference/spouseFromParent.rule';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

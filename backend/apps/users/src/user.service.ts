@@ -1,5 +1,5 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { IllegalArgumentRpcException, NotFoundRpcException } from '@app/shared';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
 import { Injectable, Logger } from '@nestjs/common';
 import { UserEntity } from '@users-ms/domain/user.entity';
 import { UserRepository } from '@users-ms/repository/user.repository';

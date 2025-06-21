@@ -1,7 +1,7 @@
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
-import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
-import { RelationPersistanceMapper } from '@app/genealogy/relations/repository/relation.mapper';
 import { RepositoryException, RepositoryRDF, SparqlService } from '@app/shared';
+import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
+import { RelationsRepository } from '@genealogy-ms/core/persistance/relations.repository';
+import { RelationPersistanceMapper } from '@genealogy-ms/relations/repository/relation.mapper';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { NodeObject } from 'jsonld';

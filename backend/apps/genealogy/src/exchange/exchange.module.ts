@@ -1,8 +1,8 @@
-import { ExchangeController } from '@app/genealogy/exchange/exchange.controller';
-import { ExchangeService } from '@app/genealogy/exchange/exchange.service';
-import { NodesModule } from '@app/genealogy/nodes/nodes.module';
-import { RelationsModule } from '@app/genealogy/relations/relations.module';
-import { TreesModule } from '@app/genealogy/trees/trees.module';
+import { ExchangeController } from '@genealogy-ms/exchange/exchange.controller';
+import { ExchangeService } from '@genealogy-ms/exchange/exchange.service';
+import { NodesModule } from '@genealogy-ms/nodes/nodes.module';
+import { RelationsModule } from '@genealogy-ms/relations/relations.module';
+import { TreesModule } from '@genealogy-ms/trees/trees.module';
 import { Module } from '@nestjs/common';
 
 @Module({

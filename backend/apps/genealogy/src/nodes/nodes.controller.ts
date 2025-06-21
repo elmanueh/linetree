@@ -1,11 +1,11 @@
 import { NODES_PATTERNS } from '@app/contracts';
-import { NodeDomainMapper } from '@app/genealogy/core/mapper/node.mapper';
-import { CreateNodePayload } from '@app/genealogy/nodes/dto/create-node.payload';
-import { GetNodePayload } from '@app/genealogy/nodes/dto/get-node.payload';
-import { RemoveNodePayload } from '@app/genealogy/nodes/dto/remove-node.payload';
-import { UpdateNodePayload } from '@app/genealogy/nodes/dto/update-node.payload';
-import { NodesService } from '@app/genealogy/nodes/nodes.service';
 import { RpcParseUUIDPipe, RpcValidationPipe } from '@app/shared';
+import { NodeDomainMapper } from '@genealogy-ms/core/mapper/node.mapper';
+import { CreateNodePayload } from '@genealogy-ms/nodes/dto/create-node.payload';
+import { GetNodePayload } from '@genealogy-ms/nodes/dto/get-node.payload';
+import { RemoveNodePayload } from '@genealogy-ms/nodes/dto/remove-node.payload';
+import { UpdateNodePayload } from '@genealogy-ms/nodes/dto/update-node.payload';
+import { NodesService } from '@genealogy-ms/nodes/nodes.service';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UUID } from 'crypto';

@@ -1,9 +1,9 @@
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
-import { RelationType } from '@app/genealogy/core/domain/relation.enum';
-import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
-import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
-import { InferenceService } from '@app/genealogy/relations/inference/inference.service';
 import { InternalErrorRpcException } from '@app/shared';
+import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
+import { TreeEntity } from '@genealogy-ms/core/domain/tree.entity';
+import { RelationsRepository } from '@genealogy-ms/core/persistance/relations.repository';
+import { InferenceService } from '@genealogy-ms/relations/inference/inference.service';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { compact, JsonLdDocument } from 'jsonld';

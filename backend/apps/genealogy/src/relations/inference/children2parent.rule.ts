@@ -1,5 +1,5 @@
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
-import { RelationType } from '@app/genealogy/core/domain/relation.enum';
+import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
 
 export class Children2ParentRule {
   applyInsert(relation: RelationEntity): RelationEntity[] {

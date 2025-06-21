@@ -1,5 +1,5 @@
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
 import { Repository } from '@app/shared';
+import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
 import { UUID } from 'crypto';
 import { NodeObject } from 'jsonld';
 

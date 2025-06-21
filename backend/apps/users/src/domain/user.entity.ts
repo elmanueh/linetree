@@ -1,5 +1,5 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
 import { Entity } from '@app/shared';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
 import { UUID } from 'crypto';
 
 export interface UserProps {

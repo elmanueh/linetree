@@ -1,18 +1,28 @@
-import { GenealogyModule } from '@app/genealogy/genealogy.module';
+import { GenealogyModule } from '@genealogy-ms/genealogy.module';
+import { Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 
 async function bootstrap() {
+  const appContext =
+    await NestFactory.createApplicationContext(GenealogyModule);
+  const configService = appContext.get(ConfigService);
+
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     GenealogyModule,
     {
       transport: Transport.TCP,
       options: {
-        host: 'localhost',
-        port: 3002,
+        host: configService.get<string>('GENEALOGY_SERVICE_HOST'),
+        port: configService.get<number>('GENEALOGY_SERVICE_PORT'),
       },
     },
   );
   await app.listen();
+
+  Logger.log(
+    `Genealogy microservice listening on ${configService.get('GENEALOGY_SERVICE_HOST')}:${configService.get('GENEALOGY_SERVICE_PORT')}`,
+  );
 }
 void bootstrap();

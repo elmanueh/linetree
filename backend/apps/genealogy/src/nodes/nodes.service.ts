@@ -1,15 +1,15 @@
 import { CreateNodeDto, UpdateNodeDto } from '@app/contracts';
-import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
-import { RelationType } from '@app/genealogy/core/domain/relation.enum';
-import { NodeDomainMapper } from '@app/genealogy/core/mapper/node.mapper';
-import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
-import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
-import { RelationsService } from '@app/genealogy/relations/relations.service';
 import {
   EntityNotFoundException,
   InternalErrorRpcException,
   NotFoundRpcException,
 } from '@app/shared';
+import { NodeEntity } from '@genealogy-ms/core/domain/node.entity';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
+import { NodeDomainMapper } from '@genealogy-ms/core/mapper/node.mapper';
+import { NodeRepository } from '@genealogy-ms/core/persistance/nodes.repository';
+import { TreeRepository } from '@genealogy-ms/core/persistance/trees.repository';
+import { RelationsService } from '@genealogy-ms/relations/relations.service';
 import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UUID } from 'crypto';

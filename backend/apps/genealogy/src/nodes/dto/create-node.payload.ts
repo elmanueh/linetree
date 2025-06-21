@@ -1,5 +1,5 @@
 import { CreateNodeDto } from '@app/contracts';
-import { RelationType } from '@app/genealogy/core/domain/relation.enum';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
 import { Type } from 'class-transformer';
 import {
   IsEnum,

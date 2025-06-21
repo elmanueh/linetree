@@ -1,10 +1,10 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
-import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
-import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
-import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
-import { GenealogyNode } from '@app/genealogy/exchange/types/genealogy.type';
-import { parseGedcomJson } from '@app/genealogy/exchange/utils/import.util';
-import { TreesService } from '@app/genealogy/trees/trees.service';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
+import { NodeRepository } from '@genealogy-ms/core/persistance/nodes.repository';
+import { RelationsRepository } from '@genealogy-ms/core/persistance/relations.repository';
+import { TreeRepository } from '@genealogy-ms/core/persistance/trees.repository';
+import { GenealogyNode } from '@genealogy-ms/exchange/types/genealogy.type';
+import { parseGedcomJson } from '@genealogy-ms/exchange/utils/import.util';
+import { TreesService } from '@genealogy-ms/trees/trees.service';
 import { Injectable } from '@nestjs/common';
 import { randomUUID, UUID } from 'crypto';
 import { compact, parse } from 'parse-gedcom';

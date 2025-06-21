@@ -1,8 +1,8 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
-import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
-import { RelationType } from '@app/genealogy/core/domain/relation.enum';
-import { FamilyData } from '@app/genealogy/exchange/utils/import.type';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
+import { NodeEntity } from '@genealogy-ms/core/domain/node.entity';
+import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
+import { FamilyData } from '@genealogy-ms/exchange/utils/import.type';
 import { UUID } from 'crypto';
 import { Parent } from 'unist';
 

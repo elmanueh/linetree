@@ -1,5 +1,5 @@
-import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 import { Entity } from '@app/shared';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
 import { UUID } from 'crypto';
 
 export interface RelationProps {

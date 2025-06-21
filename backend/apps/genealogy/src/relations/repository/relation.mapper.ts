@@ -1,6 +1,6 @@
-import { RelationEntity } from '@app/genealogy/core/domain/relation.entity';
-import { RelationType } from '@app/genealogy/core/domain/relation.enum';
 import { Mapper, TripleRdf } from '@app/shared';
+import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
 import { UUID } from 'crypto';
 
 export class RelationPersistanceMapper

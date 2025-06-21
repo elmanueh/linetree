@@ -1,4 +1,4 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
 import { UserEntity } from '@users-ms/domain/user.entity';
 import { UUID } from 'crypto';
 

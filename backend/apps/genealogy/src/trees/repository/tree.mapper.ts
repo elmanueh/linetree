@@ -1,7 +1,7 @@
-import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
-import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
-import { Tree } from '@app/genealogy/trees/repository/tree.schema';
 import { Mapper } from '@app/shared';
+import { TreeEntity } from '@genealogy-ms/core/domain/tree.entity';
+import { NodeRepository } from '@genealogy-ms/core/persistance/nodes.repository';
+import { Tree } from '@genealogy-ms/trees/repository/tree.schema';
 import { Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 

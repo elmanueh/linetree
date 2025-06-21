@@ -1,4 +1,4 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
 import { Type } from 'class-transformer';
 import {
   IsDate,

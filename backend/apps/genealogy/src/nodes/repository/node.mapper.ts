@@ -1,7 +1,7 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
-import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
-import { Node } from '@app/genealogy/nodes/repository/node.schema';
 import { Mapper } from '@app/shared';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
+import { NodeEntity } from '@genealogy-ms/core/domain/node.entity';
+import { Node } from '@genealogy-ms/nodes/repository/node.schema';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()

@@ -1,15 +1,15 @@
-import { GenderType } from '@app/genealogy/core/domain/gender.enum';
-import { NodeEntity } from '@app/genealogy/core/domain/node.entity';
-import { TreeEntity } from '@app/genealogy/core/domain/tree.entity';
-import { NodeRepository } from '@app/genealogy/core/persistance/nodes.repository';
-import { RelationsRepository } from '@app/genealogy/core/persistance/relations.repository';
-import { TreeRepository } from '@app/genealogy/core/persistance/trees.repository';
-import { RelationsService } from '@app/genealogy/relations/relations.service';
 import {
   EntityNotFoundException,
   InternalErrorRpcException,
   NotFoundRpcException,
 } from '@app/shared';
+import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
+import { NodeEntity } from '@genealogy-ms/core/domain/node.entity';
+import { TreeEntity } from '@genealogy-ms/core/domain/tree.entity';
+import { NodeRepository } from '@genealogy-ms/core/persistance/nodes.repository';
+import { RelationsRepository } from '@genealogy-ms/core/persistance/relations.repository';
+import { TreeRepository } from '@genealogy-ms/core/persistance/trees.repository';
+import { RelationsService } from '@genealogy-ms/relations/relations.service';
 import { Injectable } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { UUID } from 'crypto';

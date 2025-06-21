@@ -1,6 +1,6 @@
 import { EXCHANGE_PATTERNS } from '@app/contracts';
-import { ExchangeService } from '@app/genealogy/exchange/exchange.service';
 import { RpcParseUUIDPipe } from '@app/shared';
+import { ExchangeService } from '@genealogy-ms/exchange/exchange.service';
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UUID } from 'crypto';

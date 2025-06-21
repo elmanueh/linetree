@@ -21,10 +21,10 @@
       "@app/contracts": ["libs/contracts/src"],
       "@app/shared": ["libs/shared/src"],
 
-      "@app/gateway/*": ["apps/app/src/*"],
-      "@app/genealogy/*": ["apps/genealogy/src/*"],
+      "@gateway/*": ["apps/gateway/src/*"],
+      "@users-ms/*": ["apps/users/src/*"],
 
-      "@users-ms/*": ["apps/users/src/*"]
+      "@app/genealogy/*": ["apps/genealogy/src/*"]
     }
   }
 }

@@ -1,5 +1,5 @@
-import { AuthService } from '@app/gateway/auth-service/auth.service';
-import { LoginDto } from '@app/gateway/auth-service/dto/login.dto';
+import { AuthService } from '@gateway/auth-service/auth.service';
+import { LoginDto } from '@gateway/auth-service/dto/login.dto';
 import {
   Body,
   Controller,

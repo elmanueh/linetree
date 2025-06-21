@@ -1,5 +1,5 @@
-import { LoginDto } from '@app/gateway/auth-service/dto/login.dto';
-import { UserService } from '@app/gateway/user-service/user.service';
+import { LoginDto } from '@gateway/auth-service/dto/login.dto';
+import { UserService } from '@gateway/user-service/user.service';
 import {
   ConflictException,
   Injectable,

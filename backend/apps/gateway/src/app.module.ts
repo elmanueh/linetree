@@ -1,5 +1,5 @@
-import { AuthModule } from '@app/gateway/auth-service/auth.module';
-import { GenealogyModule } from '@app/gateway/genealogy-service/genealogy.module';
+import { AuthModule } from '@gateway/auth-service/auth.module';
+import { GenealogyModule } from '@gateway/genealogy-service/genealogy.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
@@ -7,7 +7,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: './apps/app/.env',
+      envFilePath: './apps/gateway/.env',
     }),
     GenealogyModule,
     AuthModule,

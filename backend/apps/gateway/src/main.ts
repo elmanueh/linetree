@@ -1,5 +1,5 @@
-import { AppModule } from '@app/gateway/app.module';
-import { JsonToHttpExceptionFilter } from '@app/gateway/exceptions/json-http.filter';
+import { AppModule } from '@gateway/app.module';
+import { JsonToHttpExceptionFilter } from '@gateway/exceptions/json-http.filter';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';

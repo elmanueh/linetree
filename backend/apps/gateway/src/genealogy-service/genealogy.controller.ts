@@ -3,7 +3,7 @@ import {
   CreateTreeDto,
   UpdateNodeDto,
 } from '@app/contracts';
-import { GenealogyService } from '@app/gateway/genealogy-service/genealogy.service';
+import { GenealogyService } from '@gateway/genealogy-service/genealogy.service';
 import {
   Body,
   Controller,

@@ -1,5 +1,5 @@
 import { USER_CLIENT } from '@app/contracts';
-import { UserService } from '@app/gateway/user-service/user.service';
+import { UserService } from '@gateway/user-service/user.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';

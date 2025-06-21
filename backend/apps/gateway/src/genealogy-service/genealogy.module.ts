@@ -1,6 +1,6 @@
 import { GENEALOGY_CLIENT } from '@app/contracts';
-import { GenealogyController } from '@app/gateway/genealogy-service/genealogy.controller';
-import { GenealogyService } from '@app/gateway/genealogy-service/genealogy.service';
+import { GenealogyController } from '@gateway/genealogy-service/genealogy.controller';
+import { GenealogyService } from '@gateway/genealogy-service/genealogy.service';
 import { Module } from '@nestjs/common';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 

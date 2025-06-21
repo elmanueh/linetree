@@ -52,6 +52,7 @@ export class AuthController {
     });
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post('logout')
   logout(@Res({ passthrough: true }) res: Response) {
     this.logger.log('Logging out user');

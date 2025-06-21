@@ -42,6 +42,6 @@ export class UserController {
   @MessagePattern(USER_PATTERN.REMOVE)
   async remove(@Payload('id', RpcParseUUIDPipe) id: UUID) {
     await this.userService.remove(id);
-    return;
+    return {};
   }
 }

@@ -9,6 +9,7 @@ import { RelationsService } from '@genealogy-ms/relations/relations.service';
 import {
   BadRequestException,
   ConflictException,
+  ForbiddenException,
   Injectable,
 } from '@nestjs/common';
 import { UUID } from 'crypto';
@@ -27,6 +28,7 @@ export class NodesService {
     spouseId: UUID | undefined,
     type: RelationType,
     dto: CreateNodeDto,
+    owner: UUID,
   ): Promise<NodeEntity> {
     if (!treeId) {
       throw new BadRequestException('The treeId cannot be null or undefined.');
@@ -46,6 +48,16 @@ export class NodesService {
         'The node data cannot be null or undefined.',
       );
     }
+    if (!owner) {
+      throw new BadRequestException('The owner cannot be null or undefined.');
+    }
+
+    const tree = await this.treeRepository.findById(treeId);
+    if (tree.owner !== owner) {
+      throw new ForbiddenException(
+        'You do not have permission to modify this tree.',
+      );
+    }
 
     if (type === RelationType.Parent) {
       const parents = await this.relationService.findParents(nodeRefId, treeId);
@@ -57,7 +69,6 @@ export class NodesService {
       }
     }
 
-    const tree = await this.treeRepository.findById(treeId);
     const node = NodeDomainMapper.createDto2Domain(dto);
     tree.addNode(node);
 
@@ -75,15 +86,28 @@ export class NodesService {
     return node;
   }
 
-  async findOneById(treeId: UUID, nodeId: UUID): Promise<NodeEntity> {
+  async findOneById(
+    treeId: UUID,
+    nodeId: UUID,
+    owner: UUID,
+  ): Promise<NodeEntity> {
     if (!treeId) {
       throw new BadRequestException('The treeId cannot be null or undefined.');
     }
     if (!nodeId) {
       throw new BadRequestException('The nodeId cannot be null or undefined.');
     }
+    if (!owner) {
+      throw new BadRequestException('The owner cannot be null or undefined.');
+    }
 
     const tree = await this.treeRepository.findById(treeId);
+    if (tree.owner !== owner) {
+      throw new ForbiddenException(
+        'You do not have permission to access this node.',
+      );
+    }
+
     const node = tree.getNode(nodeId);
     if (!node) {
       throw new EntityNotFoundException("The node couldn't be found");
@@ -91,25 +115,43 @@ export class NodesService {
     return node;
   }
 
-  async findAll(treeId: UUID): Promise<NodeEntity[]> {
+  async findAll(treeId: UUID, owner: UUID): Promise<NodeEntity[]> {
     if (!treeId) {
       throw new BadRequestException('The treeId cannot be null or undefined.');
     }
+    if (!owner) {
+      throw new BadRequestException('The owner cannot be null or undefined.');
+    }
 
     const tree = await this.treeRepository.findById(treeId);
+    if (tree.owner !== owner) {
+      throw new ForbiddenException(
+        'You do not have permission to access this tree.',
+      );
+    }
+
     const nodes = tree.getNodes();
     return nodes;
   }
 
-  async delete(treeId: UUID, nodeId: UUID): Promise<void> {
+  async delete(treeId: UUID, nodeId: UUID, owner: UUID): Promise<void> {
     if (!treeId) {
       throw new BadRequestException('The treeId cannot be null or undefined.');
     }
     if (!nodeId) {
       throw new BadRequestException('The nodeId cannot be null or undefined.');
     }
+    if (!owner) {
+      throw new BadRequestException('The owner cannot be null or undefined.');
+    }
 
     const tree = await this.treeRepository.findById(treeId);
+    if (tree.owner !== owner) {
+      throw new ForbiddenException(
+        'You do not have permission to delete this node.',
+      );
+    }
+
     if (tree.getNodes().length === 1) {
       throw new ConflictException(
         'The last node in the tree cannot be deleted. Please delete the tree instead.',
@@ -138,6 +180,7 @@ export class NodesService {
     treeId: UUID,
     nodeId: UUID,
     dto: UpdateNodeDto,
+    owner: UUID,
   ): Promise<void> {
     if (!treeId) {
       throw new BadRequestException('The treeId cannot be null or undefined.');
@@ -145,8 +188,17 @@ export class NodesService {
     if (!nodeId) {
       throw new BadRequestException('The nodeId cannot be null or undefined.');
     }
+    if (!owner) {
+      throw new BadRequestException('The owner cannot be null or undefined.');
+    }
 
     const tree = await this.treeRepository.findById(treeId);
+    if (tree.owner !== owner) {
+      throw new ForbiddenException(
+        'You do not have permission to update this node.',
+      );
+    }
+
     const node = tree.getNode(nodeId);
     if (!node) {
       throw new EntityNotFoundException("The node couldn't be found");

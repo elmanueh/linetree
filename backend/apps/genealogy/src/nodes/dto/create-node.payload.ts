@@ -21,7 +21,7 @@ export class CreateNodePayload {
   @IsUUID()
   spouseId?: UUID;
 
-  @IsNotEmpty({ message: 'Type is required' })
+  @IsNotEmpty()
   @IsEnum(RelationType, {
     message: 'Type must be one of the following: children, parent, spouse',
   })
@@ -30,4 +30,7 @@ export class CreateNodePayload {
   @ValidateNested()
   @Type(() => CreateNodeDto)
   dto: CreateNodeDto;
+
+  @IsUUID()
+  owner: UUID;
 }

@@ -1,10 +1,10 @@
 import { IsUUID } from 'class-validator';
 import { UUID } from 'crypto';
 
-export class RemoveNodePayload {
+export class GetNodesPayload {
   @IsUUID()
   treeId: UUID;
 
   @IsUUID()
-  nodeId: UUID;
+  owner: UUID;
 }

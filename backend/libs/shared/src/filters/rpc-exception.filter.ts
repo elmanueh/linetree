@@ -6,6 +6,7 @@ import {
 import {
   BadRequestException,
   Catch,
+  ConflictException,
   ForbiddenException,
   Logger,
   RpcExceptionFilter,
@@ -62,6 +63,16 @@ export class RpcGlobalExceptionFilter implements RpcExceptionFilter<unknown> {
         () =>
           new RpcException({
             status: RpcErrorCode.FORBIDDEN,
+            message: exception.message,
+          }),
+      );
+    }
+
+    if (exception instanceof ConflictException) {
+      return throwError(
+        () =>
+          new RpcException({
+            status: RpcErrorCode.CONFLICT,
             message: exception.message,
           }),
       );

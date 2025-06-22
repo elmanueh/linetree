@@ -13,4 +13,7 @@ export class UpdateNodePayload {
   @ValidateNested()
   @Type(() => UpdateNodeDto)
   dto: UpdateNodeDto;
+
+  @IsUUID()
+  owner: UUID;
 }

@@ -11,6 +11,12 @@ import {
   TREES_PATTERNS,
   UpdateNodeDto,
 } from '@app/contracts';
+import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
+import { CreateNodePayload } from '@genealogy-ms/nodes/dto/create-node.payload';
+import { DeleteNodePayload } from '@genealogy-ms/nodes/dto/delete-node.payload';
+import { GetNodePayload } from '@genealogy-ms/nodes/dto/get-node.payload';
+import { GetNodesPayload } from '@genealogy-ms/nodes/dto/get-nodes.payload';
+import { UpdateNodePayload } from '@genealogy-ms/nodes/dto/update-node.payload';
 import { CreateTreePayload } from '@genealogy-ms/trees/dto/create-tree.payload';
 import { DeleteTreePayload } from '@genealogy-ms/trees/dto/delete-tree.payload';
 import { GetGenealogyPayload } from '@genealogy-ms/trees/dto/get-genealogy.payload';
@@ -75,41 +81,61 @@ export class GenealogyService {
   }
 
   // -------------------- NODES --------------------
-  async createNode(treeId: UUID, dto: CreateRelatedNodeDto): Promise<UUID> {
+  async createNode(
+    treeId: UUID,
+    dto: CreateRelatedNodeDto,
+    user: UUID,
+  ): Promise<UUID> {
     return lastValueFrom(
-      this.genealogyClient.send<UUID>(NODES_PATTERNS.CREATE, {
-        treeId,
-        nodeRefId: dto.nodeId,
-        spouseId: dto.spouseId,
-        type: dto.relation,
-        dto: dto.nodeInfo,
-      }),
+      this.genealogyClient.send<UUID, CreateNodePayload>(
+        NODES_PATTERNS.CREATE,
+        {
+          treeId,
+          nodeRefId: dto.nodeId,
+          spouseId: dto.spouseId,
+          type: dto.relation as RelationType,
+          dto: dto.nodeInfo,
+          owner: user,
+        },
+      ),
     );
   }
 
-  async getNode(treeId: UUID, nodeId: UUID): Promise<GetNodeDto> {
+  async getNode(treeId: UUID, nodeId: UUID, user: UUID): Promise<GetNodeDto> {
     return lastValueFrom(
-      this.genealogyClient.send<GetNodeDto>(NODES_PATTERNS.FIND_ONE, {
-        treeId,
-        nodeId,
-      }),
+      this.genealogyClient.send<GetNodeDto, GetNodePayload>(
+        NODES_PATTERNS.FIND_ONE,
+        {
+          treeId,
+          nodeId,
+          owner: user,
+        },
+      ),
     );
   }
 
-  async getNodes(treeId: UUID): Promise<GetNodesDto> {
+  async getNodes(treeId: UUID, user: UUID): Promise<GetNodesDto> {
     return lastValueFrom(
-      this.genealogyClient.send<GetNodesDto>(NODES_PATTERNS.FIND_ALL, {
-        treeId,
-      }),
+      this.genealogyClient.send<GetNodesDto, GetNodesPayload>(
+        NODES_PATTERNS.FIND_ALL,
+        {
+          treeId,
+          owner: user,
+        },
+      ),
     );
   }
 
-  async deleteNode(treeId: UUID, nodeId: UUID): Promise<void> {
+  async deleteNode(treeId: UUID, nodeId: UUID, user: UUID): Promise<void> {
     await lastValueFrom(
-      this.genealogyClient.send<void>(NODES_PATTERNS.REMOVE, {
-        treeId,
-        nodeId,
-      }),
+      this.genealogyClient.send<void, DeleteNodePayload>(
+        NODES_PATTERNS.REMOVE,
+        {
+          treeId,
+          nodeId,
+          owner: user,
+        },
+      ),
     );
   }
 
@@ -117,13 +143,18 @@ export class GenealogyService {
     treeId: UUID,
     nodeId: UUID,
     dto: UpdateNodeDto,
+    user: UUID,
   ): Promise<void> {
     await lastValueFrom(
-      this.genealogyClient.send<void>(NODES_PATTERNS.UPDATE, {
-        treeId,
-        nodeId,
-        dto,
-      }),
+      this.genealogyClient.send<void, UpdateNodePayload>(
+        NODES_PATTERNS.UPDATE,
+        {
+          treeId,
+          nodeId,
+          dto,
+          owner: user,
+        },
+      ),
     );
   }
 

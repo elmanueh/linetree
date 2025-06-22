@@ -29,7 +29,7 @@ export class RepositoryMongoose<T, K> implements Repository<T> {
     try {
       const document = await this.model.findById(id);
       if (!document) {
-        throw new EntityNotFoundException(`Entity with id "${id}" not found`);
+        throw new EntityNotFoundException(`Entity with id '${id}' not found`);
       }
       await this.model.findByIdAndDelete(id);
     } catch (error) {
@@ -42,7 +42,7 @@ export class RepositoryMongoose<T, K> implements Repository<T> {
     try {
       const document = await this.model.findById(id);
       if (!document) {
-        throw new EntityNotFoundException(`Entity with id "${id}" not found`);
+        throw new EntityNotFoundException(`Entity with id '${id}' not found`);
       }
       return this.mapper.persistance2Domain(document);
     } catch (error) {

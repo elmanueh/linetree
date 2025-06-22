@@ -1,5 +1,4 @@
 import { USER_CLIENT, USER_PATTERN } from '@app/contracts';
-import { RpcError, RpcErrorCode } from '@app/shared';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { CreateUserDto } from '@users-ms/dto/create-user.dto';
@@ -21,19 +20,13 @@ export class UserService {
     );
   }
 
-  async getUserByEmail(email: string): Promise<GetUserDto | null> {
-    try {
-      const user = await lastValueFrom(
-        this.userClient.send<GetUserDto>(USER_PATTERN.FIND_ONE_BY_EMAIL, {
-          email,
-        }),
-      );
-      return user;
-    } catch (error) {
-      const errorRpc = error as RpcError;
-      if (errorRpc.status === RpcErrorCode.NOT_FOUND) return null;
-      throw error;
-    }
+  async getUserByEmail(email: string): Promise<GetUserDto> {
+    const user = await lastValueFrom(
+      this.userClient.send<GetUserDto>(USER_PATTERN.FIND_ONE_BY_EMAIL, {
+        email,
+      }),
+    );
+    return user;
   }
 
   async deleteUser(id: UUID): Promise<void> {

@@ -27,7 +27,7 @@ export class ExchangeService {
   }
 
   async createGedcomFile(treeId: UUID): Promise<string> {
-    await this.treeService.findOneTree(treeId);
+    await this.treeService.findOneById(treeId);
     const genealogy = await this.treeService.getGenealogy(treeId);
     const people = Array.isArray(genealogy['@graph'])
       ? (genealogy['@graph'] as GenealogyNode[])
@@ -119,10 +119,9 @@ export class ExchangeService {
 
   async loadGedcomFile(fileData: string): Promise<UUID> {
     const data = compact(parse(fileData));
-    const treeId = await this.treeService.createTree(randomUUID().slice(0, 8));
-    const { nodes, relations } = parseGedcomJson(data, treeId);
+    const tree = await this.treeService.create(randomUUID().slice(0, 8));
+    const { nodes, relations } = parseGedcomJson(data, tree.id);
 
-    const tree = await this.treeRepository.findById(treeId);
     const initialNode = tree.getNodes().pop()!;
 
     for (const node of nodes) {
@@ -137,6 +136,6 @@ export class ExchangeService {
       await this.relationRepository.save(relation);
     }
 
-    return treeId;
+    return tree.id;
   }
 }

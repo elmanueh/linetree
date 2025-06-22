@@ -10,7 +10,6 @@ import {
   Post,
   Req,
   Res,
-  ValidationPipe,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserDto } from '@users-ms/dto/create-user.dto';
@@ -27,7 +26,7 @@ export class AuthController {
 
   @Post('register')
   async register(
-    @Body(ValidationPipe) dto: CreateUserDto,
+    @Body() dto: CreateUserDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     this.logger.log('Registering user with email: ' + dto.email);
@@ -41,7 +40,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @Post('login')
   async login(
-    @Body(ValidationPipe) dto: LoginDto,
+    @Body() dto: LoginDto,
     @Res({ passthrough: true }) res: Response,
   ) {
     this.logger.log('Logging in user with email: ' + dto.email);

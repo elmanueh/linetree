@@ -1,8 +1,3 @@
-import {
-  EntityNotFoundException,
-  InternalErrorRpcException,
-  NotFoundRpcException,
-} from '@app/shared';
 import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
 import { NodeEntity } from '@genealogy-ms/core/domain/node.entity';
 import { TreeEntity } from '@genealogy-ms/core/domain/tree.entity';
@@ -10,8 +5,7 @@ import { NodeRepository } from '@genealogy-ms/core/persistance/nodes.repository'
 import { RelationsRepository } from '@genealogy-ms/core/persistance/relations.repository';
 import { TreeRepository } from '@genealogy-ms/core/persistance/trees.repository';
 import { RelationsService } from '@genealogy-ms/relations/relations.service';
-import { Injectable } from '@nestjs/common';
-import { RpcException } from '@nestjs/microservices';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { JsonLdDocument } from 'jsonld';
 
@@ -24,80 +18,64 @@ export class TreesService {
     private readonly relationsService: RelationsService,
   ) {}
 
-  async createTree(name: string): Promise<UUID> {
-    try {
-      // TODO: change for user data
-      const node = NodeEntity.create({
-        givenName: 'test1',
-        familyName: 'test2',
-        birthDate: new Date(),
-        email: '',
-        nationality: '',
-        telephone: '',
-        gender: GenderType.Male,
-      });
-      const tree = TreeEntity.create({ name, nodes: [node] });
-
-      await this.treeRepository.save(tree);
-      await this.nodeRepository.save(node);
-      return tree.id;
-    } catch {
-      throw new InternalErrorRpcException("The tree couldn't be created");
+  async create(name: string): Promise<TreeEntity> {
+    if (!name) {
+      throw new BadRequestException('The name cannot be null or undefined');
     }
+
+    // TODO: change for user data
+    const node = NodeEntity.create({
+      givenName: 'test1',
+      familyName: 'test2',
+      birthDate: new Date(),
+      email: '',
+      nationality: '',
+      telephone: '',
+      gender: GenderType.Male,
+    });
+    const tree = TreeEntity.create({ name, nodes: [node] });
+
+    await this.treeRepository.save(tree);
+    await this.nodeRepository.save(node);
+    return tree;
   }
 
-  async findOneTree(treeId: UUID): Promise<TreeEntity> {
-    try {
-      const tree = await this.treeRepository.findById(treeId);
-      return tree;
-    } catch (error) {
-      if (error instanceof EntityNotFoundException) {
-        throw new NotFoundRpcException("The tree couldn't be found");
-      }
-      throw new InternalErrorRpcException("The tree couldn't be fetched");
+  async findOneById(treeId: UUID): Promise<TreeEntity> {
+    if (!treeId) {
+      throw new BadRequestException('The id cannot be null or undefined');
     }
+
+    const tree = await this.treeRepository.findById(treeId);
+    return tree;
   }
 
-  async findAllTrees(): Promise<TreeEntity[]> {
-    try {
-      const trees = await this.treeRepository.findAll();
-      return trees;
-    } catch {
-      throw new InternalErrorRpcException("The trees couldn't be fetched");
-    }
+  async findAll(): Promise<TreeEntity[]> {
+    const trees = await this.treeRepository.findAll();
+    return trees;
   }
 
-  async removeTree(treeId: UUID): Promise<void> {
-    try {
-      const tree = await this.treeRepository.findById(treeId);
-      await this.treeRepository.delete(treeId);
-
-      const nodes = tree.getNodes();
-      await Promise.all(
-        nodes.map((node) => this.nodeRepository.delete(node.id)),
-      );
-
-      await this.relationRepository.deleteByTreeId(treeId);
-    } catch (error) {
-      if (error instanceof EntityNotFoundException) {
-        throw new NotFoundRpcException("The tree couldn't be found");
-      }
-      throw new InternalErrorRpcException("The tree couldn't be deleted");
+  async delete(treeId: UUID): Promise<void> {
+    if (!treeId) {
+      throw new BadRequestException('The id cannot be null or undefined');
     }
+
+    const tree = await this.treeRepository.findById(treeId);
+    await this.treeRepository.delete(treeId);
+
+    const nodes = tree.getNodes();
+    await Promise.all(nodes.map((node) => this.nodeRepository.delete(node.id)));
+
+    await this.relationRepository.deleteByTreeId(treeId);
   }
 
   async getGenealogy(treeId: UUID): Promise<JsonLdDocument> {
-    try {
-      const tree = await this.treeRepository.findById(treeId);
-      const genealogy = await this.relationsService.getGenealogy(tree);
-
-      return genealogy;
-    } catch (error) {
-      if (error instanceof RpcException) throw error;
-      if (error instanceof EntityNotFoundException) {
-        throw new NotFoundRpcException("The tree couldn't be found");
-      }
-      throw new InternalErrorRpcException("The tree couldn't be fetched");
+    if (!treeId) {
+      throw new BadRequestException('The id cannot be null or undefined');
     }
+
+    const tree = await this.treeRepository.findById(treeId);
+    const genealogy = await this.relationsService.getGenealogy(tree);
+
+    return genealogy;
   }
 }

@@ -1,7 +1,6 @@
 import { EXCHANGE_PATTERNS } from '@app/contracts';
-import { RpcParseUUIDPipe } from '@app/shared';
 import { ExchangeService } from '@genealogy-ms/exchange/exchange.service';
-import { Controller } from '@nestjs/common';
+import { Controller, ParseUUIDPipe } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { UUID } from 'crypto';
 
@@ -10,7 +9,7 @@ export class ExchangeController {
   constructor(private readonly exchangeService: ExchangeService) {}
 
   @MessagePattern(EXCHANGE_PATTERNS.EXPORT_GEDCOM)
-  createGedcomFile(@Payload('id', RpcParseUUIDPipe) treeId: UUID) {
+  createGedcomFile(@Payload('id', ParseUUIDPipe) treeId: UUID) {
     return this.exchangeService.createGedcomFile(treeId);
   }
 

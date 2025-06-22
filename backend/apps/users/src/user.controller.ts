@@ -1,6 +1,5 @@
 import { USER_PATTERN } from '@app/contracts';
-import { RpcParseUUIDPipe, RpcValidationPipe } from '@app/shared';
-import { Controller } from '@nestjs/common';
+import { Controller, ParseUUIDPipe, ValidationPipe } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { CreateUserDto } from '@users-ms/dto/create-user.dto';
 import { GetUserDto } from '@users-ms/dto/get-user.dto';
@@ -12,7 +11,7 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @MessagePattern(USER_PATTERN.CREATE)
-  async create(@Payload(RpcValidationPipe) dto: CreateUserDto): Promise<UUID> {
+  async create(@Payload(ValidationPipe) dto: CreateUserDto): Promise<UUID> {
     const user = await this.userService.create(
       dto.birthDate,
       dto.email,
@@ -26,9 +25,7 @@ export class UserController {
   }
 
   @MessagePattern(USER_PATTERN.FIND_ONE)
-  async findOne(
-    @Payload('id', RpcParseUUIDPipe) id: UUID,
-  ): Promise<GetUserDto> {
+  async findOne(@Payload('id', ParseUUIDPipe) id: UUID): Promise<GetUserDto> {
     const user = await this.userService.findOneById(id);
     return GetUserDto.fromEntity(user);
   }
@@ -40,7 +37,7 @@ export class UserController {
   }
 
   @MessagePattern(USER_PATTERN.REMOVE)
-  async remove(@Payload('id', RpcParseUUIDPipe) id: UUID) {
+  async remove(@Payload('id', ParseUUIDPipe) id: UUID) {
     await this.userService.remove(id);
     return {};
   }

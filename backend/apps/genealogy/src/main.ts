@@ -1,3 +1,4 @@
+import { RpcGlobalExceptionFilter } from '@app/shared';
 import { GenealogyModule } from '@genealogy-ms/genealogy.module';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -19,6 +20,7 @@ async function bootstrap() {
       },
     },
   );
+  app.useGlobalFilters(new RpcGlobalExceptionFilter());
   await app.listen();
 
   Logger.log(

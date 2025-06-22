@@ -1,4 +1,4 @@
-import { RepositoryMongoose } from '@app/shared';
+import { EntityNotFoundException, RepositoryMongoose } from '@app/shared';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { UserEntity } from '@users-ms/domain/user.entity';
@@ -19,9 +19,9 @@ export class UserRepositoryMongoose
     super(userModel, userMapper);
   }
 
-  async findByEmail(email: string): Promise<UserEntity | null> {
+  async findByEmail(email: string): Promise<UserEntity> {
     const userDocument = await this.userModel.findOne({ email }).exec();
-    if (!userDocument) return null;
+    if (!userDocument) throw new EntityNotFoundException('User not found');
 
     return this.userMapper.persistance2Domain(userDocument);
   }

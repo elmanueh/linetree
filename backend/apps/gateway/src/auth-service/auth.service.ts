@@ -1,7 +1,7 @@
 import { LoginDto } from '@gateway/auth-service/dto/login.dto';
 import { UserService } from '@gateway/user-service/user.service';
 import {
-  ConflictException,
+  BadRequestException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -27,10 +27,9 @@ export class AuthService {
   }
 
   async register(dto: CreateUserDto) {
-    const user = await this.userService.getUserByEmail(dto.email);
-    if (user) throw new ConflictException('Email already exists');
-
+    if (!dto.password) throw new BadRequestException('Password is required');
     const hashedPassword = await bcrypt.hash(dto.password, 10);
+
     const id = await this.userService.createUser({
       birthDate: dto.birthDate,
       email: dto.email,

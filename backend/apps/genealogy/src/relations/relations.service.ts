@@ -1,10 +1,9 @@
-import { InternalErrorRpcException } from '@app/shared';
 import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
 import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
 import { TreeEntity } from '@genealogy-ms/core/domain/tree.entity';
 import { RelationsRepository } from '@genealogy-ms/core/persistance/relations.repository';
 import { InferenceService } from '@genealogy-ms/relations/inference/inference.service';
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { UUID } from 'crypto';
 import { compact, JsonLdDocument } from 'jsonld';
 
@@ -22,6 +21,25 @@ export class RelationsService {
     relationType: RelationType,
     treeId: UUID,
   ): Promise<void> {
+    if (!sourceNodeId) {
+      throw new BadRequestException(
+        'The sourceNodeId cannot be null or undefined.',
+      );
+    }
+    if (!targetNodeId) {
+      throw new BadRequestException(
+        'The targetNodeId cannot be null or undefined.',
+      );
+    }
+    if (!relationType) {
+      throw new BadRequestException(
+        'The relationType cannot be null or undefined.',
+      );
+    }
+    if (!treeId) {
+      throw new BadRequestException('The treeId cannot be null or undefined.');
+    }
+
     const relation = RelationEntity.create({
       sourceNodeId: sourceNodeId,
       targetNodeId: targetNodeId,
@@ -60,6 +78,10 @@ export class RelationsService {
   }
 
   async removeRelation(nodeId: UUID): Promise<void> {
+    if (!nodeId) {
+      throw new BadRequestException('The nodeId cannot be null or undefined.');
+    }
+
     await this.relationRepository.deleteByNodeId(nodeId);
   }
 
@@ -67,54 +89,66 @@ export class RelationsService {
     nodeId: UUID,
     treeId: UUID,
   ): Promise<RelationEntity[]> {
+    if (!nodeId) {
+      throw new BadRequestException('The nodeId cannot be null or undefined.');
+    }
+    if (!treeId) {
+      throw new BadRequestException('The treeId cannot be null or undefined.');
+    }
+
     return this.relationRepository.findDescendantsByNodeId(nodeId, treeId);
   }
 
   async findParents(nodeId: UUID, treeId: UUID): Promise<RelationEntity[]> {
+    if (!nodeId) {
+      throw new BadRequestException('The nodeId cannot be null or undefined.');
+    }
+    if (!treeId) {
+      throw new BadRequestException('The treeId cannot be null or undefined.');
+    }
+
     return this.relationRepository.findParentsByNodeId(nodeId, treeId);
   }
 
   async getGenealogy(tree: TreeEntity): Promise<JsonLdDocument> {
-    try {
-      const genealogy = await this.relationRepository.findGenealogy(tree.id);
-      if (Array.isArray(genealogy) && genealogy.length === 0) {
-        const node = tree.getNodes()[0];
-        genealogy.push({
-          '@id': node.id,
-          '@type': 'http://schema.org/Person',
-        });
-      }
-
-      for (const nodeGenealogy of genealogy) {
-        const rawId = Array.isArray(nodeGenealogy['@id'])
-          ? nodeGenealogy['@id'][0]
-          : nodeGenealogy['@id']!;
-        const id = rawId.split('/').pop() as UUID;
-
-        const node = tree.getNode(id);
-        if (!node) continue;
-        nodeGenealogy['http://schema.org/givenName'] = [
-          { '@value': node.givenName },
-        ];
-        //nodeGenealogy['http://schema.org/familyName'] = [
-        //  { '@value': node.familyName },
-        //];
-        //nodeGenealogy['http://schema.org/birthDate'] = [
-        //  { '@value': node.birthDate?.toISOString() },
-        //];
-        //nodeGenealogy['http://schema.org/deathDate'] = [
-        //  { '@value': node.deathDate?.toISOString() },
-        //];
-        nodeGenealogy['http://schema.org/gender'] = [{ '@value': node.gender }];
-      }
-
-      return compact(genealogy, {
-        '@context': 'http://schema.org/',
-      });
-    } catch {
-      throw new InternalErrorRpcException(
-        'An error occurred while fetching the genealogy',
-      );
+    if (!tree) {
+      throw new BadRequestException('The tree cannot be null or undefined.');
     }
+
+    const genealogy = await this.relationRepository.findGenealogy(tree.id);
+    if (Array.isArray(genealogy) && genealogy.length === 0) {
+      const node = tree.getNodes()[0];
+      genealogy.push({
+        '@id': node.id,
+        '@type': 'http://schema.org/Person',
+      });
+    }
+
+    for (const nodeGenealogy of genealogy) {
+      const rawId = Array.isArray(nodeGenealogy['@id'])
+        ? nodeGenealogy['@id'][0]
+        : nodeGenealogy['@id']!;
+      const id = rawId.split('/').pop() as UUID;
+
+      const node = tree.getNode(id);
+      if (!node) continue;
+      nodeGenealogy['http://schema.org/givenName'] = [
+        { '@value': node.givenName },
+      ];
+      //nodeGenealogy['http://schema.org/familyName'] = [
+      //  { '@value': node.familyName },
+      //];
+      //nodeGenealogy['http://schema.org/birthDate'] = [
+      //  { '@value': node.birthDate?.toISOString() },
+      //];
+      //nodeGenealogy['http://schema.org/deathDate'] = [
+      //  { '@value': node.deathDate?.toISOString() },
+      //];
+      nodeGenealogy['http://schema.org/gender'] = [{ '@value': node.gender }];
+    }
+
+    return compact(genealogy, {
+      '@context': 'http://schema.org/',
+    });
   }
 }

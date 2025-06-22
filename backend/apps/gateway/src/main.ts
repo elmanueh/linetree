@@ -1,5 +1,5 @@
+import { RpcJsonToHttpExceptionFilter } from '@app/shared';
 import { AppModule } from '@gateway/app.module';
-import { JsonToHttpExceptionFilter } from '@gateway/exceptions/json-http.filter';
 import { Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
@@ -10,7 +10,7 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.setGlobalPrefix('api');
-  app.useGlobalFilters(new JsonToHttpExceptionFilter());
+  app.useGlobalFilters(new RpcJsonToHttpExceptionFilter());
   app.use(cookieParser());
   app.enableCors({
     origin: configService.get<string>('FRONTEND_URL'),

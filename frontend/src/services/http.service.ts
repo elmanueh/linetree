@@ -17,6 +17,7 @@ async function get<T>(url: string): Promise<T> {
 async function post<T>(url: string, data: T): Promise<string | undefined> {
   const response = await fetch(url, {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -35,6 +36,7 @@ async function post<T>(url: string, data: T): Promise<string | undefined> {
 async function put<T>(url: string, data: T): Promise<void> {
   const response = await fetch(url, {
     method: 'PUT',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -50,6 +52,7 @@ async function put<T>(url: string, data: T): Promise<void> {
 async function patch<T>(url: string, data: T): Promise<void> {
   const response = await fetch(url, {
     method: 'PATCH',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -65,6 +68,7 @@ async function patch<T>(url: string, data: T): Promise<void> {
 async function del(url: string): Promise<void> {
   const response = await fetch(url, {
     method: 'DELETE',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     }

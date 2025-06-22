@@ -16,6 +16,9 @@ export class TreePersistanceMapper extends Mapper<TreeEntity, Tree> {
       _id: entity.id,
       name: entity.name,
       nodes: entity.nodes.map((node) => node.id),
+      owner: entity.owner,
+      createdAt: entity.createdAt!,
+      updatedAt: entity.updatedAt!,
     };
   }
 
@@ -30,6 +33,9 @@ export class TreePersistanceMapper extends Mapper<TreeEntity, Tree> {
       {
         name: document.name,
         nodes: nodes,
+        owner: document.owner as UUID,
+        createdAt: document.createdAt,
+        updatedAt: document.updatedAt,
       },
       document._id as UUID,
     );

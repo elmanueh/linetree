@@ -2,7 +2,6 @@ import 'reflect-metadata';
 
 // ---------------- GENEALOGY -----------------
 export const GENEALOGY_CLIENT = 'GENEALOGY_CLIENT';
-export const USER_CLIENT = 'USER_CLIENT';
 
 export * from './genealogy/trees/create-tree.dto';
 export * from './genealogy/trees/get-tree.dto';
@@ -17,5 +16,8 @@ export * from './genealogy/nodes/nodes.pattern';
 export * from './genealogy/nodes/update-node.dto';
 
 export * from './genealogy/exchange/exchange.pattern';
+
+// ---------------- USER -----------------
+export const USER_CLIENT = 'USER_CLIENT';
 
 export * from './user/user.pattern';

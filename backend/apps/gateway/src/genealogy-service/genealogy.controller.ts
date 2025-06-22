@@ -31,30 +31,35 @@ export class GenealogyController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const treeId = await this.genealogyService.createTree(dto);
+    const user = req.user as UUID;
+    const treeId = await this.genealogyService.createTree(dto, user);
     const location = `${req.protocol}://${req.get('host')}${req.baseUrl}/api/trees/${treeId}`;
     return res.location(location).status(HttpStatus.CREATED).send();
   }
 
   @Get(':id')
-  getTree(@Param('id') id: UUID) {
-    return this.genealogyService.getTree(id);
+  getTree(@Req() req: Request, @Param('id') id: UUID) {
+    const user = req.user as UUID;
+    return this.genealogyService.getTree(id, user);
   }
 
   @Get(':id/genealogy')
-  getTreeGenealogy(@Param('id') id: UUID) {
-    return this.genealogyService.getTreeGenealogy(id);
+  getTreeGenealogy(@Req() req: Request, @Param('id') id: UUID) {
+    const user = req.user as UUID;
+    return this.genealogyService.getTreeGenealogy(id, user);
   }
 
   @Get()
-  getTrees() {
-    return this.genealogyService.getTrees();
+  getTrees(@Req() req: Request) {
+    const user = req.user as UUID;
+    return this.genealogyService.getTrees(user);
   }
 
   @Delete(':id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  deleteTree(@Param('id') id: UUID) {
-    return this.genealogyService.deleteTree(id);
+  deleteTree(@Req() req: Request, @Param('id') id: UUID) {
+    const user = req.user as UUID;
+    return this.genealogyService.deleteTree(id, user);
   }
 
   // -------------------- NODES --------------------

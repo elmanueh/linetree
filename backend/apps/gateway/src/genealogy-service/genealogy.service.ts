@@ -11,6 +11,11 @@ import {
   TREES_PATTERNS,
   UpdateNodeDto,
 } from '@app/contracts';
+import { CreateTreePayload } from '@genealogy-ms/trees/dto/create-tree.payload';
+import { DeleteTreePayload } from '@genealogy-ms/trees/dto/delete-tree.payload';
+import { GetGenealogyPayload } from '@genealogy-ms/trees/dto/get-genealogy.payload';
+import { GetTreePayload } from '@genealogy-ms/trees/dto/get-tree.payload';
+import { GetTreesPayload } from '@genealogy-ms/trees/dto/get-trees.payload';
 import { Inject, Injectable } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { UUID } from 'crypto';
@@ -21,35 +26,51 @@ export class GenealogyService {
   constructor(@Inject(GENEALOGY_CLIENT) private genealogyClient: ClientProxy) {}
 
   // -------------------- TREES --------------------
-  async createTree(dto: CreateTreeDto): Promise<UUID> {
+  async createTree(dto: CreateTreeDto, user: UUID): Promise<UUID> {
     return lastValueFrom(
-      this.genealogyClient.send<UUID>(TREES_PATTERNS.CREATE, dto),
+      this.genealogyClient.send<UUID, CreateTreePayload>(
+        TREES_PATTERNS.CREATE,
+        { name: dto.name, owner: user },
+      ),
     );
   }
 
-  async getTree(id: UUID): Promise<GetTreeDto> {
+  async getTree(id: UUID, user: UUID): Promise<GetTreeDto> {
     return lastValueFrom(
-      this.genealogyClient.send<GetTreeDto>(TREES_PATTERNS.FIND_ONE, { id }),
+      this.genealogyClient.send<GetTreeDto, GetTreePayload>(
+        TREES_PATTERNS.FIND_ONE,
+        { treeId: id, owner: user },
+      ),
     );
   }
 
-  async getTreeGenealogy(id: UUID): Promise<object> {
+  async getTreeGenealogy(id: UUID, user: UUID): Promise<object> {
     return lastValueFrom(
-      this.genealogyClient.send<object>(TREES_PATTERNS.GENEALOGY, {
-        id,
-      }),
+      this.genealogyClient.send<object, GetGenealogyPayload>(
+        TREES_PATTERNS.GENEALOGY,
+        {
+          treeId: id,
+          owner: user,
+        },
+      ),
     );
   }
 
-  async getTrees(): Promise<GetTreesDto> {
+  async getTrees(user: UUID): Promise<GetTreesDto> {
     return lastValueFrom(
-      this.genealogyClient.send<GetTreesDto>(TREES_PATTERNS.FIND_ALL, {}),
+      this.genealogyClient.send<GetTreesDto, GetTreesPayload>(
+        TREES_PATTERNS.FIND_ALL,
+        { owner: user },
+      ),
     );
   }
 
-  async deleteTree(id: UUID): Promise<void> {
+  async deleteTree(id: UUID, user: UUID): Promise<void> {
     return lastValueFrom(
-      this.genealogyClient.send<void>(TREES_PATTERNS.REMOVE, { id }),
+      this.genealogyClient.send<void, DeleteTreePayload>(
+        TREES_PATTERNS.REMOVE,
+        { treeId: id, owner: user },
+      ),
     );
   }
 

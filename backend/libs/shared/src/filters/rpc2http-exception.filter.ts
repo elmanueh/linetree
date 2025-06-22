@@ -58,6 +58,8 @@ export class RpcJsonToHttpExceptionFilter implements ExceptionFilter {
         return HttpStatus.BAD_REQUEST;
       case 'UNAUTHORIZED':
         return HttpStatus.UNAUTHORIZED;
+      case 'FORBIDDEN':
+        return HttpStatus.FORBIDDEN;
       default:
         return HttpStatus.INTERNAL_SERVER_ERROR;
     }

@@ -5,6 +5,7 @@ import { TreePersistanceMapper } from '@genealogy-ms/trees/repository/tree.mappe
 import { Tree, TreeDocument } from '@genealogy-ms/trees/repository/tree.schema';
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import { UUID } from 'crypto';
 import { Model } from 'mongoose';
 
 @Injectable()
@@ -17,5 +18,10 @@ export class TreeRepositoryMongoose
     private readonly treeMapper: TreePersistanceMapper,
   ) {
     super(treeModel, treeMapper);
+  }
+
+  async findAllByOwner(owner: UUID): Promise<TreeEntity[]> {
+    const trees = await this.findAll();
+    return trees.filter((tree) => tree.owner === owner);
   }
 }

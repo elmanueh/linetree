@@ -6,6 +6,7 @@ import {
 import {
   BadRequestException,
   Catch,
+  ForbiddenException,
   Logger,
   RpcExceptionFilter,
 } from '@nestjs/common';
@@ -51,6 +52,16 @@ export class RpcGlobalExceptionFilter implements RpcExceptionFilter<unknown> {
         () =>
           new RpcException({
             status: RpcErrorCode.INTERNAL_ERROR,
+            message: exception.message,
+          }),
+      );
+    }
+
+    if (exception instanceof ForbiddenException) {
+      return throwError(
+        () =>
+          new RpcException({
+            status: RpcErrorCode.FORBIDDEN,
             message: exception.message,
           }),
       );

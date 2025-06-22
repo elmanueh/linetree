@@ -14,6 +14,15 @@ export class Tree {
 
   @Prop({ type: [String], default: [] })
   nodes: string[];
+
+  @Prop({ type: String })
+  owner: string;
+
+  @Prop({ type: Date })
+  createdAt: Date;
+
+  @Prop({ type: Date })
+  updatedAt: Date;
 }
 
 export const TreeSchema = SchemaFactory.createForClass(Tree);

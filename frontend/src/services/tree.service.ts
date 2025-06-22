@@ -10,7 +10,8 @@ const getGenealogy = async (treeId: UUID) => {
 
 const exportGedcom = async (treeId: UUID) => {
   const response = await fetch(API_URLS.EXPORT_GEDCOM(treeId), {
-    method: 'GET'
+    method: 'GET',
+    credentials: 'include'
   })
 
   if (!response.ok) {

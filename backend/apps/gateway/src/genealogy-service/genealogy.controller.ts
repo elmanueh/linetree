@@ -124,13 +124,15 @@ export class GenealogyController {
     @Req() req: Request,
     @Res() res: Response,
   ) {
-    const treeId = await this.genealogyService.importTree(dto.gedcom);
+    const user = req.user as UUID;
+    const treeId = await this.genealogyService.importTree(dto.gedcom, user);
     const location = `${req.protocol}://${req.get('host')}${req.baseUrl}/api/trees/${treeId}`;
     return res.location(location).status(HttpStatus.CREATED).send();
   }
 
   @Get(':id/gedcom')
-  async exportTree(@Param('id') id: UUID) {
-    return this.genealogyService.exportTree(id);
+  async exportTree(@Req() req: Request, @Param('id') id: UUID) {
+    const user = req.user as UUID;
+    return this.genealogyService.exportTree(id, user);
   }
 }

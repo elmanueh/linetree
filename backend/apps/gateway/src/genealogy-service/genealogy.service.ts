@@ -12,6 +12,8 @@ import {
   UpdateNodeDto,
 } from '@app/contracts';
 import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
+import { ExportGedcomPayload } from '@genealogy-ms/exchange/dto/export-gedcom.payload';
+import { ImportGedcomPayload } from '@genealogy-ms/exchange/dto/import-gedcom.payload';
 import { CreateNodePayload } from '@genealogy-ms/nodes/dto/create-node.payload';
 import { DeleteNodePayload } from '@genealogy-ms/nodes/dto/delete-node.payload';
 import { GetNodePayload } from '@genealogy-ms/nodes/dto/get-node.payload';
@@ -160,17 +162,24 @@ export class GenealogyService {
 
   // -------------------- IMPORT / EXPORT --------------------
 
-  async exportTree(id: UUID): Promise<string> {
+  async exportTree(id: UUID, user: UUID): Promise<string> {
     return lastValueFrom(
-      this.genealogyClient.send<UUID>(EXCHANGE_PATTERNS.EXPORT_GEDCOM, { id }),
+      this.genealogyClient.send<UUID, ExportGedcomPayload>(
+        EXCHANGE_PATTERNS.EXPORT_GEDCOM,
+        { treeId: id, owner: user },
+      ),
     );
   }
 
-  async importTree(gedcom: string): Promise<UUID> {
+  async importTree(gedcom: string, user: UUID): Promise<UUID> {
     return lastValueFrom(
-      this.genealogyClient.send<UUID>(EXCHANGE_PATTERNS.IMPORT_GEDCOM, {
-        gedcom,
-      }),
+      this.genealogyClient.send<UUID, ImportGedcomPayload>(
+        EXCHANGE_PATTERNS.IMPORT_GEDCOM,
+        {
+          fileData: gedcom,
+          owner: user,
+        },
+      ),
     );
   }
 }

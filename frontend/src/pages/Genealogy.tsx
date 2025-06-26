@@ -30,7 +30,7 @@ export default function Genealogy() {
         </span>
       </div>
       <div className="flex">
-        <main className="flex flex-1 bg-gray-300">
+        <main className="flex flex-1 bg-gray-200">
           {nodeId && <GenealogyAside />}
           <GenealogyView />
         </main>

@@ -37,5 +37,10 @@ export default function GenealogyView() {
     handleUpdateTree()
   }, [genealogy])
 
-  return <svg ref={svgRef} className="w-full h-full block" />
+  return (
+    <svg
+      ref={svgRef}
+      className="w-full h-full block bg-gray-100 rounded-tl-2xl shadow"
+    />
+  )
 }

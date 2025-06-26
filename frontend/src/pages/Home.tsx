@@ -38,7 +38,7 @@ export default function Home() {
   }
 
   return (
-    <section className="mt-24">
+    <section className="pt-24 bg-gray-100">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-bold text-green-800">Genealogy Tree</h1>
         <p className="mt-2 text-lg ">

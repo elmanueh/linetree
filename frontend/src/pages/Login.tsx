@@ -22,8 +22,8 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center">
-      <div className="shadow-xl rounded-xl px-10 py-12 max-w-md w-full border border-white/20">
+    <section className="min-h-screen w-full flex items-center justify-center bg-gray-100">
+      <div className="shadow-xl rounded-xl px-10 py-12 max-w-md w-full border border-white/20 bg-gray-50">
         <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8">
           Genealogy App
         </h1>
@@ -85,6 +85,6 @@ export default function Login() {
           </Link>
         </p>
       </div>
-    </div>
+    </section>
   )
 }

@@ -15,7 +15,7 @@ export default function SearchBarCreateTree({
   }
 
   return (
-    <section className="max-w-3xl mx-auto shadow-md rounded-lg p-6">
+    <section className="max-w-3xl mx-auto shadow-md rounded-lg p-6 bg-gray-50">
       <h2 className="text-2xl font-semibold mb-4">Crear nuevo árbol</h2>
       <div className="flex">
         <label htmlFor="tree-name" className="sr-only">

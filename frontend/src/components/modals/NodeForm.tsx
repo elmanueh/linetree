@@ -63,7 +63,7 @@ export default function NodeForm({
                 value={formData.givenName}
                 onChange={onChange}
                 placeholder="Ej. Juan"
-                className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
+                className={`w-full rounded-lg border px-3 py-2 focus:ring-2 focus:outline-none ${
                   errors.givenName
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-400 focus:ring-green-600'
@@ -82,7 +82,7 @@ export default function NodeForm({
                 value={formData.familyName}
                 onChange={onChange}
                 placeholder="Ej. Pérez Gómez"
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
@@ -93,7 +93,7 @@ export default function NodeForm({
                 name="gender"
                 value={formData.gender}
                 onChange={onChange}
-                className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
+                className={`w-full rounded-lg border px-2 py-2 focus:ring-2 focus:outline-none ${
                   errors.gender
                     ? 'border-red-500 focus:ring-red-500'
                     : 'border-gray-400 focus:ring-green-600'
@@ -117,7 +117,7 @@ export default function NodeForm({
                 value={formData.nationality}
                 onChange={onChange}
                 placeholder="Ej. Española"
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
@@ -137,7 +137,7 @@ export default function NodeForm({
                 value={formData.telephone}
                 onChange={onChange}
                 placeholder="+34 600 000 000"
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
@@ -150,7 +150,7 @@ export default function NodeForm({
                 value={formData.email}
                 onChange={onChange}
                 placeholder="correo@ejemplo.com"
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
@@ -164,7 +164,7 @@ export default function NodeForm({
                 value={formData.address}
                 onChange={onChange}
                 placeholder="Ej. Calle Mayor 1, Murcia"
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
@@ -187,7 +187,7 @@ export default function NodeForm({
                 name="birthDate"
                 value={formData.birthDate}
                 onChange={onChange}
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
@@ -200,7 +200,7 @@ export default function NodeForm({
                 value={formData.birthPlace}
                 onChange={onChange}
                 placeholder="Ej. Valencia"
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
@@ -212,7 +212,7 @@ export default function NodeForm({
                 name="deathDate"
                 value={formData.deathDate}
                 onChange={onChange}
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
@@ -225,7 +225,7 @@ export default function NodeForm({
                 value={formData.deathPlace}
                 onChange={onChange}
                 placeholder="Ej. Madrid"
-                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-3 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
@@ -249,13 +249,13 @@ export default function NodeForm({
       <div className="col-span-1 md:col-span-2 flex justify-end mt-6 gap-4">
         <button
           type="reset"
-          className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition cursor-pointer"
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-3 py-2 rounded-lg transition cursor-pointer"
         >
           Cancelar
         </button>
         <button
           type="submit"
-          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition font-medium cursor-pointer"
+          className="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg transition font-medium cursor-pointer"
         >
           {submitLabel}
         </button>

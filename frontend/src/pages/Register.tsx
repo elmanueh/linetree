@@ -32,8 +32,8 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center">
-      <div className="shadow-xl rounded-xl px-12 py-10 w-full max-w-3xl border border-white/20">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
+      <div className="shadow-xl rounded-xl px-12 py-10 w-full max-w-3xl border border-white/20 bg-gray-50">
         <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8">
           Genealogy App
         </h1>

@@ -8,7 +8,7 @@ import VisualizationIcon from '@/components/icons/VisualizationIcon'
 
 export default function Overview() {
   return (
-    <main className="px-8 py-16 text-gray-800">
+    <main className="px-8 py-16 pb-0 text-gray-800">
       <section className="text-center mb-20">
         <h1 className="text-5xl font-extrabold text-green-700 mb-6">
           Bienvenido a GenealogyApp

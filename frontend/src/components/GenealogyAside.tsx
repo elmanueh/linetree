@@ -1,5 +1,8 @@
+import { InfoField } from '@/components/InfoField'
+import { InfoSection } from '@/components/InfoSection'
 import Loading from '@/components/layout/Loading'
 import NodeInfoHeader from '@/components/NodeInfoHeader'
+import { NodeGenderType } from '@/configs/constants'
 import { NodeReducerType } from '@/configs/types'
 import { useNode } from '@/hooks/useNode'
 
@@ -10,42 +13,56 @@ export default function GenealogyAside() {
   if (!nodes) return null
   const node = nodes[0]
 
+  const formatDate = (date?: string | null) =>
+    date ? new Date(date).toLocaleDateString('es-ES') : null
+
+  const relationMap = {
+    [NodeGenderType.MALE]: 'Hombre',
+    [NodeGenderType.FEMALE]: 'Mujer',
+    [NodeGenderType.OTHER]: 'Otro'
+  }
+
   return (
-    <aside className="h-full w-80 border-r border-gray-200 p-4 shadow-md">
+    <aside className="h-auto w-80 p-6 bg-gray-200 flex flex-col">
       <NodeInfoHeader />
-      <div className="bg-gray-50 rounded-md p-3 border border-gray-200">
-        <section className="bg-white shadow-md rounded-lg p-6 w-full max-w-md mx-auto">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6 border-b pb-2">
-            Información
-          </h2>
 
-          <div className="space-y-4 text-sm text-gray-700">
-            <div>
-              <p className="font-medium text-gray-600">Nombre:</p>
-              <span>{node.givenName || 'No disponible'}</span>
-            </div>
+      {(node.givenName ||
+        node.familyName ||
+        node.gender ||
+        node.nationality) && (
+        <InfoSection title="Información Personal">
+          <InfoField label="Nombre" value={node.givenName} />
+          <InfoField label="Apellido" value={node.familyName} />
+          <InfoField label="Género" value={relationMap[node.gender]} />
+          <InfoField label="Nacionalidad" value={node.nationality} />
+        </InfoSection>
+      )}
 
-            <div>
-              <p className="font-medium text-gray-600">Apellido:</p>
-              <span>{node.familyName || 'No disponible'}</span>
-            </div>
+      {(node.birthDate ||
+        node.birthPlace ||
+        node.deathDate ||
+        node.deathPlace) && (
+        <InfoSection title="Fechas y Lugares">
+          <InfoField
+            label="Fecha de Nacimiento"
+            value={formatDate(node.birthDate)}
+          />
+          <InfoField label="Lugar de Nacimiento" value={node.birthPlace} />
+          <InfoField
+            label="Fecha de Fallecimiento"
+            value={formatDate(node.deathDate)}
+          />
+          <InfoField label="Lugar de Fallecimiento" value={node.deathPlace} />
+        </InfoSection>
+      )}
 
-            <div>
-              <p className="font-medium text-gray-600">Fecha de Nacimiento:</p>
-              <span>
-                {node.birthDate
-                  ? new Date(node.birthDate).toLocaleDateString()
-                  : 'No disponible'}
-              </span>
-            </div>
-
-            <div>
-              <p className="font-medium text-gray-600">Género:</p>
-              <span>{node.gender || 'No disponible'}</span>
-            </div>
-          </div>
-        </section>
-      </div>
+      {(node.email || node.telephone || node.address) && (
+        <InfoSection title="Contacto">
+          <InfoField label="Email" value={node.email} />
+          <InfoField label="Teléfono" value={node.telephone} />
+          <InfoField label="Dirección" value={node.address} />
+        </InfoSection>
+      )}
     </aside>
   )
 }

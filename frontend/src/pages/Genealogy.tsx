@@ -1,5 +1,5 @@
-import GenealogyAside from '@/components/GenealogyAside'
-import GenealogyView from '@/components/GenealogyView'
+import GenealogyAside from '@/components/genealogy/GenealogyAside'
+import GenealogyView from '@/components/genealogy/GenealogyView'
 import { TreeReducerType } from '@/configs/types'
 import { useGenealogy } from '@/hooks/useGenealogy'
 import { useTree } from '@/hooks/useTree'

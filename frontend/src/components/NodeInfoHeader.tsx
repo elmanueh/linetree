@@ -16,8 +16,10 @@ export default function NodeInfoHeader() {
 
   const handleOnEdit = async (data: UpdateNode) => {
     try {
-      await updateNode(node.id, data)
-      handleGenealogy()
+      if (Object.keys(data).length !== 0) {
+        await updateNode(node.id, data)
+        handleGenealogy()
+      }
       setShowEditModal(false)
     } catch (error) {
       alert('Error updating node: ' + error)

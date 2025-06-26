@@ -1,5 +1,5 @@
+import NodeForm from '@/components/modals/NodeForm'
 import { UpdateNode } from '@/configs/api.types'
-import { NodeGenderType } from '@/configs/constants'
 import { NodeReducerType } from '@/configs/types'
 import { useNode } from '@/hooks/useNode'
 import { useEffect, useState } from 'react'
@@ -19,23 +19,48 @@ export default function EditNodeModal({
   const node = nodes[0]
 
   const initialFormData = {
-    birthDate: node?.birthDate || '',
-    familyName: node?.familyName || '',
-    gender: node?.gender || '',
-    givenName: node?.givenName || ''
+    birthDate: node?.birthDate
+      ? new Date(node.birthDate).toISOString().split('T')[0]
+      : undefined,
+    birthPlace: node?.birthPlace || undefined,
+    deathDate: node?.deathDate
+      ? new Date(node.deathDate).toISOString().split('T')[0]
+      : undefined,
+    deathPlace: node?.deathPlace || undefined,
+    familyName: node?.familyName || undefined,
+    email: node?.email || undefined,
+    gender: node?.gender || undefined,
+    givenName: node?.givenName || undefined,
+    nationality: node?.nationality || undefined,
+    telephone: node?.telephone || undefined
   }
+
+  const [originalData, setOriginalData] = useState(initialFormData)
   const [formData, setFormData] = useState(initialFormData)
+  const [errors, setErrors] = useState<{ givenName?: string; gender?: string }>(
+    {}
+  )
 
   useEffect(() => {
     if (node) {
-      setFormData({
+      const loadedData = {
         birthDate: node.birthDate
           ? new Date(node.birthDate).toISOString().split('T')[0]
-          : '',
-        familyName: '',
-        gender: node?.gender || '',
-        givenName: node?.givenName || ''
-      })
+          : undefined,
+        birthPlace: node.birthPlace || undefined,
+        deathDate: node.deathDate
+          ? new Date(node.deathDate).toISOString().split('T')[0]
+          : undefined,
+        deathPlace: node.deathPlace || undefined,
+        familyName: node.familyName || undefined,
+        email: node.email || undefined,
+        gender: node.gender || undefined,
+        givenName: node.givenName || undefined,
+        nationality: node.nationality || undefined,
+        telephone: node.telephone || undefined
+      }
+      setFormData(loadedData)
+      setOriginalData(loadedData)
     }
   }, [node])
 
@@ -44,102 +69,61 @@ export default function EditNodeModal({
   ) => {
     const { name, value } = e.target
     setFormData({ ...formData, [name]: value })
+    setErrors((prev) => ({ ...prev, [name]: undefined }))
+  }
+
+  const validate = () => {
+    const newErrors: typeof errors = {}
+    if (!formData.givenName?.trim())
+      newErrors.givenName = 'El nombre es obligatorio'
+    if (!formData.gender) newErrors.gender = 'El género es obligatorio'
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    const node: UpdateNode = {
-      givenName: formData.givenName,
-      familyName: formData.familyName,
-      birthDate: new Date(formData.birthDate),
-      gender: formData.gender
-    }
-    onEdit(node)
+    if (!validate()) return
+
+    const updatedNode: UpdateNode = {}
+
+    Object.entries(formData).forEach(([key, value]) => {
+      const originalValue = originalData[key as keyof typeof originalData]
+
+      if (
+        (key === 'birthDate' || key === 'deathDate') &&
+        originalValue !== value
+      ) {
+        const date = value ? new Date(value) : undefined
+        updatedNode[key as keyof UpdateNode] = date
+      } else if (originalValue !== value) {
+        updatedNode[key as keyof UpdateNode] = value || undefined
+      }
+    })
+
+    onEdit(updatedNode)
   }
 
   const handleReset = () => {
     setFormData(initialFormData)
+    setErrors({})
     onClose()
   }
 
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-lg p-6">
+    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-5xl p-6 max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl font-semibold mb-5">Editar persona</h2>
-
-        <form
-          onSubmit={handleSubmit}
+        <NodeForm
+          formData={formData}
+          errors={errors}
+          onChange={handleChange}
           onReset={handleReset}
-          className="space-y-4"
-        >
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium mb-1">Nombre</label>
-              <input
-                name="givenName"
-                value={formData.givenName}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-                placeholder="Nombre"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium mb-1">
-                Apellidos
-              </label>
-              <input
-                name="familyName"
-                value={formData.familyName}
-                onChange={handleChange}
-                className="w-full border rounded px-3 py-2"
-                placeholder="Apellidos"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">
-              Fecha de nacimiento
-            </label>
-            <input
-              type="date"
-              name="birthDate"
-              value={formData.birthDate}
-              onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium mb-1">Género</label>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className="w-full border rounded px-3 py-2"
-            >
-              <option value={NodeGenderType.MALE}>Masculino</option>
-              <option value={NodeGenderType.FEMALE}>Femenino</option>
-            </select>
-          </div>
-
-          <div className="flex justify-end mt-6 gap-3">
-            <button
-              type="reset"
-              className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300 transition"
-            >
-              Cancelar
-            </button>
-            <button
-              type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-            >
-              Actualizar
-            </button>
-          </div>
-        </form>
+          onSubmit={handleSubmit}
+          submitLabel="Actualizar"
+        />
       </div>
     </div>
   )

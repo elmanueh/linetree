@@ -204,10 +204,17 @@ export class NodesService {
       throw new EntityNotFoundException("The node couldn't be found");
     }
 
+    if (dto.address) node.address = dto.address;
     if (dto.birthDate) node.birthDate = dto.birthDate;
+    if (dto.birthPlace) node.birthPlace = dto.birthPlace;
+    if (dto.deathDate) node.deathDate = dto.deathDate;
+    if (dto.deathPlace) node.deathPlace = dto.deathPlace;
+    if (dto.email) node.email = dto.email;
     if (dto.familyName) node.familyName = dto.familyName;
     if (dto.gender) node.gender = dto.gender;
     if (dto.givenName) node.givenName = dto.givenName;
+    if (dto.nationality) node.nationality = dto.nationality;
+    if (dto.telephone) node.telephone = dto.telephone;
 
     await this.nodeRepository.save(node);
   }

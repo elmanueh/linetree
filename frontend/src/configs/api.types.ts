@@ -41,10 +41,17 @@ export interface CreateNode {
 }
 
 export interface UpdateNode {
+  address?: string
   birthDate?: Date
+  birthPlace?: string
+  deathDate?: Date
+  deathPlace?: string
+  email?: string
   familyName?: string
   gender?: NodeGenderType
   givenName?: string
+  nationality?: string
+  telephone?: string
 }
 
 export interface Node {

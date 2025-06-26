@@ -29,12 +29,14 @@ export default function NodeInfoHeader() {
   if (loading) return <Loading />
 
   return (
-    <div className="space-y-3 mb-6">
-      <div className="flex items-center gap-3 p-2">
+    <div className="space-y-3 mb-6 bg-gray-100 border border-gray-100 shadow-sm rounded-2xl">
+      <div className="flex items-center gap-3 px-3 pt-4">
         <img src="/male.svg" alt="Avatar" width={50} height={50} />
-        <h3 className="text-md">{node.givenName}</h3>
+        <h3 className="text-md">
+          {node.givenName} {node.familyName ?? ''}
+        </h3>
       </div>
-      <div className="flex space-x-8 justify-center">
+      <div className="flex space-x-8 justify-center p-3">
         <AddNodeMenu />
 
         <button

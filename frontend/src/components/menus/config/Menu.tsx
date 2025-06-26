@@ -13,7 +13,7 @@ interface MenuProps {
 export default function Menu({ position, children }: MenuProps) {
   return (
     <div
-      className={`absolute top-full ${positionClasses[position]} mt-2 bg-white border border-gray-300 rounded-md shadow-lg w-48 p-2 z-50`}
+      className={`absolute top-full ${positionClasses[position]} mt-2 bg-gray-50 border border-gray-300 rounded-md shadow-lg w-48 p-2 z-50`}
     >
       {children}
     </div>

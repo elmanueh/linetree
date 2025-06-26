@@ -13,25 +13,25 @@ export default function Genealogy() {
 
   return (
     <>
+      <div className="bg-gray-200 text-gray-700 px-7 py-2 flex justify-between border-gray-300 ">
+        <div className="font-medium flex gap-8">
+          <span>Árbol {tree.name}</span>
+          <span>
+            {tree.nodes.length}{' '}
+            {tree.nodes.length === 1 ? 'persona' : 'personas'}
+          </span>
+        </div>
+        <span className="text-sm text-gray-500 whitespace-nowrap">
+          Última edición:{' '}
+          {new Intl.DateTimeFormat('es-ES', {
+            dateStyle: 'medium',
+            timeStyle: 'short'
+          }).format(new Date(tree?.updatedAt))}
+        </span>
+      </div>
       <div className="flex">
-        {nodeId && <GenealogyAside />}
-        <main className="flex-1 bg-gray-300">
-          <div className="bg-gray-200 text-gray-700 px-10 py-2 flex justify-between border-gray-300 ">
-            <div className="font-medium flex gap-8">
-              <span>Árbol {tree.name}</span>
-              <span>
-                {tree.nodes.length}{' '}
-                {tree.nodes.length === 1 ? 'persona' : 'personas'}
-              </span>
-            </div>
-            <span className="text-sm text-gray-500 whitespace-nowrap">
-              Última edición:{' '}
-              {new Intl.DateTimeFormat('es-ES', {
-                dateStyle: 'medium',
-                timeStyle: 'short'
-              }).format(new Date(tree?.updatedAt))}
-            </span>
-          </div>
+        <main className="flex flex-1 bg-gray-300">
+          {nodeId && <GenealogyAside />}
           <GenealogyView />
         </main>
       </div>

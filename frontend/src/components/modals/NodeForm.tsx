@@ -48,14 +48,14 @@ export default function NodeForm({
     >
       {/* Columna izquierda */}
       <div className="space-y-8">
-        {/* Identidad */}
+        {/* Información Personal */}
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Identidad
+            Información Personal
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Nombre <span className="text-red-500">*</span>
               </label>
               <input
@@ -66,7 +66,7 @@ export default function NodeForm({
                 className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
                   errors.givenName
                     ? 'border-red-500 focus:ring-red-500'
-                    : 'border-gray-300 focus:ring-blue-500'
+                    : 'border-gray-400 focus:ring-green-600'
                 }`}
               />
               {errors.givenName && (
@@ -74,7 +74,7 @@ export default function NodeForm({
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Apellidos
               </label>
               <input
@@ -82,11 +82,11 @@ export default function NodeForm({
                 value={formData.familyName}
                 onChange={onChange}
                 placeholder="Ej. Pérez Gómez"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Género <span className="text-red-500">*</span>
               </label>
               <select
@@ -96,7 +96,7 @@ export default function NodeForm({
                 className={`w-full rounded-lg border px-4 py-2 focus:ring-2 focus:outline-none ${
                   errors.gender
                     ? 'border-red-500 focus:ring-red-500'
-                    : 'border-gray-300 focus:ring-blue-500'
+                    : 'border-gray-400 focus:ring-green-600'
                 }`}
               >
                 <option value="">Selecciona</option>
@@ -109,7 +109,7 @@ export default function NodeForm({
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Nacionalidad
               </label>
               <input
@@ -117,7 +117,7 @@ export default function NodeForm({
                 value={formData.nationality}
                 onChange={onChange}
                 placeholder="Ej. Española"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
@@ -128,7 +128,7 @@ export default function NodeForm({
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Contacto</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Teléfono
               </label>
               <input
@@ -137,11 +137,11 @@ export default function NodeForm({
                 value={formData.telephone}
                 onChange={onChange}
                 placeholder="+34 600 000 000"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Email
               </label>
               <input
@@ -150,13 +150,13 @@ export default function NodeForm({
                 value={formData.email}
                 onChange={onChange}
                 placeholder="correo@ejemplo.com"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
           <div className="grid grid-cols-1 gap-4 mt-3">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Dirección
               </label>
               <input
@@ -164,7 +164,7 @@ export default function NodeForm({
                 value={formData.address}
                 onChange={onChange}
                 placeholder="Ej. Calle Mayor 1, Murcia"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
@@ -175,11 +175,11 @@ export default function NodeForm({
       <div className="space-y-8">
         <div>
           <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Datos vitales
+            Fechas y Lugares
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Fecha de nacimiento
               </label>
               <input
@@ -187,11 +187,11 @@ export default function NodeForm({
                 name="birthDate"
                 value={formData.birthDate}
                 onChange={onChange}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Lugar de nacimiento
               </label>
               <input
@@ -200,11 +200,11 @@ export default function NodeForm({
                 value={formData.birthPlace}
                 onChange={onChange}
                 placeholder="Ej. Valencia"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Fecha de fallecimiento
               </label>
               <input
@@ -212,11 +212,11 @@ export default function NodeForm({
                 name="deathDate"
                 value={formData.deathDate}
                 onChange={onChange}
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label className="block text-sm font-medium text-gray-800 mb-1">
                 Lugar de fallecimiento
               </label>
               <input
@@ -225,7 +225,7 @@ export default function NodeForm({
                 value={formData.deathPlace}
                 onChange={onChange}
                 placeholder="Ej. Madrid"
-                className="w-full rounded-lg border border-gray-300 px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                className="w-full rounded-lg border border-gray-400 px-4 py-2 focus:ring-2 focus:ring-green-600 focus:outline-none"
               />
             </div>
           </div>
@@ -249,7 +249,7 @@ export default function NodeForm({
       <div className="col-span-1 md:col-span-2 flex justify-end mt-6 gap-4">
         <button
           type="reset"
-          className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg transition cursor-pointer"
+          className="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition cursor-pointer"
         >
           Cancelar
         </button>

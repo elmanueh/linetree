@@ -9,7 +9,6 @@ import { useNode } from '@/hooks/useNode'
 export default function GenealogyAside() {
   const { nodes, loading } = useNode(NodeReducerType.BY_ID)
 
-  if (loading) return <Loading />
   if (!nodes) return null
   const node = nodes[0]
 
@@ -17,13 +16,21 @@ export default function GenealogyAside() {
     date ? new Date(date).toLocaleDateString('es-ES') : null
 
   const relationMap = {
-    [NodeGenderType.MALE]: 'Hombre',
-    [NodeGenderType.FEMALE]: 'Mujer',
+    [NodeGenderType.MALE]: 'Masculino',
+    [NodeGenderType.FEMALE]: 'Femenino',
     [NodeGenderType.OTHER]: 'Otro'
   }
 
+  if (loading) {
+    return (
+      <div className="h-auto w-90 px-6 bg-gray-200 flex justify-center">
+        <Loading />
+      </div>
+    )
+  }
+
   return (
-    <aside className="h-auto w-80 p-6 bg-gray-200 flex flex-col">
+    <aside className="h-auto w-90 px-6 bg-gray-200 flex flex-col">
       <NodeInfoHeader />
 
       {(node.givenName ||

@@ -11,6 +11,8 @@ export interface Tree {
   id: UUID
   name: string
   nodes: UUID[]
+  createdAt: string
+  updatedAt: string
 }
 
 export interface CreateTree {

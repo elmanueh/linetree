@@ -61,12 +61,7 @@ export default function Home() {
           <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {trees.map((tree) => (
               <li key={tree.id}>
-                <TreeCard
-                  id={tree.id}
-                  name={tree.name}
-                  nodeCount={tree.nodes.length}
-                  callbackDelete={handleDeleteTree}
-                />
+                <TreeCard tree={tree} callbackDelete={handleDeleteTree} />
               </li>
             ))}
           </ul>

@@ -52,7 +52,7 @@ export default function AddNodeMenu() {
             onClick={() => handleOpenModal(NodeRelationType.PARENT)}
           />
           <MenuItem
-            label="Añadir pareja"
+            label="Añadir cónyuge"
             onClick={() => handleOpenModal(NodeRelationType.SPOUSE)}
           />
           <MenuItem

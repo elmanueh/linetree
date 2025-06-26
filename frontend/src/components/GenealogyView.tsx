@@ -23,7 +23,7 @@ export default function GenealogyView() {
     const layoutTree = generateLayoutTree(root)
 
     svg.selectAll('*').remove()
-    svg.attr('width', '100%').attr('height', '600px')
+    svg.attr('width', '100%').attr('height', window.innerHeight)
 
     const g = svg.append('g')
     drawRelationships(g, layoutTree, relations)

@@ -50,6 +50,7 @@ export const TreeService = {
   exportGedcom,
   importGedcom,
   getTrees,
+  getTree,
   createTree,
   deleteTree
 }

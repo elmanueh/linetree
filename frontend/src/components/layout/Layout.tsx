@@ -7,19 +7,20 @@ import { Outlet, useLocation } from 'react-router'
 
 export default function Layout() {
   const location = useLocation()
-  const excludeLayoutRoutes = [NAV_ROUTES.LOGIN, NAV_ROUTES.REGISTER]
+  const isUuidRoute =
+    /^\/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/.test(
+      location.pathname
+    )
+  const hideHeader = [NAV_ROUTES.LOGIN, NAV_ROUTES.REGISTER]
+  const hideFooter = [NAV_ROUTES.LOGIN, NAV_ROUTES.REGISTER]
 
   return (
     <PrivateRoute>
-      {excludeLayoutRoutes.includes(location.pathname) ? (
+      <>
+        {!hideHeader.includes(location.pathname) && <Nav />}
         <Outlet />
-      ) : (
-        <>
-          <Nav />
-          <Outlet />
-          <Footer />
-        </>
-      )}
+        {!hideFooter.includes(location.pathname) && !isUuidRoute && <Footer />}
+      </>
     </PrivateRoute>
   )
 }

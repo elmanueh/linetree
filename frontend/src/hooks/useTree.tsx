@@ -40,7 +40,7 @@ function treeReducer(state: ReducerState<Tree>, action: ReducerAction<Tree>) {
   }
 }
 
-export function useTree(type: TreeReducerType) {
+export function useTree(type: TreeReducerType, treeId?: UUID) {
   const [state, dispatch] = useReducer(treeReducer, initialState)
 
   const fetchTrees = useCallback(async () => {
@@ -50,6 +50,9 @@ export function useTree(type: TreeReducerType) {
       switch (type) {
         case TreeReducerType.ALL:
           trees = await TreeService.getTrees()
+          break
+        case TreeReducerType.BY_ID:
+          trees = [await TreeService.getTree(treeId!)]
           break
         default:
           throw new TypeError('The tree type is not valid')

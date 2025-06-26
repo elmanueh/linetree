@@ -18,7 +18,8 @@ export interface GenealogyRelation {
 // -------------- HOOKS -------------- //
 
 export enum TreeReducerType {
-  ALL = 'ALL'
+  ALL = 'ALL',
+  BY_ID = 'BY_ID'
 }
 
 export enum NodeReducerType {

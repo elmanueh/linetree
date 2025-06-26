@@ -16,8 +16,8 @@ export default function Genealogy() {
       <div className="flex">
         {nodeId && <GenealogyAside />}
         <main className="flex-1 bg-gray-300">
-          <div className="bg-gray-200 text-gray-700 px-4 py-2 flex justify-between border-gray-300 ">
-            <div className="font-medium flex gap-10">
+          <div className="bg-gray-200 text-gray-700 px-10 py-2 flex justify-between border-gray-300 ">
+            <div className="font-medium flex gap-8">
               <span>Árbol {tree.name}</span>
               <span>
                 {tree.nodes.length}{' '}

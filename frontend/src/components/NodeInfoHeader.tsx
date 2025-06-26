@@ -14,9 +14,9 @@ export default function NodeInfoHeader() {
   const { nodes, loading, updateNode } = useNode(NodeReducerType.BY_ID)
   const node = nodes[0]
 
-  const handleOnEdit = (data: UpdateNode) => {
+  const handleOnEdit = async (data: UpdateNode) => {
     try {
-      updateNode(node.id, data)
+      await updateNode(node.id, data)
       handleGenealogy()
       setShowEditModal(false)
     } catch (error) {

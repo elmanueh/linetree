@@ -36,5 +36,6 @@ export enum NodeRelationType {
 
 export enum NodeGenderType {
   MALE = 'male',
-  FEMALE = 'female'
+  FEMALE = 'female',
+  OTHER = 'other'
 }

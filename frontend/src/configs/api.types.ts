@@ -26,10 +26,17 @@ export interface CreateNode {
   spouseId?: UUID
   relation: NodeRelationType
   nodeInfo: {
-    birthDate?: Date
+    address?: string
+    birthDate?: string
+    birthPlace?: string
+    deathDate?: string
+    deathPlace?: string
+    email?: string
     familyName?: string
     gender: NodeGenderType
     givenName: string
+    nationality?: string
+    telephone?: string
   }
 }
 
@@ -42,11 +49,17 @@ export interface UpdateNode {
 
 export interface Node {
   id: UUID
+  address?: string
   birthDate?: string
+  birthPlace?: string
   deathDate?: string
+  deathPlace?: string
+  email?: string
   familyName?: string
   gender: NodeGenderType
   givenName: string
+  nationality?: string
+  telephone?: string
 }
 
 // ---------- AUTH -------------

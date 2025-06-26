@@ -19,6 +19,7 @@ export default function EditNodeModal({
   const node = nodes[0]
 
   const initialFormData = {
+    address: node?.address || undefined,
     birthDate: node?.birthDate
       ? new Date(node.birthDate).toISOString().split('T')[0]
       : undefined,
@@ -44,6 +45,7 @@ export default function EditNodeModal({
   useEffect(() => {
     if (node) {
       const loadedData = {
+        address: node.address || undefined,
         birthDate: node.birthDate
           ? new Date(node.birthDate).toISOString().split('T')[0]
           : undefined,

@@ -5,6 +5,7 @@ import { UUID } from '@/configs/types'
 import { useState } from 'react'
 
 const initialFormData = {
+  address: undefined as string | undefined,
   birthDate: undefined as string | undefined,
   birthPlace: undefined as string | undefined,
   deathDate: undefined as string | undefined,
@@ -83,6 +84,7 @@ export default function AddNodeModal({
       }
     }
 
+    if (formData.address) node.nodeInfo.address = formData.address
     if (formData.birthDate)
       node.nodeInfo.birthDate = new Date(formData.birthDate).toISOString()
     if (formData.deathDate)

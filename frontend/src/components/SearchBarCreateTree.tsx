@@ -27,11 +27,11 @@ export default function SearchBarCreateTree({
           value={name}
           onChange={(e) => setName(e.target.value)}
           placeholder="Introduce un nombre..."
-          className="flex-1 px-4 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-700"
+          className="flex-1 px-4 py-2 border border-gray-400 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-600"
         />
         <button
           onClick={handleCreateTree}
-          className="px-4 bg-green-700 text-white font-medium rounded-md ml-5 cursor-pointer"
+          className="px-4 bg-green-600 hover:bg-green-700 transition text-white font-medium rounded-md ml-5 cursor-pointer"
         >
           +
         </button>

@@ -31,7 +31,7 @@ export default function UserMenu() {
     <div className="relative inline-block" ref={menuRef}>
       <button
         onClick={handleButtonClick}
-        className="flex items-center gap-3 px-3 py-1 rounded-full hover:bg-gray-200 transition cursor-pointer"
+        className="flex items-center gap-3 px-3 py-1 rounded-xl hover:bg-gray-200 transition cursor-pointer"
         aria-expanded={menuOpen}
         aria-haspopup="true"
         aria-label="Usuario"

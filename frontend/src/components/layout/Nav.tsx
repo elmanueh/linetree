@@ -17,7 +17,7 @@ export default function Nav() {
           <>
             <Link
               to={NAV_ROUTES.HOME}
-              className="font-medium hover:text-green-700"
+              className="font-medium p-2 rounded-xl transition hover:bg-gray-200"
             >
               Mis árboles
             </Link>

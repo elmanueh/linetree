@@ -39,7 +39,7 @@ export default function AddNodeMenu() {
   return (
     <div className="relative inline-block" ref={menuRef}>
       <button
-        className="cursor-pointer flex flex-col items-center"
+        className="cursor-pointer flex flex-col items-center hover:bg-gray-200 transition rounded-2xl p-1.5 min-w-20"
         onClick={toggleMenu}
       >
         <img src="/person-add.svg" alt="Añadir" width={25} height={25} />

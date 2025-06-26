@@ -36,7 +36,7 @@ export default function ImportTree({ callback }: ImportTreeProps) {
       <div className="flex justify-center">
         <label
           htmlFor="gedcom-upload"
-          className="cursor-pointer px-4 py-3 bg-green-700 text-white font-medium rounded-md"
+          className="cursor-pointer px-4 py-3 bg-green-600 hover:bg-green-700 transition text-white font-medium rounded-md"
         >
           Seleccionar archivo
         </label>

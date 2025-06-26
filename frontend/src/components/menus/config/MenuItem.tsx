@@ -18,7 +18,7 @@ export default function MenuItem({
 }: MenuItemProps) {
   return (
     <button
-      className={`w-full text-left px-3 py-2 ${typeClasses[type]} rounded cursor-pointer`}
+      className={`w-full text-left px-3 py-2 ${typeClasses[type]} rounded cursor-pointer transition`}
       onClick={onClick}
     >
       {label}

@@ -37,7 +37,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="https://github.com/elmanueh/tfg-arboles-genealogicos"
-                    className="hover:text-blue-600 transition flex"
+                    className="hover:text-green-600 hover:font-semibold transition flex"
                     target="_blank"
                   >
                     <img
@@ -51,7 +51,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="https://www.linkedin.com/in/manuel-bernabe-rodriguez/"
-                    className="hover:text-blue-600 transition flex"
+                    className="hover:text-green-600 hover:font-semibold transition flex"
                     target="_blank"
                   >
                     <img
@@ -65,7 +65,7 @@ export default function Footer() {
                 <li>
                   <a
                     href="mailto:bernabe2003@gmail.com"
-                    className="hover:text-blue-600 transition flex"
+                    className="hover:text-green-600 hover:font-semibold transition flex"
                     target="_blank"
                   >
                     <img

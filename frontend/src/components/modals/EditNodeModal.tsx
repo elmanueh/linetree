@@ -97,7 +97,7 @@ export default function EditNodeModal({
         const date = value ? new Date(value) : undefined
         updatedNode[key as keyof UpdateNode] = date
       } else if (originalValue !== value) {
-        updatedNode[key as keyof UpdateNode] = value || undefined
+        updatedNode[key as keyof UpdateNode] = value
       }
     })
 

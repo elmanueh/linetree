@@ -204,17 +204,17 @@ export class NodesService {
       throw new EntityNotFoundException("The node couldn't be found");
     }
 
-    if (dto.address) node.address = dto.address;
-    if (dto.birthDate) node.birthDate = dto.birthDate;
-    if (dto.birthPlace) node.birthPlace = dto.birthPlace;
-    if (dto.deathDate) node.deathDate = dto.deathDate;
-    if (dto.deathPlace) node.deathPlace = dto.deathPlace;
-    if (dto.email) node.email = dto.email;
-    if (dto.familyName) node.familyName = dto.familyName;
-    if (dto.gender) node.gender = dto.gender;
-    if (dto.givenName) node.givenName = dto.givenName;
-    if (dto.nationality) node.nationality = dto.nationality;
-    if (dto.telephone) node.telephone = dto.telephone;
+    if (dto.address !== undefined) node.address = dto.address;
+    if (dto.birthDate !== undefined) node.birthDate = dto.birthDate;
+    if (dto.birthPlace !== undefined) node.birthPlace = dto.birthPlace;
+    if (dto.deathDate !== undefined) node.deathDate = dto.deathDate;
+    if (dto.deathPlace !== undefined) node.deathPlace = dto.deathPlace;
+    if (dto.email !== undefined) node.email = dto.email;
+    if (dto.familyName !== undefined) node.familyName = dto.familyName;
+    if (dto.gender !== undefined) node.gender = dto.gender;
+    if (dto.givenName !== undefined) node.givenName = dto.givenName;
+    if (dto.nationality !== undefined) node.nationality = dto.nationality;
+    if (dto.telephone !== undefined) node.telephone = dto.telephone;
 
     await this.nodeRepository.save(node);
   }

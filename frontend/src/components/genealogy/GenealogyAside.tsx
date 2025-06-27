@@ -2,23 +2,35 @@ import { InfoField } from '@/components/genealogy/InfoField'
 import { InfoSection } from '@/components/genealogy/InfoSection'
 import NodeInfoHeader from '@/components/genealogy/NodeInfoHeader'
 import Loading from '@/components/layout/Loading'
+import { UpdateNode } from '@/configs/api.types'
 import { NodeGenderType } from '@/configs/constants'
 import { NodeReducerType } from '@/configs/types'
+import { useGenealogy } from '@/hooks/useGenealogy'
 import { useNode } from '@/hooks/useNode'
 
+const relationMap = {
+  [NodeGenderType.MALE]: 'Masculino',
+  [NodeGenderType.FEMALE]: 'Femenino',
+  [NodeGenderType.OTHER]: 'Otro'
+}
+
+const formatDate = (date?: string | null) =>
+  date ? new Date(date).toLocaleDateString('es-ES') : null
+
 export default function GenealogyAside() {
-  const { nodes, loading } = useNode(NodeReducerType.BY_ID)
+  const { nodes, loading, updateNode } = useNode(NodeReducerType.BY_ID)
+  const { handleGenealogy } = useGenealogy()
 
   if (!nodes) return null
   const node = nodes[0]
 
-  const formatDate = (date?: string | null) =>
-    date ? new Date(date).toLocaleDateString('es-ES') : null
-
-  const relationMap = {
-    [NodeGenderType.MALE]: 'Masculino',
-    [NodeGenderType.FEMALE]: 'Femenino',
-    [NodeGenderType.OTHER]: 'Otro'
+  const handleUpdateNode = async (data: UpdateNode) => {
+    try {
+      await updateNode(node.id, data)
+      handleGenealogy()
+    } catch (error) {
+      alert('Error updating node: ' + error)
+    }
   }
 
   if (loading) {
@@ -31,7 +43,7 @@ export default function GenealogyAside() {
 
   return (
     <aside className="h-auto w-90 px-6 bg-gray-200 flex flex-col">
-      <NodeInfoHeader />
+      <NodeInfoHeader node={node} callbackUpdate={handleUpdateNode} />
 
       {(node.givenName ||
         node.familyName ||

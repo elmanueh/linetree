@@ -30,7 +30,10 @@ export default function Genealogy() {
         </span>
       </div>
       <div className="flex">
-        <main className="flex flex-1 bg-gray-200">
+        <main
+          className="flex flex-1 bg-gray-200"
+          style={{ maxHeight: 'calc(100vh - 13vh)' }}
+        >
           {nodeId && <GenealogyAside />}
           <GenealogyView />
         </main>

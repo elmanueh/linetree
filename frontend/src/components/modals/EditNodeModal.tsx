@@ -86,7 +86,6 @@ export default function EditNodeModal({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (!validate()) return
-
     const updatedNode: UpdateNode = {}
 
     Object.entries(formData).forEach(([key, value]) => {
@@ -96,7 +95,7 @@ export default function EditNodeModal({
         (key === 'birthDate' || key === 'deathDate') &&
         originalValue !== value
       ) {
-        const date = value ? new Date(value) : undefined
+        const date = value ? new Date(value) : null
         updatedNode[key as keyof UpdateNode] = date
       } else if (originalValue !== value) {
         updatedNode[key as keyof UpdateNode] = value

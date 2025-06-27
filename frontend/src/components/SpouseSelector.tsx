@@ -3,7 +3,7 @@ import { useGenealogy } from '@/hooks/useGenealogy'
 
 interface SpouseSelectorProps {
   formData: { spouseId?: UUID }
-  callbackChange: (data: any) => void
+  callbackChange: (data: UUID) => void
 }
 
 export default function SpouseSelector({
@@ -12,27 +12,26 @@ export default function SpouseSelector({
 }: SpouseSelectorProps) {
   const { nodeId, genealogy } = useGenealogy()
 
-  const getSpouses = (): { id: string; givenName: string }[] => {
-    const person = genealogy.find((p) => p.id.endsWith(nodeId))
-
+  const getSpouses = (): { id: UUID; givenName: string }[] => {
+    const person = genealogy.find((p) => p['@id'] === nodeId)
     if (!person?.spouse) return []
 
     const spouseIds = Array.isArray(person.spouse)
-      ? person.spouse.map((s) => s.id)
-      : [person.spouse.id]
+      ? person.spouse.map((s) => s['@id'])
+      : [person.spouse['@id']]
 
     return genealogy
-      .filter((p) => spouseIds.includes(p.id))
+      .filter((p) => spouseIds.includes(p['@id']))
       .map((p) => ({
-        id: p.id.split('/').pop()!,
-        givenName: p.givenName || '(Sin nombre)'
+        id: p['@id'],
+        givenName: p.givenName
       }))
   }
 
   return (
     <div>
       <label className="block text-sm font-medium mb-1">
-        Selecciona pareja
+        Selecciona pareja <span className="text-red-500">*</span>
       </label>
       <div className="flex gap-2 flex-wrap">
         {getSpouses().map((spouse) => (
@@ -50,11 +49,6 @@ export default function SpouseSelector({
           </button>
         ))}
       </div>
-      {!formData.spouseId && (
-        <p className="text-red-500 text-sm mt-1">
-          Debes seleccionar una pareja
-        </p>
-      )}
     </div>
   )
 }

@@ -7,14 +7,14 @@ import { firstValueFrom } from 'rxjs';
 @Injectable()
 export class SparqlService {
   private readonly endpoint = 'http://localhost:7200/repositories/genealogy';
-  private readonly contextUri = 'http://example.org/graph/';
-  private readonly nodeUri = 'http://example.org/node/';
+  private readonly contextUri = 'http://example.org/trees/';
+  private readonly nodeUri = 'http://example.org/nodes/';
 
   constructor(private readonly httpService: HttpService) {}
 
   async insert(triple: TripleRdf): Promise<void> {
     const query = `
-      PREFIX schema: <http://schema.org/>
+      PREFIX schema: <https://schema.org/>
       INSERT DATA {
         GRAPH <${this.contextUri}${triple.context}> {
           <${this.nodeUri}${triple.subject}> schema:${triple.predicate} <${this.nodeUri}${triple.object}> .
@@ -66,7 +66,7 @@ export class SparqlService {
     const objectPart = object ? `<${this.nodeUri}${object}>` : '?object';
 
     return `
-      PREFIX schema: <http://schema.org/>
+      PREFIX schema: <https://schema.org/>
       SELECT ?subject ?predicate ?object
       WHERE {
         ${graphClause ? `${graphClause} {` : ''}
@@ -98,7 +98,7 @@ export class SparqlService {
 
   async construct(triple: TripleRdf): Promise<NodeObject[]> {
     const query = `
-      PREFIX schema: <http://schema.org/>
+      PREFIX schema: <https://schema.org/>
 
       CONSTRUCT {
         ?person a schema:Person .
@@ -131,7 +131,7 @@ export class SparqlService {
 
   async queryDescendants(triple: TripleRdf): Promise<TripleRdf[]> {
     const query = `
-      PREFIX schema: <http://schema.org/>
+      PREFIX schema: <https://schema.org/>
       SELECT ?subject ?predicate ?object
       WHERE {
         GRAPH <${this.contextUri}${triple.context}> {
@@ -166,7 +166,7 @@ export class SparqlService {
 
   async queryParents(triple: TripleRdf): Promise<TripleRdf[]> {
     const query = `
-      PREFIX schema: <http://schema.org/>
+      PREFIX schema: <https://schema.org/>
       SELECT ?subject ?predicate ?object
       WHERE {
         GRAPH <${this.contextUri}${triple.context}> {

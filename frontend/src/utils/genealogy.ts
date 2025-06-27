@@ -6,10 +6,8 @@ export function parseGenealogy(genealogy: NodeObject[]) {
   const nodes = new Map<UUID, GenealogyNode>()
   const relations: GenealogyRelation[] = []
 
-  const getNode = (nodeObject: NodeObject | UUID) => {
-    const rawId =
-      typeof nodeObject === 'string' ? nodeObject : (nodeObject['id'] as UUID)
-    const nodeId = rawId.split('/').pop()!
+  const getNode = (nodeObject: NodeObject) => {
+    const nodeId = nodeObject['@id'] as UUID
     return nodes.get(nodeId)!
   }
 
@@ -24,9 +22,7 @@ export function parseGenealogy(genealogy: NodeObject[]) {
 
   // initialize nodes map
   genealogy.forEach((nodeObject) => {
-    const rawId = nodeObject['id'] as UUID
-    const nodeId = rawId.split('/').pop()!
-
+    const nodeId = nodeObject['@id'] as UUID
     const node: GenealogyNode = {
       id: nodeId,
       birthDate: nodeObject['birthDate'] as string,

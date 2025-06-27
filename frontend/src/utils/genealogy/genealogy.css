@@ -5,42 +5,68 @@
 }
 
 .node-rect {
-  fill: #fdfdfd;
-  stroke: #1e1e1e;
-  stroke-width: 2;
+  stroke: #d1d5db;
+  stroke-width: 1.5;
+  fill: #f3f4f6;
   rx: 12;
   ry: 12;
 }
 
 .node-rect.male {
-  fill: #e0f0ff;
-  stroke: #246296;
+  fill: #e5f3ff;
+  stroke: #60a5fa;
 }
 
 .node-rect.female {
-  fill: #ffe0f0;
-  stroke: #a6426b;
+  fill: #fce7f3;
+  stroke: #f472b6;
+}
+
+.node-rect.other {
+  fill: #d1d5db;
+  stroke: #6b7280;
+}
+
+.node-image-bg {
+  stroke: #d1d5db;
+  stroke-width: 1;
+}
+
+.node-image-bg.male {
+  fill: #bfdbfe;
+}
+
+.node-image-bg.female {
+  fill: #f9a8d4;
+}
+
+.node-image-bg.other {
+  fill: #9ca3af;
 }
 
 .node-image {
   width: 40px;
   height: 40px;
-  border-radius: 50%;
 }
 
 .node-name {
   font-size: 15px;
   font-weight: 600;
+  fill: #374151;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 50px;
 }
 
 .node-dates {
-  font-size: 13px;
-  fill: #888;
+  font-size: 14px;
+  fill: #6b7280;
 }
 
 .link {
   fill: none;
-  stroke: #73777e;
+  stroke: #6b7280;
   stroke-width: 1.5px;
   stroke-dasharray: 4 5;
   stroke-opacity: 0.8;

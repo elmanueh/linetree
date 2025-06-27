@@ -120,7 +120,7 @@ export class RelationsService {
       const node = tree.getNodes()[0];
       genealogy.push({
         '@id': node.id,
-        '@type': 'http://schema.org/Person',
+        '@type': 'https://schema.org/Person',
       });
     }
 
@@ -132,23 +132,32 @@ export class RelationsService {
 
       const node = tree.getNode(id);
       if (!node) continue;
-      nodeGenealogy['http://schema.org/givenName'] = [
+
+      nodeGenealogy['https://schema.org/givenName'] = [
         { '@value': node.givenName },
       ];
-      //nodeGenealogy['http://schema.org/familyName'] = [
-      //  { '@value': node.familyName },
-      //];
-      //nodeGenealogy['http://schema.org/birthDate'] = [
-      //  { '@value': node.birthDate?.toISOString() },
-      //];
-      //nodeGenealogy['http://schema.org/deathDate'] = [
-      //  { '@value': node.deathDate?.toISOString() },
-      //];
-      nodeGenealogy['http://schema.org/gender'] = [{ '@value': node.gender }];
+      nodeGenealogy['https://schema.org/gender'] = [{ '@value': node.gender }];
+
+      if (node.familyName) {
+        nodeGenealogy['https://schema.org/familyName'] = [
+          { '@value': node.familyName },
+        ];
+      }
+      if (node.birthDate) {
+        nodeGenealogy['https://schema.org/birthDate'] = [
+          { '@value': node.birthDate?.toISOString() },
+        ];
+      }
+      if (node.deathDate) {
+        nodeGenealogy['https://schema.org/deathDate'] = [
+          { '@value': node.deathDate?.toISOString() },
+        ];
+      }
     }
 
     return compact(genealogy, {
-      '@context': 'http://schema.org/',
+      '@vocab': 'https://schema.org/',
+      '@base': 'http://example.org/nodes/',
     });
   }
 }

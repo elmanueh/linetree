@@ -63,7 +63,7 @@ export function drawNodes(
     .attr('height', 40)
     .attr('clip-path', 'circle(20 at 20 20)')
     .attr('href', (d) =>
-      d.gender === NodeGenderType.MALE ? '/male.svg' : '/female.svg'
+      d.gender === NodeGenderType.FEMALE ? '/female.svg' : '/male.svg'
     )
 
   nodeGroup

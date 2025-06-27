@@ -230,20 +230,24 @@ export default function NodeForm({
             </div>
           </div>
         </div>
+        {/* Selector de cónyuge */}
+        {relation === NodeRelationType.CHILDREN && (
+          <>
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">
+              Relaciones Familiares
+            </h3>
+            <div className="col-span-1 md:col-span-2 mt-4">
+              <SpouseSelector
+                formData={formData}
+                callbackChange={onSpouseChange!}
+              />
+              {errors.spouseId && (
+                <p className="text-sm text-red-500 mt-1">{errors.spouseId}</p>
+              )}
+            </div>
+          </>
+        )}
       </div>
-
-      {/* Selector de cónyuge */}
-      {relation === NodeRelationType.CHILDREN && (
-        <div className="col-span-1 md:col-span-2 mt-4">
-          <SpouseSelector
-            formData={formData}
-            callbackChange={onSpouseChange!}
-          />
-          {errors.spouseId && (
-            <p className="text-sm text-red-500 mt-1">{errors.spouseId}</p>
-          )}
-        </div>
-      )}
 
       {/* Botones */}
       <div className="col-span-1 md:col-span-2 flex justify-end mt-6 gap-4">

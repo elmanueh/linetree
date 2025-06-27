@@ -12,7 +12,11 @@ export default function SpouseSelector({
 }: SpouseSelectorProps) {
   const { nodeId, genealogy } = useGenealogy()
 
-  const getSpouses = (): { id: UUID; givenName: string }[] => {
+  const getSpouses = (): {
+    id: UUID
+    givenName: string
+    familyName?: string
+  }[] => {
     const person = genealogy.find((p) => p['@id'] === nodeId)
     if (!person?.spouse) return []
 
@@ -24,14 +28,15 @@ export default function SpouseSelector({
       .filter((p) => spouseIds.includes(p['@id']))
       .map((p) => ({
         id: p['@id'],
-        givenName: p.givenName
+        givenName: p.givenName,
+        familyName: p.familyName
       }))
   }
 
   return (
     <div>
       <label className="block text-sm font-medium mb-1">
-        Selecciona pareja <span className="text-red-500">*</span>
+        Cónyuge <span className="text-red-500">*</span>
       </label>
       <div className="flex gap-2 flex-wrap">
         {getSpouses().map((spouse) => (
@@ -39,13 +44,16 @@ export default function SpouseSelector({
             key={spouse.id}
             type="button"
             onClick={() => callbackChange(spouse.id)}
-            className={`flex items-center gap-2 px-3 py-2 rounded border ${
+            className={`flex items-center gap-2 px-3 py-2 min-w-32 rounded border justify-center ${
               formData.spouseId === spouse.id
-                ? 'bg-blue-100 border-blue-500'
+                ? 'bg-green-100 border-green-500'
                 : 'bg-white border-gray-300'
-            } hover:bg-blue-50`}
+            } hover:bg-green-50`}
           >
-            {spouse.givenName || 'Sin nombre'}
+            <div>
+              {spouse.givenName}{' '}
+              {spouse.familyName ? spouse.familyName.slice(0, 3) + '.' : ''}
+            </div>
           </button>
         ))}
       </div>

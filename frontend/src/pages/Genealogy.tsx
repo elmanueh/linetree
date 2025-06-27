@@ -5,8 +5,8 @@ import { useGenealogy } from '@/hooks/useGenealogy'
 import { useTree } from '@/hooks/useTree'
 
 export default function Genealogy() {
-  const { nodeId, treeId } = useGenealogy()
-  const { trees, loading } = useTree(TreeReducerType.BY_ID, treeId)
+  const { nodeId } = useGenealogy()
+  const { trees, loading } = useTree(TreeReducerType.BY_ID)
 
   if (loading) return
   const tree = trees[0]

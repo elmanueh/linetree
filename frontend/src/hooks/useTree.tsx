@@ -6,6 +6,7 @@ import {
   TreeReducerType,
   UUID
 } from '@/configs/types'
+import { useGenealogy } from '@/hooks/useGenealogy'
 import { TreeService } from '@/services/tree.service'
 import { useCallback, useEffect, useReducer } from 'react'
 
@@ -40,8 +41,9 @@ function treeReducer(state: ReducerState<Tree>, action: ReducerAction<Tree>) {
   }
 }
 
-export function useTree(type: TreeReducerType, treeId?: UUID) {
+export function useTree(type: TreeReducerType) {
   const [state, dispatch] = useReducer(treeReducer, initialState)
+  const { treeId } = useGenealogy()
 
   const fetchTrees = useCallback(async () => {
     dispatch({ type: ReducerActionType.START })
@@ -52,7 +54,7 @@ export function useTree(type: TreeReducerType, treeId?: UUID) {
           trees = await TreeService.getTrees()
           break
         case TreeReducerType.BY_ID:
-          trees = [await TreeService.getTree(treeId!)]
+          trees = [await TreeService.getTree(treeId)]
           break
         default:
           throw new TypeError('The tree type is not valid')
@@ -62,7 +64,7 @@ export function useTree(type: TreeReducerType, treeId?: UUID) {
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
-  }, [type])
+  }, [type, treeId])
 
   const createTree = async (data: CreateTree) => {
     //console.log('Creating tree', data)

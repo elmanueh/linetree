@@ -11,10 +11,10 @@ export default function Overview() {
     <main className="px-8 py-16 pb-0 text-gray-800">
       <section className="text-center mb-20">
         <h1 className="text-5xl font-extrabold text-green-700 mb-6">
-          Bienvenido a GenealogyApp
+          Bienvenido a LineTree
         </h1>
         <p className="text-lg max-w-3xl mx-auto text-gray-600">
-          GenealogyApp es una aplicación web para crear, visualizar y compartir
+          LineTree es una aplicación web para crear, visualizar y compartir
           árboles genealógicos de forma sencilla y colaborativa.
         </p>
         <p className="mt-4 text-sm text-gray-500 italic">

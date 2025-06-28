@@ -25,7 +25,7 @@ export default function Login() {
     <section className="min-h-screen w-full flex items-center justify-center bg-gray-100">
       <div className="shadow-xl rounded-xl px-10 py-12 max-w-md w-full border border-white/20 bg-gray-50">
         <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8">
-          Genealogy App
+          LineTree
         </h1>
 
         <h2 className="text-lg font-semibold text-gray-800 mb-6 text-center">

@@ -40,9 +40,7 @@ export default function Home() {
   return (
     <section className="pt-24 bg-gray-100">
       <header className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold text-green-700">
-          Genealogy Tree
-        </h1>
+        <h1 className="text-4xl font-extrabold text-green-700">LineTree</h1>
         <p className="mt-2 text-lg ">
           Explora, crea y gestiona tus árboles genealógicos fácilmente.
         </p>

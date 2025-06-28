@@ -37,7 +37,7 @@ export class ExchangeService {
       [
         '0 HEAD',
         '1 SUBM @SUBM1@',
-        '1 SOUR GenealogyApp',
+        '1 SOUR LineTree',
         '2 VERS 1.0',
         '1 DEST GEDCOM',
         `1 DATE ${this.formatGedcomDate(new Date())}`,
@@ -46,7 +46,7 @@ export class ExchangeService {
         '2 FORM LINEAGE-LINKED',
         '1 CHAR UTF-8',
         '0 @SUBM1@ SUBM',
-        '1 NAME GenealogyApp Member',
+        '1 NAME LineTree Member',
       ].join('\n') + '\n';
     let indi = '';
     let fam = '';

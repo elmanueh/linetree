@@ -56,7 +56,7 @@ export class ExchangeService {
     people.forEach((p, index) => {
       const id = `@I${index + 1}@`;
       p._gedcomId = id;
-      indiMap.set(p.id, p);
+      indiMap.set(p['@id'], p);
     });
 
     // FAM section
@@ -66,7 +66,8 @@ export class ExchangeService {
 
     people.forEach((p) => {
       if (!p.spouse) return;
-      const coupleKey = [p.id, p.spouse.id].sort().join('|');
+      const spouse = Array.isArray(p.spouse) ? p.spouse[0] : p.spouse;
+      const coupleKey = [p['@id'], spouse['@id']].sort().join('|');
       if (processedFamilies.has(coupleKey)) return;
 
       const familyId = `@F${familyIndex++}@`;
@@ -74,12 +75,12 @@ export class ExchangeService {
       famMap.set(coupleKey, familyId);
 
       fam += `0 ${familyId} FAM\n`;
-      fam += `1 HUSB ${p.gender === GenderType.Male ? p._gedcomId : indiMap.get(p.spouse.id)?._gedcomId}\n`;
-      fam += `1 WIFE ${p.gender === GenderType.Female ? p._gedcomId : indiMap.get(p.spouse.id)?._gedcomId}\n`;
+      fam += `1 HUSB ${p.gender === GenderType.Male ? p._gedcomId : indiMap.get(spouse['@id'])?._gedcomId}\n`;
+      fam += `1 WIFE ${p.gender === GenderType.Female ? p._gedcomId : indiMap.get(spouse['@id'])?._gedcomId}\n`;
 
       if (p.children && !Array.isArray(p.children)) p.children = [p.children];
       p.children?.forEach((c) => {
-        const childNode = indiMap.get(c.id)!;
+        const childNode = indiMap.get(c['@id'])!;
         fam += `1 CHIL ${childNode._gedcomId}\n`;
       });
     });
@@ -87,12 +88,27 @@ export class ExchangeService {
     // INDI section
     people.forEach((p) => {
       indi += `0 ${p._gedcomId} INDI\n`;
-      indi += `1 NAME ${p.givenName} /\n`;
+      indi += `1 NAME ${p.givenName}${p.familyName ? ` /${p.familyName}/` : ''}\n`;
       indi += `1 SEX ${p.gender === GenderType.Male ? 'M' : 'F'}\n`;
+
+      if (p.address) indi += `1 ADDR ${p.address}\n`;
+      if (p.birthDate) {
+        indi += `1 BIRT\n`;
+        indi += `2 DATE ${this.formatGedcomDate(new Date(p.birthDate))}\n`;
+        if (p.birthPlace) indi += `2 PLAC ${p.birthPlace}\n`;
+      }
+      if (p.deathDate) {
+        indi += `1 DEAT\n`;
+        indi += `2 DATE ${this.formatGedcomDate(new Date(p.deathDate))}\n`;
+        if (p.deathPlace) indi += `2 PLAC ${p.deathPlace}\n`;
+      }
+      if (p.email) indi += `1 EMAIL ${p.email}\n`;
+      if (p.nationality) indi += `1 NATI ${p.nationality}\n`;
+      if (p.telephone) indi += `1 PHON ${p.telephone}\n`;
 
       famMap.forEach((famId, coupleKey) => {
         const [id1, id2] = coupleKey.split('|') as UUID[];
-        if (p.id === id1 || p.id === id2) {
+        if (p['@id'] === id1 || p['@id'] === id2) {
           indi += `1 FAMS ${famId}\n`;
         }
       });
@@ -105,7 +121,9 @@ export class ExchangeService {
         const p1Children = Array.isArray(p1?.children) ? p1.children : [];
         const p2Children = Array.isArray(p2?.children) ? p2.children : [];
         const isChildren = p1Children.some((c1) =>
-          p2Children.some((c2) => c2.id === c1.id && c1.id === p.id),
+          p2Children.some(
+            (c2) => c2['@id'] === c1['@id'] && c1['@id'] === p['@id'],
+          ),
         );
 
         if (isChildren) {

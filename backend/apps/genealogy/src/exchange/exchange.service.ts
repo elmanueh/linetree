@@ -79,9 +79,16 @@ export class ExchangeService {
       fam += `1 WIFE ${p.gender === GenderType.Female ? p._gedcomId : indiMap.get(spouse['@id'])?._gedcomId}\n`;
 
       if (p.children && !Array.isArray(p.children)) p.children = [p.children];
+      const spouseNode = indiMap.get(spouse['@id'])!;
       p.children?.forEach((c) => {
         const childNode = indiMap.get(c['@id'])!;
-        fam += `1 CHIL ${childNode._gedcomId}\n`;
+        if (
+          spouseNode.children &&
+          Array.isArray(spouseNode.children) &&
+          spouseNode.children.find((c) => c['@id'] === childNode['@id'])
+        ) {
+          fam += `1 CHIL ${childNode._gedcomId}\n`;
+        }
       });
     });
 

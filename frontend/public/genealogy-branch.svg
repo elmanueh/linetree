@@ -1,0 +1,14 @@
+<svg width="800px" height="400px" viewBox="0 0 1024 1024" class="icon" version="1.1"
+  xmlns="http://www.w3.org/2000/svg" fill="#000000"
+  bx:transform="rotate(270)matrix(1, 0, 0, 1, 0, 0)" xmlns:bx="https://boxy-svg.com">
+  <rect x="503.703" y="122.407" width="22.934" height="438.25"
+    style="stroke: rgb(0, 0, 0); stroke-width: 0px; fill: rgb(107, 114, 128);"></rect>
+  <rect x="335.482" y="113.755" width="351.103" height="22.458"
+    style="stroke: rgb(0, 0, 0); stroke-width: 0; fill: rgb(107, 114, 128);"></rect>
+  <rect x="600.833" y="17.509" width="410.634" height="209.026"
+    style="stroke-width: 16px; fill: rgb(218, 245, 220); stroke: rgb(52, 168, 83);" rx="25.299"
+    ry="25.299"></rect>
+  <rect x="15.832" y="17.509" width="410.634" height="209.026"
+    style="stroke-width: 16px; fill: rgb(218, 245, 220); stroke: rgb(52, 168, 83);" rx="25.299"
+    ry="25.299"></rect>
+</svg>

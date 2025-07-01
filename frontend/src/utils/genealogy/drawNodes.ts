@@ -29,7 +29,8 @@ function formatDate(dateString: string): string {
 export function drawNodes(
   g: d3.Selection<SVGGElement, unknown, null, undefined>,
   nodes: GenealogyNode[],
-  setSelectedNode: (id: UUID) => void
+  setSelectedNode: (id: UUID) => void,
+  setBranchNode: (id: UUID) => void
 ) {
   const nodeGroup = g
     .selectAll<SVGGElement, GenealogyNode>('.node')
@@ -38,6 +39,20 @@ export function drawNodes(
     .attr('class', 'node')
     .attr('transform', (d) => `translate(${d.x},${d.y})`)
     .on('click', (_, d) => setSelectedNode(d.id))
+
+  nodeGroup
+    .filter((d) => d.branch === true)
+    .append('image')
+    .attr('href', 'genealogy-branch.svg')
+    .attr('x', NODE_WIDTH * 0.75 - 30)
+    .attr('y', -25)
+    .attr('width', 60)
+    .attr('height', 60)
+    .style('cursor', 'pointer')
+    .on('click', (event, d) => {
+      event.stopPropagation()
+      setBranchNode(d.id)
+    })
 
   nodeGroup
     .append('rect')

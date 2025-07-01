@@ -1,33 +1,61 @@
-import { UUID } from '@/configs/types'
+import { GenealogyNode, GenealogyRelation, UUID } from '@/configs/types'
 import { useGenealogy } from '@/hooks/useGenealogy'
 import { drawNodes } from '@/utils/genealogy/drawNodes'
 import { drawRelationships } from '@/utils/genealogy/drawRelationships'
 import { setupZoom } from '@/utils/genealogy/setupZoom'
 import generateLayoutTree from '@/utils/layout-tree'
 import * as d3 from 'd3'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function GenealogyView() {
   const { handleSelectedNode, handleGenealogy, genealogy } = useGenealogy()
   const svgRef = useRef<SVGSVGElement>(null)
+  const [genealogyParsed, setGenealogyParsed] = useState<{
+    rootNodes: GenealogyNode[]
+    relations: GenealogyRelation[]
+  }>({ rootNodes: [], relations: [] })
 
-  const handleSelectedNode2 = (nodeId: UUID) => {
+  const handleClickNode = (nodeId: UUID) => {
     handleSelectedNode(nodeId)
   }
 
+  const handleClickBranch = (nodeId: UUID) => {
+    const hasDescendant = (node: GenealogyNode, targetId: UUID) => {
+      if (node.id === targetId) return true
+      for (const child of node.children) {
+        if (hasDescendant(child, targetId)) return true
+      }
+      return false
+    }
+
+    for (const rootNode of genealogyParsed.rootNodes) {
+      if (hasDescendant(rootNode, nodeId)) {
+        renderGenealogy(rootNode, genealogyParsed.relations)
+        break
+      }
+    }
+  }
+
   const handleUpdateTree = async () => {
+    const { roots, relations } = await handleGenealogy()
+    setGenealogyParsed({ rootNodes: roots, relations })
+    renderGenealogy(roots[0], relations)
+  }
+
+  const renderGenealogy = (
+    rootNode: GenealogyNode,
+    relations: GenealogyRelation[]
+  ) => {
     const svg = d3.select(svgRef.current!)
     const zoomTransform = d3.zoomTransform(svg.node()!)
-
-    const { root, relations } = await handleGenealogy()
-    const layoutTree = generateLayoutTree(root)
-
     svg.selectAll('*').remove()
     svg.attr('width', '100%').attr('height', window.innerHeight)
 
+    const nodes = generateLayoutTree(rootNode)
+
     const g = svg.append('g')
-    drawRelationships(g, layoutTree, relations)
-    drawNodes(g, layoutTree, handleSelectedNode2)
+    drawRelationships(g, nodes, relations)
+    drawNodes(g, nodes, handleClickNode, handleClickBranch)
 
     const zoom = setupZoom(svg, g)
     svg.call(zoom.transform, zoomTransform)

@@ -20,6 +20,23 @@ export function parseGenealogy(genealogy: NodeObject[]) {
     })
   }
 
+  const getRootsNode = (nodes: GenealogyNode[]): GenealogyNode[] => {
+    // filter nodes without parents
+    let nodesFiltered = nodes.filter((n) => n.parent.length === 0)
+    // filter nodes with spouses that have no parents
+    nodesFiltered = nodesFiltered.filter(
+      (n) =>
+        n.spouse.length === 0 || n.spouse.some((s) => s.parent.length === 0)
+    )
+    // filter nodes no repeated by spouse
+    nodesFiltered = nodesFiltered.filter((n) => {
+      if (n.spouse.length === 0) return true
+      return n.spouse.every((s) => n.id < s.id)
+    })
+
+    return nodesFiltered
+  }
+
   // initialize nodes map
   genealogy.forEach((nodeObject) => {
     const nodeId = nodeObject['@id'] as UUID
@@ -34,9 +51,9 @@ export function parseGenealogy(genealogy: NodeObject[]) {
       y: 0,
       level: 0,
       spouse: [],
-      children: []
+      children: [],
+      parent: []
     }
-
     nodes.set(nodeId, node)
   })
 
@@ -61,21 +78,17 @@ export function parseGenealogy(genealogy: NodeObject[]) {
       current.children = children.map((children) => getNode(children))
       createRelationships(current.id, current.children)
     }
+
+    if (nodeObject[NodeRelationType.PARENT]) {
+      const parents = Array.isArray(nodeObject[NodeRelationType.PARENT])
+        ? (nodeObject[NodeRelationType.PARENT] as NodeObject[])
+        : ([nodeObject[NodeRelationType.PARENT]] as NodeObject[])
+
+      current.parent = parents.map((parent) => getNode(parent))
+      createRelationships(current.id, current.parent)
+    }
   })
 
-  // find root node
-  const childIds = new Set<UUID>()
-  nodes.forEach((node) => {
-    node.children.forEach((child) => childIds.add(child.id))
-  })
-
-  const rootNodes = Array.from(nodes.values()).filter(
-    (node) => !childIds.has(node.id)
-  )
-  const root = rootNodes[0] ?? null
-
-  return {
-    root,
-    relations
-  }
+  const roots = getRootsNode(Array.from(nodes.values()))
+  return { roots, relations }
 }

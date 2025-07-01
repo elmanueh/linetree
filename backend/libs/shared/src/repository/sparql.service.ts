@@ -104,14 +104,16 @@ export class SparqlService {
         ?person a schema:Person .
         ?spouse a schema:Person .
         ?child a schema:Person .
+        ?parent a schema:Person .
         ?person schema:spouse ?spouse .
         ?person schema:children ?child .
+        ?person schema:parent ?parent .
       }
       WHERE {
         GRAPH <${this.contextUri}${triple.context}> {
           { ?person schema:children ?child . }
           UNION
-          { ?child schema:parent ?person . }
+          { ?person schema:parent ?parent . }
           UNION
           { ?person schema:spouse ?spouse . }
         }

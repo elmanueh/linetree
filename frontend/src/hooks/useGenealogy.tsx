@@ -23,10 +23,7 @@ export function useGenealogy() {
       const jsonld = await NodeService.getGenealogy(treeId)
       const data = Array.isArray(jsonld['@graph']) ? jsonld['@graph'] : [jsonld]
       if (JSON.stringify(data) !== JSON.stringify(genealogy)) setGenealogy(data)
-
-      const { root, relations } = parseGenealogy(data)
-
-      return { root, relations }
+      return parseGenealogy(data)
     } catch (error) {
       console.error(error)
       throw error

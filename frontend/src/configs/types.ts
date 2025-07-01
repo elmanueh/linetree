@@ -8,6 +8,8 @@ export interface GenealogyNode extends Node {
   level: number
   spouse: GenealogyNode[]
   children: GenealogyNode[]
+  parent: GenealogyNode[]
+  branch?: boolean
 }
 
 export interface GenealogyRelation {

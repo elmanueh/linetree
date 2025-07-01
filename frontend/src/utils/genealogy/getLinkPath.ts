@@ -9,8 +9,9 @@ export function getLinkPath(
   relation: GenealogyRelation,
   nodes: GenealogyNode[]
 ): string {
-  const source = nodes.find((n) => n.id === relation.source)!
-  const target = nodes.find((n) => n.id === relation.target)!
+  const source = nodes.find((n) => n.id === relation.source)
+  const target = nodes.find((n) => n.id === relation.target)
+  if (!source || !target) return ''
 
   const sx = source.x + NODE_WIDTH / 2
   const sy = source.y + NODE_HEIGHT / 2

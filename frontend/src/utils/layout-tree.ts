@@ -31,12 +31,13 @@ function addNode(
   node: GenealogyNode,
   x: number,
   y: number,
-  level: number
+  level: number,
+  newBranch: boolean = false
 ): GenealogyNode | void {
   const existing = visited.get(node.id)
   if (existing) return
 
-  const nodeNew = { ...node, x, y, level }
+  const nodeNew = { ...node, x, y, level, branch: newBranch }
   visited.set(node.id, nodeNew)
   nodes.push(nodeNew)
   return nodeNew
@@ -57,7 +58,8 @@ function layoutTree(node: GenealogyNode, x: number, y: number, level: number) {
         index === 0
           ? getTreeWidth(spouse) / 2 + SPOUSE_SPACING / 2
           : getTreeWidth(spouse) / 2 - NODE_WIDTH / 2
-      addNode(spouse, px, y, level)
+      const newBranch = spouse.parent.length > 0
+      addNode(spouse, px, y, level, newBranch)
       px += -SPOUSE_SPACING / 2 + getTreeWidth(spouse) / 2 + CHILD_SPACING
     })
   }

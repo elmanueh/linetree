@@ -62,10 +62,6 @@ cd linetree
 docker-compose up --build
 ```
 
-Rename `.env.example` in each service and add your credentials:
-
-> _Currently under development._
-
 ## 🤝 Contribute to the project
 
 This repository is **Free Software** (MIT). Your help is welcome!

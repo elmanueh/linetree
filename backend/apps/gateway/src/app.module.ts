@@ -13,7 +13,7 @@ import { ConfigModule } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: './apps/gateway/.env',
+      envFilePath: ['.env.local', '.env'],
     }),
     GenealogyModule,
     AuthModule,

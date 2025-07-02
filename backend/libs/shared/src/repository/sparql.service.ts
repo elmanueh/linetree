@@ -1,16 +1,22 @@
 import { TripleRdf } from '@app/shared';
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { NodeObject } from 'jsonld';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class SparqlService {
-  private readonly endpoint = 'http://localhost:7200/repositories/genealogy';
+  private readonly endpoint: string;
   private readonly contextUri = 'http://example.org/trees/';
   private readonly nodeUri = 'http://example.org/nodes/';
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+  ) {
+    this.endpoint = this.configService.get<string>('RDF_BASE_URL')!;
+  }
 
   async insert(triple: TripleRdf): Promise<void> {
     const query = `

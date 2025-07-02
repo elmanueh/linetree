@@ -2,17 +2,23 @@ import { GENEALOGY_CLIENT } from '@app/contracts';
 import { GenealogyController } from '@gateway/genealogy-service/genealogy.controller';
 import { GenealogyService } from '@gateway/genealogy-service/genealogy.service';
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 
 @Module({
   imports: [
-    ClientsModule.register([
+    ClientsModule.registerAsync([
       {
         name: GENEALOGY_CLIENT,
-        transport: Transport.TCP,
-        options: {
-          port: 3002,
-        },
+        imports: [ConfigModule],
+        useFactory: (configService: ConfigService) => ({
+          transport: Transport.TCP,
+          options: {
+            host: configService.get<string>('GENEALOGY_SERVICE_HOST'),
+            port: configService.get<number>('GENEALOGY_SERVICE_PORT'),
+          },
+        }),
+        inject: [ConfigService],
       },
     ]),
   ],

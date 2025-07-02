@@ -1,6 +1,6 @@
 import { UUID } from '@/configs/types'
 
-const URL_GATEWAY = 'http://localhost:3000'
+const URL_GATEWAY = import.meta.env.VITE_BACKEND_BASE_URL
 
 export const API_URLS = {
   // ---------- AUTH -----------

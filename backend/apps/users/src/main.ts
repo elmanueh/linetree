@@ -24,7 +24,7 @@ async function bootstrap() {
   await app.listen();
 
   Logger.log(
-    `User microservice listening on ${configService.get('USER_SERVICE_HOST')}:${configService.get('USER_SERVICE_PORT')}`,
+    `User microservice listening on ${configService.get<string>('USER_SERVICE_HOST')}:${configService.get<number>('USER_SERVICE_PORT')}`,
   );
 }
 void bootstrap();

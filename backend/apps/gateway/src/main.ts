@@ -13,15 +13,17 @@ async function bootstrap() {
   app.useGlobalFilters(new RpcJsonToHttpExceptionFilter());
   app.use(cookieParser());
   app.enableCors({
-    origin: configService.get<string>('FRONTEND_URL'),
+    origin: configService.get<string>('FRONTEND_BASE_URL'),
     exposedHeaders: ['Location'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
     credentials: true,
   });
 
-  const port = configService.get<number>('GATEWAY_PORT')!;
+  const port = configService.get<number>('GATEWAY_SERVICE_PORT')!;
   await app.listen(port);
 
-  Logger.log(`Gateway listening on port ${configService.get('GATEWAY_PORT')}`);
+  Logger.log(
+    `Gateway listening on port ${configService.get<string>('GATEWAY_SERVICE_PORT')}`,
+  );
 }
 void bootstrap();

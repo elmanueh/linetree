@@ -24,7 +24,7 @@ async function bootstrap() {
   await app.listen();
 
   Logger.log(
-    `Genealogy microservice listening on ${configService.get('GENEALOGY_SERVICE_HOST')}:${configService.get('GENEALOGY_SERVICE_PORT')}`,
+    `Genealogy microservice listening on ${configService.get<string>('GENEALOGY_SERVICE_HOST')}:${configService.get<number>('GENEALOGY_SERVICE_PORT')}`,
   );
 }
 void bootstrap();

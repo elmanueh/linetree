@@ -1,5 +1,6 @@
 import NodeForm from '@/components/modals/NodeForm'
 import { UpdateNode } from '@/configs/api.types'
+import { NodeGenderType } from '@/configs/constants'
 import { NodeReducerType } from '@/configs/types'
 import { useNode } from '@/hooks/useNode'
 import { useEffect, useState } from 'react'
@@ -96,9 +97,13 @@ export default function EditNodeModal({
         originalValue !== value
       ) {
         const date = value ? new Date(value) : null
-        updatedNode[key as keyof UpdateNode] = date
+        updatedNode[key] = date
+      } else if (key === 'gender' && originalValue !== value) {
+        updatedNode[key] = value as NodeGenderType
       } else if (originalValue !== value) {
-        updatedNode[key as keyof UpdateNode] = value
+        updatedNode[
+          key as Exclude<keyof UpdateNode, 'birthDate' | 'deathDate' | 'gender'>
+        ] = value || undefined
       }
     })
 

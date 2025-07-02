@@ -51,10 +51,13 @@ export class UserService {
 
     this.logger.log('Executing create user method');
 
-    if (await this.userRepository.findByEmail(email)) {
+    try {
+      await this.userRepository.findByEmail(email);
       throw new ConflictException(
         `A user with the email ${email} already exists.`,
       );
+    } catch {
+      this.logger.log(`No existing user found with email: ${email}`);
     }
 
     const user = UserEntity.create({

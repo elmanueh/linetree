@@ -21,15 +21,15 @@ export default function SpouseSelector({
     if (!person?.spouse) return []
 
     const spouseIds = Array.isArray(person.spouse)
-      ? person.spouse.map((s) => s['@id'])
-      : [person.spouse['@id']]
+      ? person.spouse.map((s) => (s as { '@id': UUID })['@id'])
+      : [(person.spouse as { '@id': UUID })['@id']]
 
     return genealogy
-      .filter((p) => spouseIds.includes(p['@id']))
+      .filter((p) => spouseIds.includes(p['@id'] as string))
       .map((p) => ({
-        id: p['@id'],
-        givenName: p.givenName,
-        familyName: p.familyName
+        id: p['@id'] as UUID,
+        givenName: p.givenName as string,
+        familyName: p.familyName as string | undefined
       }))
   }
 

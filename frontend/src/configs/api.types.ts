@@ -42,9 +42,9 @@ export interface CreateNode {
 
 export interface UpdateNode {
   address?: string
-  birthDate?: Date
+  birthDate?: Date | null
   birthPlace?: string
-  deathDate?: Date
+  deathDate?: Date | null
   deathPlace?: string
   email?: string
   familyName?: string

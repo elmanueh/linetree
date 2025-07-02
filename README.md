@@ -14,6 +14,7 @@
 <details>
 <summary>Table of Contents</summary>
 
+- [🌳 Main Features](#🌳-main-features)
 - [🚀 Getting Started](#🚀-getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -21,6 +22,13 @@
 - [🛠️ Stack](#🛠️-stack)
 
 </details>
+
+## 🌳 Main Features
+
+- **Family tree creation and editing**: Allows you to add, modify, and delete people and family relationships in an intuitive and visual way.
+- **Interactive display**: Dynamic graphical representation of the tree with fluid navigation between ancestors and descendants.
+- **Standard export and import**: Support for common formats such as GEDCOM.
+- **Secure and private storage**: Each user can save their trees in their account with full control over permissions and privacy.
 
 ## 🚀 Getting Started
 

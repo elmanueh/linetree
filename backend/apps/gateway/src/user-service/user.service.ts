@@ -20,9 +20,9 @@ export class UserService {
     );
   }
 
-  async getUserByEmail(email: string): Promise<GetUserDto> {
+  async getUserByEmail(email: string): Promise<GetUserDto | null> {
     const user = await lastValueFrom(
-      this.userClient.send<GetUserDto>(USER_PATTERN.FIND_ONE_BY_EMAIL, {
+      this.userClient.send<GetUserDto | null>(USER_PATTERN.FIND_ONE_BY_EMAIL, {
         email,
       }),
     );

@@ -50,14 +50,12 @@ export class UserService {
     }
 
     this.logger.log('Executing create user method');
-
-    try {
-      await this.userRepository.findByEmail(email);
+    const userExist = await this.userRepository.findByEmail(email);
+    if (userExist) {
+      this.logger.warn(`User with email ${email} already exists.`);
       throw new ConflictException(
         `A user with the email ${email} already exists.`,
       );
-    } catch {
-      this.logger.log(`No existing user found with email: ${email}`);
     }
 
     const user = UserEntity.create({
@@ -73,7 +71,7 @@ export class UserService {
     return user;
   }
 
-  async findOneByEmail(email: string): Promise<UserEntity> {
+  async findOneByEmail(email: string): Promise<UserEntity | null> {
     if (!email) {
       throw new BadRequestException('The email cannot be null or undefined.');
     }

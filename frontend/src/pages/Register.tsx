@@ -1,11 +1,10 @@
 import { RegisterUser } from '@/configs/api.types'
 import { NAV_ROUTES, NodeGenderType } from '@/configs/constants'
 import { useAuth } from '@/hooks/useAuth'
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 
 export default function Register() {
   const { register } = useAuth()
-  const navigate = useNavigate()
 
   const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,12 +21,7 @@ export default function Register() {
       password: formData.get('password') as string
     }
 
-    try {
-      await register(userData)
-      navigate(NAV_ROUTES.HOME)
-    } catch {
-      alert('Error al registrarse. Inténtalo de nuevo.')
-    }
+    await register(userData)
     form.reset()
   }
 

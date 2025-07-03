@@ -1,10 +1,9 @@
 import { NAV_ROUTES } from '@/configs/constants'
 import { useAuth } from '@/hooks/useAuth'
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 
 export default function Login() {
   const { login } = useAuth()
-  const navigate = useNavigate()
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -12,12 +11,8 @@ export default function Login() {
     const formData = new FormData(form)
     const email = formData.get('user') as string
     const password = formData.get('password') as string
-    try {
-      await login(email, password)
-      navigate(NAV_ROUTES.HOME)
-    } catch {
-      alert('Error al iniciar sesión. Por favor, verifica tus credenciales.')
-    }
+
+    await login(email, password)
     form.reset()
   }
 

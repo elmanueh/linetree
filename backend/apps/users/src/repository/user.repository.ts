@@ -7,5 +7,5 @@ export abstract class UserRepository extends Repository<UserEntity> {
    * @param email The email address of the user to find.
    * @returns A promise that resolves to the UserEntity if found, or null if not found.
    */
-  abstract findByEmail(email: string): Promise<UserEntity>;
+  abstract findByEmail(email: string): Promise<UserEntity | null>;
 }

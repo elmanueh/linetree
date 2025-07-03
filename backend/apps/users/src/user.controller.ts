@@ -31,8 +31,11 @@ export class UserController {
   }
 
   @MessagePattern(USER_PATTERN.FIND_ONE_BY_EMAIL)
-  async findOneByEmail(@Payload('email') email: string): Promise<GetUserDto> {
+  async findOneByEmail(
+    @Payload('email') email: string,
+  ): Promise<GetUserDto | null> {
     const user = await this.userService.findOneByEmail(email);
+    if (!user) return null;
     return GetUserDto.fromEntity(user);
   }
 

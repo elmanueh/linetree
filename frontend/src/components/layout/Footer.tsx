@@ -2,10 +2,10 @@ export default function Footer() {
   return (
     <>
       <div className="my-4 flex justify-center pt-16">
-        <div className="w-2/3 h-px bg-gray-300" />
+        <div className="w-3/4 h-px bg-gray-300" />
       </div>
       <footer className="bg-gray-100 text-gray-700 py-10 ">
-        <div className="max-w-7xl mx-auto px-6">
+        <div className="max-w-7xl mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-sm">
             <div>
               <h3 className="font-semibold text-gray-800 mb-2">

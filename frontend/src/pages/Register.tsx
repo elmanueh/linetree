@@ -26,8 +26,8 @@ export default function Register() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-100">
-      <div className="shadow-xl rounded-xl px-12 py-10 w-full max-w-3xl border border-white/20 bg-gray-50">
+    <div className="min-h-screen w-full flex items-center justify-center bg-gray-100 px-4">
+      <div className="shadow-xl rounded-xl px-4 sm:px-10 py-10 w-full max-w-3xl border border-white/20 bg-gray-50">
         <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8">
           LineTree
         </h1>
@@ -36,7 +36,10 @@ export default function Register() {
           Regístrate para comenzar
         </h2>
 
-        <form onSubmit={handleRegister} className="grid grid-cols-2 gap-6">
+        <form
+          onSubmit={handleRegister}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               Nombre
@@ -46,7 +49,7 @@ export default function Register() {
               type="text"
               required
               placeholder="Nombre"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+              className="w-full min-w-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
@@ -59,7 +62,7 @@ export default function Register() {
               type="text"
               required
               placeholder="Apellidos"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+              className="w-full min-w-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
@@ -70,7 +73,7 @@ export default function Register() {
             <select
               name="gender"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+              className="w-full min-w-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             >
               <option value="">Selecciona una opción</option>
               <option value="male">Hombre</option>
@@ -87,7 +90,7 @@ export default function Register() {
               name="birthDate"
               type="date"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+              className="w-full min-w-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
@@ -100,7 +103,7 @@ export default function Register() {
               type="email"
               required
               placeholder="correo@ejemplo.com"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+              className="w-full min-w-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
@@ -113,11 +116,11 @@ export default function Register() {
               type="password"
               required
               placeholder="••••••••"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
+              className="w-full min-w-0 px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-green-600 focus:outline-none"
             />
           </div>
 
-          <div className="col-span-2">
+          <div className="md:col-span-2">
             <button
               type="submit"
               className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-md transition"

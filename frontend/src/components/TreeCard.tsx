@@ -14,7 +14,7 @@ export default function TreeCard({ tree, callbackDelete }: TreeCardProps) {
   const { handleSelectedTree } = useGenealogy()
 
   return (
-    <div className="relative border bg-gray-50 border-gray-200 shadow-md rounded-lg p-5 hover:shadow-lg transition-shadow duration-200">
+    <div className="border bg-gray-50 border-gray-200 shadow-md rounded-lg p-5 hover:shadow-lg transition-shadow duration-200">
       <Link
         to={NAV_ROUTES.TREE(tree.id)}
         onClick={() => handleSelectedTree(tree.id)}

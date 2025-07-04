@@ -42,7 +42,7 @@ export default function GenealogyAside() {
   }
 
   return (
-    <aside className="h-auto w-96 px-6 bg-gray-200 flex flex-col">
+    <aside className="h-auto w-96 px-4 sm:px-6 bg-gray-200 flex flex-col">
       <NodeInfoHeader node={node} callbackUpdate={handleUpdateNode} />
 
       {(node.givenName ||

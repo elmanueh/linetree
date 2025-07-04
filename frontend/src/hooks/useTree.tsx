@@ -9,6 +9,7 @@ import {
 import { useGenealogy } from '@/hooks/useGenealogy'
 import { TreeService } from '@/services/tree.service'
 import { useCallback, useEffect, useReducer } from 'react'
+import toast from 'react-hot-toast'
 
 const initialState: ReducerState<Tree> = {
   items: [],
@@ -61,6 +62,7 @@ export function useTree(type: TreeReducerType) {
       }
       dispatch({ type: ReducerActionType.FETCH, payload: trees })
     } catch (error) {
+      toast.error('Error cargando los árboles')
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
@@ -71,8 +73,14 @@ export function useTree(type: TreeReducerType) {
     dispatch({ type: ReducerActionType.START })
     try {
       const tree = await TreeService.createTree(data)
-      dispatch({ type: ReducerActionType.CREATE, payload: tree! })
+      if (!tree) {
+        toast.error('Error creando el árbol')
+      } else {
+        dispatch({ type: ReducerActionType.CREATE, payload: tree })
+        toast.success('Árbol creado correctamente')
+      }
     } catch (error) {
+      toast.error('Error creando el árbol')
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
@@ -83,8 +91,10 @@ export function useTree(type: TreeReducerType) {
     dispatch({ type: ReducerActionType.START })
     try {
       await TreeService.deleteTree(id)
+      toast.success('Árbol eliminado correctamente')
       dispatch({ type: ReducerActionType.DELETE, payload: id })
     } catch (error) {
+      toast.error('Error eliminando el árbol')
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
@@ -95,8 +105,14 @@ export function useTree(type: TreeReducerType) {
     dispatch({ type: ReducerActionType.START })
     try {
       const tree = await TreeService.importGedcom(fileData)
-      dispatch({ type: ReducerActionType.CREATE, payload: tree! })
+      if (!tree) {
+        toast.error('Error importando el árbol')
+      } else {
+        dispatch({ type: ReducerActionType.CREATE, payload: tree })
+        toast.success('Árbol importado correctamente')
+      }
     } catch (error) {
+      toast.error('Error importando el árbol')
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }

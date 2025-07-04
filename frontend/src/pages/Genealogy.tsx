@@ -13,15 +13,15 @@ export default function Genealogy() {
 
   return (
     <>
-      <div className="bg-gray-200 text-gray-700 px-7 py-2 flex justify-between border-gray-300 ">
-        <div className="font-medium flex gap-8">
-          <span>Árbol {tree.name}</span>
+      <div className="bg-gray-200 text-gray-700 px-4 sm:px-7 py-2 flex justify-between border-gray-300 flex-col sm:flex-row">
+        <div className="flex flex-col sm:flex-row font-medium sm:gap-8">
+          <span>{tree.name}</span>
           <span>
             {tree.nodes.length}{' '}
             {tree.nodes.length === 1 ? 'persona' : 'personas'}
           </span>
         </div>
-        <span className="text-sm text-gray-500 whitespace-nowrap">
+        <span className="text-sm text-gray-500 whitespace-nowrap flex items-center">
           Última edición:{' '}
           {new Intl.DateTimeFormat('es-ES', {
             dateStyle: 'medium',

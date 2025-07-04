@@ -17,8 +17,8 @@ export default function Login() {
   }
 
   return (
-    <section className="min-h-screen w-full flex items-center justify-center bg-gray-100">
-      <div className="shadow-xl rounded-xl px-10 py-12 max-w-md w-full border border-white/20 bg-gray-50">
+    <section className="min-h-screen w-full px-4 flex items-center justify-center bg-gray-100">
+      <div className="shadow-xl rounded-xl px-4 sm:px-10 py-12 max-w-md w-full border border-white/20 bg-gray-50">
         <h1 className="text-4xl font-extrabold text-center text-green-700 mb-8">
           LineTree
         </h1>

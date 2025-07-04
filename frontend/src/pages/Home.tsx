@@ -38,7 +38,7 @@ export default function Home() {
   }
 
   return (
-    <section className="pt-24 bg-gray-100">
+    <section className="pt-14 sm:pt-24 bg-gray-100 px-4">
       <header className="mb-10 text-center">
         <h1 className="text-4xl font-extrabold text-green-700">LineTree</h1>
         <p className="mt-2 text-lg ">

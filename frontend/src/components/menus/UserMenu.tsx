@@ -27,7 +27,7 @@ export default function UserMenu() {
     <div className="relative inline-block" ref={menuRef}>
       <button
         onClick={handleButtonClick}
-        className="flex items-center gap-3 px-3 py-1 rounded-xl hover:bg-gray-200 transition cursor-pointer"
+        className="flex items-center gap-3 px-0 sm:px-3 py-1 rounded-xl hover:bg-gray-200 transition cursor-pointer"
         aria-expanded={menuOpen}
         aria-haspopup="true"
         aria-label="Usuario"
@@ -38,7 +38,7 @@ export default function UserMenu() {
           className="w-8 h-8 rounded-full"
         />
 
-        <span className="text-sm font-medium">
+        <span className="text-sm font-medium hidden sm:inline-block">
           {loading ? 'Cargando...' : user?.firstName + ' ' + user?.lastName}
         </span>
       </button>

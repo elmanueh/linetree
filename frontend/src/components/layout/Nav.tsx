@@ -6,7 +6,7 @@ import { Link } from 'react-router'
 export default function Nav() {
   const { user, loading } = useAuth()
   return (
-    <nav className="bg-gray-300 py-4 sticky top-0 text-gray-800">
+    <nav className="bg-gray-300 py-4 sticky z-10 top-0 text-gray-800 px-4 sm:px-0">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <Link to={NAV_ROUTES.OVERVIEW} className="flex items-center gap-2">
           <img src="tree.svg" alt="App Logo" className="w-9 h-9" />

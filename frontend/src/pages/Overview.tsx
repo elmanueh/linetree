@@ -8,7 +8,7 @@ import VisualizationIcon from '@/components/icons/VisualizationIcon'
 
 export default function Overview() {
   return (
-    <main className="px-8 py-16 pb-0 text-gray-800">
+    <main className="px-4 sm:px-8 py-16 pb-0 text-gray-800">
       <section className="text-center mb-20">
         <h1 className="text-5xl font-extrabold text-green-700 mb-6">
           Bienvenido a LineTree
@@ -29,7 +29,7 @@ export default function Overview() {
         />
       </section>
 
-      <section className="max-w-6xl mx-auto mb-20 px-4">
+      <section className="max-w-6xl mx-auto mb-20">
         <h2 className="text-3xl font-semibold text-green-700 mb-10 border-l-4 border-green-600 pl-4">
           Funcionalidades de la aplicación
         </h2>
@@ -67,7 +67,7 @@ export default function Overview() {
         </div>
       </section>
 
-      <section className="max-w-4xl mx-auto px-4 text-center">
+      <section className="max-w-4xl mx-auto text-center">
         <h2 className="text-3xl font-semibold text-green-700 mb-6">
           ¿Quieres contribuir?
         </h2>

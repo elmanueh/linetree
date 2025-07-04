@@ -15,7 +15,7 @@ export default function SearchBarCreateTree({
   }
 
   return (
-    <section className="max-w-3xl mx-auto shadow-md rounded-lg p-6 bg-gray-50">
+    <section className="max-w-3xl mx-auto shadow-md rounded-lg p-5 bg-gray-50">
       <h2 className="text-2xl font-semibold mb-4">Crear nuevo árbol</h2>
       <div className="flex">
         <label htmlFor="tree-name" className="sr-only">
@@ -31,7 +31,7 @@ export default function SearchBarCreateTree({
         />
         <button
           onClick={handleCreateTree}
-          className="px-4 bg-green-600 hover:bg-green-700 transition text-white font-medium rounded-md ml-5 cursor-pointer"
+          className="px-4 bg-green-600 hover:bg-green-700 transition text-white font-medium rounded-md ml-4 cursor-pointer"
         >
           +
         </button>

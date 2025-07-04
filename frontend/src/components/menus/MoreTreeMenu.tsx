@@ -3,6 +3,7 @@ import MenuItem from '@/components/menus/config/MenuItem'
 import { UUID } from '@/configs/types'
 import { useMenu } from '@/hooks/useMenu'
 import { TreeService } from '@/services/tree.service'
+import toast from 'react-hot-toast'
 
 interface MoreTreeMenuProps {
   id: UUID
@@ -27,17 +28,21 @@ export default function MoreTreeMenu({
     e.stopPropagation()
     e.preventDefault()
     closeMenu()
+    try {
+      const data = await TreeService.exportGedcom(id)
+      const blob = new Blob([data], { type: 'text/plain;charset=utf-8' })
+      const url = URL.createObjectURL(blob)
 
-    const data = await TreeService.exportGedcom(id)
-    const blob = new Blob([data], { type: 'text/plain;charset=utf-8' })
-    const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `tree-${id}.ged`
+      a.click()
 
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `tree-${id}.ged`
-    a.click()
-
-    URL.revokeObjectURL(url)
+      URL.revokeObjectURL(url)
+      toast.success('Árbol exportado correctamente')
+    } catch {
+      toast.error('Error exportando el árbol')
+    }
   }
 
   const handleButtonClick = (
@@ -49,7 +54,7 @@ export default function MoreTreeMenu({
   }
 
   return (
-    <div className="relative inline-block" ref={menuRef}>
+    <div className="relative inline-block z-0" ref={menuRef}>
       <button
         onClick={handleButtonClick}
         className="flex items-center justify-center cursor-pointer"

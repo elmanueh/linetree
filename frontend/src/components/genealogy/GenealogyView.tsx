@@ -30,7 +30,7 @@ export default function GenealogyView() {
 
     for (const rootNode of genealogyParsed.rootNodes) {
       if (hasDescendant(rootNode, nodeId)) {
-        renderGenealogy(rootNode, genealogyParsed.relations)
+        renderGenealogy(rootNode, genealogyParsed.relations, true)
         break
       }
     }
@@ -44,10 +44,10 @@ export default function GenealogyView() {
 
   const renderGenealogy = (
     rootNode: GenealogyNode,
-    relations: GenealogyRelation[]
+    relations: GenealogyRelation[],
+    resetPosition = false
   ) => {
     const svg = d3.select(svgRef.current!)
-    const zoomTransform = d3.zoomTransform(svg.node()!)
     svg.selectAll('*').remove()
     svg.attr('width', '100%').attr('height', window.innerHeight)
 
@@ -58,6 +58,9 @@ export default function GenealogyView() {
     drawNodes(g, nodes, handleClickNode, handleClickBranch)
 
     const zoom = setupZoom(svg, g)
+    const zoomTransform = resetPosition
+      ? d3.zoomIdentity
+      : d3.zoomTransform(svg.node()!)
     svg.call(zoom.transform, zoomTransform)
   }
 

@@ -1,5 +1,6 @@
 import {
   CHILD_SPACING,
+  NODE_HEIGHT,
   NODE_WIDTH,
   SPOUSE_SPACING,
   VERTICAL_SPACING
@@ -9,8 +10,8 @@ import { GenealogyNode, UUID } from '@/configs/types'
 // ---------- Constants ----------
 const nodes: GenealogyNode[] = []
 const visited = new Map<UUID, GenealogyNode>()
-const POS_X = 800
-const POS_Y = 300
+const POS_X = window.innerWidth / 2 - NODE_WIDTH / 2 - SPOUSE_SPACING / 2
+const POS_Y = window.innerHeight / 4 - NODE_HEIGHT / 2
 
 // get the width of the tree
 function getTreeWidth(node: GenealogyNode): number {

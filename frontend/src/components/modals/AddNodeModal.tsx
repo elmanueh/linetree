@@ -109,7 +109,7 @@ export default function AddNodeModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+    <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 p-3">
       <div className="bg-gray-100 rounded-lg shadow-xl w-full max-w-5xl p-6 max-h-[90vh] overflow-y-auto">
         <h2 className="text-xl font-semibold mb-5">Crear persona</h2>
         <NodeForm

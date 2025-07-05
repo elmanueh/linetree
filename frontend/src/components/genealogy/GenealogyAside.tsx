@@ -35,14 +35,14 @@ export default function GenealogyAside() {
 
   if (loading) {
     return (
-      <div className="h-auto w-96 px-6 bg-gray-200 flex justify-center">
+      <div className="h-auto px-6 bg-gray-200 flex justify-center">
         <Loading />
       </div>
     )
   }
 
   return (
-    <aside className="h-auto w-96 px-4 sm:px-6 bg-gray-200 flex flex-col">
+    <aside className="px-4 h-screen w-full sm:w-auto  sm:px-6 bg-gray-200 flex flex-col">
       <NodeInfoHeader node={node} callbackUpdate={handleUpdateNode} />
 
       {(node.givenName ||

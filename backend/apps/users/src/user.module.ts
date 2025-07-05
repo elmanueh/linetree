@@ -12,7 +12,7 @@ import { UserService } from '@users-ms/user.service';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env.local', '.env'],
+      envFilePath: ['.env', '.env.local'],
     }),
     MongooseModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({

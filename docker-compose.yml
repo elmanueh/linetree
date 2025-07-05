@@ -4,7 +4,7 @@ services:
     container_name: linetree-mongo
     restart: always
     ports:
-      - '27017:27017'
+      - '27018:27017'
     volumes:
       - ./docker-files/mongo:/data/db
     environment:
@@ -17,7 +17,7 @@ services:
     container_name: linetree-mongo-express
     restart: always
     ports:
-      - '8081:8081'
+      - '8082:8081'
     depends_on:
       - mongo
     environment:
@@ -34,6 +34,7 @@ services:
       - '7200:7200'
     volumes:
       - ./docker-files/graphdb:/opt/graphdb/home
+
   gateway:
     build:
       context: ./backend
@@ -85,4 +86,4 @@ services:
         VITE_BACKEND_BASE_URL: ${BACKEND_BASE_URL}
     container_name: linetree-frontend
     ports:
-      - '5173:5173'
+      - '8085:80'

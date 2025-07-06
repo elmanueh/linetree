@@ -118,6 +118,10 @@ export function useTree(type: TreeReducerType) {
     }
   }
 
+  const refresh = useCallback(() => {
+    fetchTrees()
+  }, [fetchTrees])
+
   useEffect(() => {
     fetchTrees()
   }, [fetchTrees])
@@ -128,6 +132,7 @@ export function useTree(type: TreeReducerType) {
     error: state.error,
     createTree,
     createTreeWithFile,
-    deleteTree
+    deleteTree,
+    refresh
   }
 }

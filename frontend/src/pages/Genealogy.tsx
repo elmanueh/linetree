@@ -14,9 +14,7 @@ export default function Genealogy() {
   return (
     <>
       <div className="bg-gray-200 text-gray-700 px-4 sm:px-7 py-2 flex justify-between border-gray-300 flex-col sm:flex-row font-medium sm:gap-8">
-        <span className="whitespace-nowrap overflow-hidden text-ellipsis">
-          {tree.name}
-        </span>
+        <span className="whitespace-nowrap">{tree.name}</span>
         <div className="flex items-center justify-between w-full">
           <span>
             {tree.nodes.length}{' '}

@@ -21,8 +21,8 @@ export default function TreeCard({ tree, callbackDelete }: TreeCardProps) {
         className="block"
       >
         <div className="flex justify-between items-start">
-          <div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-1">
+          <div className="min-w-0 flex-1">
+            <h3 className="text-xl font-semibold text-gray-800 mb-1 truncate">
               {tree.name}
             </h3>
             <p className="text-sm text-gray-500">

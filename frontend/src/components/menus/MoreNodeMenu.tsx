@@ -1,12 +1,10 @@
 import Menu from '@/components/menus/config/Menu'
 import MenuItem from '@/components/menus/config/MenuItem'
 import { NodeReducerType } from '@/configs/types'
-import { useGenealogy } from '@/hooks/useGenealogy'
 import { useMenu } from '@/hooks/useMenu'
 import { useNode } from '@/hooks/useNode'
 
 export default function MoreNodeMenu() {
-  const { handleGenealogy } = useGenealogy()
   const { menuOpen, menuRef, toggleMenu, closeMenu } = useMenu()
   const { nodes, deleteNode } = useNode(NodeReducerType.BY_ID)
   const node = nodes[0]
@@ -14,7 +12,6 @@ export default function MoreNodeMenu() {
   const handleRemoveNode = async () => {
     try {
       await deleteNode(node.id)
-      handleGenealogy()
       closeMenu()
     } catch (error) {
       alert('Error deleting node: ' + error)

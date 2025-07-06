@@ -8,7 +8,8 @@ import * as d3 from 'd3'
 import { useEffect, useRef, useState } from 'react'
 
 export default function GenealogyView() {
-  const { handleSelectedNode, handleGenealogy, genealogy } = useGenealogy()
+  const { handleSelectedNode, handleGenealogy, genealogy, iterator } =
+    useGenealogy()
   const svgRef = useRef<SVGSVGElement>(null)
   const [genealogyParsed, setGenealogyParsed] = useState<{
     rootNodes: GenealogyNode[]
@@ -66,7 +67,7 @@ export default function GenealogyView() {
 
   useEffect(() => {
     handleUpdateTree()
-  }, [genealogy])
+  }, [iterator, genealogy])
 
   return (
     <svg

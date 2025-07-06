@@ -5,7 +5,6 @@ import Loading from '@/components/layout/Loading'
 import { UpdateNode } from '@/configs/api.types'
 import { NodeGenderType } from '@/configs/constants'
 import { NodeReducerType } from '@/configs/types'
-import { useGenealogy } from '@/hooks/useGenealogy'
 import { useNode } from '@/hooks/useNode'
 
 const relationMap = {
@@ -19,7 +18,6 @@ const formatDate = (date?: string | null) =>
 
 export default function GenealogyAside() {
   const { nodes, loading, updateNode } = useNode(NodeReducerType.BY_ID)
-  const { handleGenealogy } = useGenealogy()
 
   if (!nodes) return null
   const node = nodes[0]
@@ -27,7 +25,6 @@ export default function GenealogyAside() {
   const handleUpdateNode = async (data: UpdateNode) => {
     try {
       await updateNode(node.id, data)
-      handleGenealogy()
     } catch (error) {
       alert('Error updating node: ' + error)
     }

@@ -51,7 +51,7 @@ function nodeReducer(state: ReducerState<Node>, action: ReducerAction<Node>) {
 
 export function useNode(type: NodeReducerType | null) {
   const [state, dispatch] = useReducer(nodeReducer, initialState)
-  const { treeId, nodeId, handleSelectedNode } = useGenealogy()
+  const { treeId, nodeId, handleSelectedNode, handleIterator } = useGenealogy()
 
   const fetchNode = useCallback(async () => {
     dispatch({ type: ReducerActionType.START })
@@ -81,6 +81,7 @@ export function useNode(type: NodeReducerType | null) {
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
+    handleIterator()
   }
 
   const deleteNode = async (id: UUID) => {
@@ -94,6 +95,7 @@ export function useNode(type: NodeReducerType | null) {
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
+    handleIterator()
   }
 
   const updateNode = async (id: UUID, data: UpdateNode) => {
@@ -106,6 +108,7 @@ export function useNode(type: NodeReducerType | null) {
       if (error instanceof Error)
         dispatch({ type: ReducerActionType.ERROR, payload: error.message })
     }
+    handleIterator()
   }
 
   useEffect(() => {

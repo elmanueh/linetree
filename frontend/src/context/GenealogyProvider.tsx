@@ -12,6 +12,7 @@ export function GenealogyProvider({ children }: GenealogyProviderProps) {
   const [treeId, setTreeId] = useState<UUID>(pathTreeId || '')
   const [nodeId, setNodeId] = useState<UUID>('')
   const [genealogy, setGenealogy] = useState<NodeObject[]>([])
+  const [iterator, setIterator] = useState<number>(0)
 
   return (
     <GenealogyContext.Provider
@@ -21,7 +22,9 @@ export function GenealogyProvider({ children }: GenealogyProviderProps) {
         nodeId,
         setNodeId,
         genealogy,
-        setGenealogy
+        setGenealogy,
+        iterator,
+        setIterator
       }}
     >
       {children}

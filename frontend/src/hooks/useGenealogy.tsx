@@ -5,8 +5,16 @@ import { parseGenealogy } from '@/utils/genealogy'
 import { useContext } from 'react'
 
 export function useGenealogy() {
-  const { treeId, setTreeId, nodeId, setNodeId, genealogy, setGenealogy } =
-    useContext(GenealogyContext)
+  const {
+    treeId,
+    setTreeId,
+    nodeId,
+    setNodeId,
+    genealogy,
+    setGenealogy,
+    iterator,
+    setIterator
+  } = useContext(GenealogyContext)
 
   const handleSelectedTree = (treeId: UUID) => {
     setTreeId(treeId)
@@ -30,12 +38,18 @@ export function useGenealogy() {
     }
   }
 
+  const handleIterator = () => {
+    setIterator((prev: number) => prev + 1)
+  }
+
   return {
     treeId,
     nodeId,
     genealogy,
+    iterator,
     handleSelectedTree,
     handleSelectedNode,
-    handleGenealogy
+    handleGenealogy,
+    handleIterator
   }
 }

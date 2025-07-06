@@ -4,13 +4,11 @@ import AddNodeModal from '@/components/modals/AddNodeModal'
 import { CreateNode } from '@/configs/api.types'
 import { NodeRelationType } from '@/configs/constants'
 import { NodeReducerType } from '@/configs/types'
-import { useGenealogy } from '@/hooks/useGenealogy'
 import { useMenu } from '@/hooks/useMenu'
 import { useNode } from '@/hooks/useNode'
 import { useState } from 'react'
 
 export default function AddNodeMenu() {
-  const { handleGenealogy } = useGenealogy()
   const { nodes, loading, createNode } = useNode(NodeReducerType.BY_ID)
   const { menuOpen, menuRef, toggleMenu, closeMenu } = useMenu()
   const [showModal, setShowModal] = useState(false)
@@ -28,7 +26,6 @@ export default function AddNodeMenu() {
     try {
       setShowModal(false)
       await createNode(data)
-      handleGenealogy()
     } catch (error) {
       alert('Error creating node: ' + error)
     }

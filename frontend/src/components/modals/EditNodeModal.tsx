@@ -103,7 +103,7 @@ export default function EditNodeModal({
       } else if (originalValue !== value) {
         updatedNode[
           key as Exclude<keyof UpdateNode, 'birthDate' | 'deathDate' | 'gender'>
-        ] = value || undefined
+        ] = value
       }
     })
 

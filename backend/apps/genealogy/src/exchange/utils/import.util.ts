@@ -2,9 +2,24 @@ import { GenderType } from '@genealogy-ms/core/domain/gender.enum';
 import { NodeEntity } from '@genealogy-ms/core/domain/node.entity';
 import { RelationEntity } from '@genealogy-ms/core/domain/relation.entity';
 import { RelationType } from '@genealogy-ms/core/domain/relation.enum';
-import { FamilyData } from '@genealogy-ms/exchange/utils/import.type';
+import { FamilyData, monthMap } from '@genealogy-ms/exchange/utils/import.type';
 import { UUID } from 'crypto';
 import { Parent } from 'unist';
+
+function parseGedcomDate(dateStr: string): Date | undefined {
+  const trimmed = dateStr.trim().toUpperCase();
+  const match = trimmed.match(/^(\d{1,2}) (\w+) (\d{4})$/);
+  if (!match) return undefined;
+
+  const day = parseInt(match[1], 10);
+  const monStr = match[2].substring(0, 3);
+  const year = parseInt(match[3], 10);
+
+  const month = monthMap[monStr];
+  if (month === undefined) return undefined;
+
+  return new Date(Date.UTC(year, month, day));
+}
 
 export function parseGedcomJson(
   gedcomData: Parent,
@@ -24,14 +39,21 @@ export function parseGedcomJson(
 
     if (type === 'INDI') {
       const id = data.xref_id as string;
-      individualMap.set(
-        id,
-        NodeEntity.create({
-          givenName: ((data.NAME as string) ?? '').trim(),
-          gender:
-            (data.SEX as string) === 'M' ? GenderType.Male : GenderType.Female,
-        }),
-      );
+      const nameRaw = ((data.NAME as string) ?? '').trim();
+      const match = nameRaw.match(/^(.*?)\s*\/(.*?)\/\s*$/);
+      const [givenName, familyName] = match
+        ? [match[1].trim(), match[2].trim()]
+        : ['', nameRaw];
+      const gender =
+        (data.SEX as string) === 'M' ? GenderType.Male : GenderType.Female;
+      const birthDateStr = (data['BIRTH/DATE'] as string) ?? '';
+      const birthDate = parseGedcomDate(birthDateStr);
+
+      const node = NodeEntity.create({ givenName, gender });
+      if (familyName) node.familyName = familyName;
+      if (birthDate) node.birthDate = birthDate;
+
+      individualMap.set(id, node);
     }
 
     if (type === 'FAM') {

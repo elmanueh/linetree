@@ -35,7 +35,7 @@ export default function GenealogyAside() {
 
   if (loading) {
     return (
-      <div className="h-auto px-6 bg-gray-200 flex justify-center">
+      <div className="h-auto sm:w-96 px-6 bg-gray-200 flex justify-center">
         <Loading />
       </div>
     )
